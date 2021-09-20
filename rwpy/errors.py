@@ -1,12 +1,15 @@
 
 
-class UndefinedElementTypeError(Exception):
-    def __init__(self,message: str,filename: str):
-        self.message = message
-        self.filename = filename
+class IniSyntaxError(Exception):
+    def __init__(self,message: str):
+        self.__message = message
         
-    def __str__(self):
-        return '发生了“未定义元素类型异常”，\n文件名:{0},\n{1}'.format(self.filename,self.message)
-    __repr__ = __str__
     
-    
+    @property
+    def message(self) -> str:
+        return self.__message
+        
+        
+    def __str__(self) -> str:
+        return 'Ini语法错误:{0}'.format(self.__message)
+    __repr = __str__

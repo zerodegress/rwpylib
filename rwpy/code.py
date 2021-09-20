@@ -1,35 +1,32 @@
 import os
 from functools import reduce
+from enum import Enum
+
 
 import rwpy.util as util
 from rwpy.util import JSONObject as Jsobj
-from rwpy.errors import UndefinedElementTypeError as UETError
-from enum import Enum
 
 
 ElementType = Enum('ElementType',('space','note','attribute'))
 
 
 def connect_strs(strs: list,sep: str='\n') -> str:
-    text = ''
-    for s in strs:
-        text += str(s) + sep
-    return text
+    return reduce(lambda x,y: x + '\n' + y,map(lambda x: str(x),strs))
 
 
 class Element(object):
+
     def __init__(self,content: str):
         self.__content = content
         
     
     def __str__(self):
         return self.__content
-        
-         
     __repr__ = __str__ 
         
 
 class Attribute(Element):
+
     def __init__(self,key: str,value: str):
         self.__key = key
         self.__value = value
@@ -51,6 +48,7 @@ class Attribute(Element):
         
 
 class ElementContainer(object):
+
     def __init__(self):
         self.__elements = []
         
@@ -61,6 +59,7 @@ class ElementContainer(object):
 
 
 class Section(object):
+
     def __init__(self,name: str):
         self.__name = name
         self.elements = []
@@ -78,6 +77,7 @@ class Section(object):
     
 
 class Ini(object):
+
     def __init__(self,filename='untitled.ini'):
         self.elements = []
         self.sections = []
@@ -86,7 +86,7 @@ class Ini(object):
     
     def __str__(self):
         text = ''
-        text += connect_strs(self.elements)
+        text += connect_strs(self.elements) + '\n'
         text += connect_strs(self.sections)
         return text
     __repr__ = __str__
@@ -97,14 +97,32 @@ class Ini(object):
         return self.__filename
 
 
-def make_element(type: ElementType) -> dict:
-    r_element = {}
-    if isinstance(type,ElementType):
-        r_element['type'] = str(type).split('.')[1]
-    else:
-        raise UETError('make_element()函数参数的类型名“{0}”不在rwpy.code.ElementType中'.format(type),__file__)
-    return r_element
-    
-    
-def make_section(name: str) -> dict:
-    return {'name': name,'elements': []}
+def create_ini(text: str,filename: str='unititled.ini') -> Ini:
+    lines = text.split('\n')
+    lines = iter(lines)
+    ini = Ini(filename)
+    ptr = ini
+    while True:
+        try:
+            line = next(lines)
+        except StopIteration:
+            break
+        if ':' in line:
+            atb_key = line.split(':')[0]
+            atb_value = line.split(':',1)[1]
+            if line.strip().endswith("'''"):
+                while True:
+                    try:
+                        atb_value += next(lines)
+                    except StopIteration:
+                        raise Exception('三引号不正确完结')
+                    if atb_value.strip().endswith("'''"):
+                        break
+            ptr.elements.append(Attribute(atb_key,atb_value))
+        elif line.strip().startswith('[') and line.strip().endswith(']'):
+            section = Section(line.strip().removeprefix('[').removesuffix(']'))
+            ptr = section
+            ini.sections.append(section)
+        else:
+            ptr.elements.append(Element(line))
+    return ini
