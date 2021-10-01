@@ -4,7 +4,7 @@ import json
 
 class CodeList(object):
     
-    def __init__(self)
+    def __init__(self):
         self.elements = []
         self.sections = []
         self.types = []
