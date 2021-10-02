@@ -91,6 +91,12 @@ class Section(object):
     @property
     def name(self):
         return self.__name
+        
+        
+    def __getattr__(self,attr):
+        for ele in filter(lambda x: isinstance(x,Attribute),self.elements):
+            if ele.key == attr:
+                return ele
     
 
 class Ini(object):
@@ -112,6 +118,12 @@ class Ini(object):
     @property
     def filename(self):
         return self.__filename
+        
+    
+    def __getattr__(self,attr):
+        for sec in self.sections:
+            if attr == sec.name:
+                return sec
 
 
 def create_ini(text: str,filename: str='unititled.ini') -> Ini:
@@ -129,14 +141,14 @@ def create_ini(text: str,filename: str='unititled.ini') -> Ini:
         if ':' in line:
             atb_key = line.split(':')[0].strip()
             atb_value = line.split(':',1)[1].strip()
-            if atb_value.startswith('"""'):
+            if atb_value.startswith('\"\"\"'):
                 while True:
                     try:
                         atb_value += next(lines)
                     except StopIteration:
                         raise IniSyntaxError('行号:{0}|三引号不正确完结'.format(linenum))
                     linenum += 1
-                    if atb_value.strip().endswith('"""'):
+                    if atb_value.strip().endswith('\"\"\"'):
                         break
             ptr.elements.append(Attribute(atb_key,atb_value,linenum))
         elif line.strip().startswith('[') and line.strip().endswith(']'):

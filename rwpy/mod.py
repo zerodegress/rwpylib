@@ -17,22 +17,6 @@ tags: units
 
 #thumbnail: mod-thumbnail.png
 '''
-
-
-class Namespace(object):
-    def __init__(self,name: str):
-        self.__name = name
-        self.files = []
-        
-        
-    @property
-    def name(self):
-        return self.__name
-        
-        
-    def __str__(self):
-        return self.__name
-    __repr__ = __str__
         
         
 class File(object):
@@ -53,27 +37,19 @@ class File(object):
 class Mod(object):
     def __init__(self,dir: str):
         if not os.path.exists(dir):
-            raise errors.ModNotExistsError('ModNotExistError:指定Mod不存在->' + dir)
+            raise errors.ModNotExistsError('指定Mod不存在->' + dir)
         self.__dir = dir
-        self.namespaces = []
-        self.rootfiles = []
+        self.files = []
         self.__modinfo = None
-        if os.path.exists(os.path.join(dir,'mod-info.txt')):
-            with open(os.path.join(dir,'mod-info.txt')) as f:
-                self.__modinfo = create_ini(f.read())
         for root,dirs,files in os.walk(dir,topdown=True):
-            if root == self.__dir:
-                for dir in dirs:
-                    self.namespaces.append(Namespace(dir))
-                for file in files:
-                    self.rootfiles.append(file)
-            else:
-                namespace = root.removeprefix(self.__dir + os.sep).split(os.sep,1)[0]
-                ptrs = list(filter(lambda x: x.name == namespace,self.namespaces))
-                ptr = ptrs[0]
-                for file in files:
-                    f = File(os.path.relpath(os.path.join(root,file),os.path.join(self.__dir,namespace)))
-                    ptr.files.append(f)
+            if 'mod-info.txt' in files:
+                if self.__modinfo is None:
+                    with open(os.path.join(root,'mod-info.txt'),'r') as f:
+                        self.__modinfo = create_ini(f.read())
+                else:
+                    raise errors.RepeatedModInfoError('多余的mod-info.txt -> ' + os.path.join(root,file))
+            for file in files:
+                self.files.append(File(os.path.relpath(os.path.join(root,file),self.__dir)))
             
 
     @property            

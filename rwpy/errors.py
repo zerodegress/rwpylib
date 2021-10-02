@@ -1,6 +1,4 @@
-
-
-class IniSyntaxError(Exception):
+class RWPYError(Exception):
     def __init__(self,message: str):
         self.__message = message
         
@@ -11,20 +9,22 @@ class IniSyntaxError(Exception):
         
         
     def __str__(self) -> str:
-        return 'Ini语法错误:{0}'.format(self.__message)
+        return '{0}:{1}'.format(self.__class__.__name__,self.__message)
     __repr = __str__
-    
-    
-class ModNotExistsError(Exception):
+
+class IniSyntaxError(RWPYError):
     def __init__(self,message: str):
         self.__message = message
+        RWPYError.__init__(self,message)
     
     
-    @property
-    def message(self):
-        return self.__message
-        
-        
-    def __str__(self):
-        return self.__message
-    __repr__ = __str__
+class ModNotExistsError(RWPYError):
+    def __init__(self,message: str):
+        self.__message = message
+        RWPYError.__init__(self,message)
+    
+    
+class RepeatedModInfoError(RWPYError):
+    def __init__(self,message: str):
+        self.__message = message
+        RWPYError.__init__(self,message)
