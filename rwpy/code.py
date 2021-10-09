@@ -2,6 +2,8 @@ import os
 from functools import reduce
 from enum import Enum
 
+from rwpy.util import filterl
+
 
 from rwpy.errors import IniSyntaxError
 import rwpy.util as util
@@ -82,6 +84,21 @@ class Section(object):
         self.linenum = linenum
         
         
+    def append(self,attr: Attribute):
+        check(attr,Attribute)
+        self.elements.append(attr)
+        
+        
+    def __getitem__(self,item):
+        check(item,str)
+        attributes = filterl(lambda x: isinstance(x,Attribute),self.elements)
+        finds = filter(lambda x: x.key == item,attributes)
+        if len(finds) == 0:
+            return
+        else:
+            return finds[-1]
+        
+        
     def __str__(self):
         text = '[{0}]\n'.format(self.__name) + connect_strs(self.elements)
         return text
@@ -91,12 +108,6 @@ class Section(object):
     @property
     def name(self):
         return self.__name
-        
-        
-    def __getattr__(self,attr):
-        for ele in filter(lambda x: isinstance(x,Attribute),self.elements):
-            if ele.key == attr:
-                return ele
     
 
 class Ini(object):
@@ -118,6 +129,16 @@ class Ini(object):
     @property
     def filename(self):
         return self.__filename
+        
+        
+    def __getitem__(self,item):
+        check(item,str)
+        attributes = filterl(lambda x: isinstance(x,Attribute),self.elements)
+        finds = filter(lambda x: x.key == item,attributes)
+        if len(finds) == 0:
+            return
+        else:
+            return finds[-1]
         
     
     def __getattr__(self,attr):
@@ -146,7 +167,7 @@ def create_ini(text: str,filename: str='unititled.ini') -> Ini:
                     try:
                         atb_value += next(lines)
                     except StopIteration:
-                        raise IniSyntaxError('行号:{0}|三引号不正确完结'.format(linenum))
+                        raise IniSyntaxError('行号:{0}|意外终止的多行文本'.format(linenum))
                     linenum += 1
                     if atb_value.strip().endswith('\"\"\"'):
                         break

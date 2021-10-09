@@ -1,5 +1,6 @@
 class RWPYError(Exception):
     def __init__(self,message: str):
+        check(message,str)
         self.__message = message
         
     
@@ -25,6 +26,12 @@ class ModNotExistsError(RWPYError):
     
     
 class RepeatedModInfoError(RWPYError):
+    def __init__(self,message: str):
+        self.__message = message
+        RWPYError.__init__(self,message)
+        
+        
+class VisitAbstractMemberError(RWPYError):
     def __init__(self,message: str):
         self.__message = message
         RWPYError.__init__(self,message)

@@ -1,11 +1,9 @@
 import os
 
 import rwpy.errors as errors
-from rwpy.code import Ini
-from rwpy.code import Section
-from rwpy.code import Element
-from rwpy.code import Attribute
-from rwpy.code import create_ini
+from rwpy.code import Ini,Section,Element,Attribute,create_ini
+from rwpy.util import filterl
+
 
 
 MOD_INFO_DEFAULT = '''
@@ -17,21 +15,6 @@ tags: units
 
 #thumbnail: mod-thumbnail.png
 '''
-        
-        
-class File(object):
-    def __init__(self,relpath: str):
-        self.__relpath = relpath
-        
-        
-    @property
-    def relpath(self):
-        return self.__relpath
-        
-        
-    def __str__(self):
-        return self.__relpath
-    __repr__ = __str__
 
 
 class Mod(object):
@@ -39,7 +22,7 @@ class Mod(object):
         if not os.path.exists(dir):
             raise errors.ModNotExistsError('指定Mod不存在->' + dir)
         self.__dir = dir
-        self.files = []
+        self.__files = []
         self.__modinfo = None
         for root,dirs,files in os.walk(dir,topdown=True):
             if 'mod-info.txt' in files:
@@ -49,8 +32,35 @@ class Mod(object):
                 else:
                     raise errors.RepeatedModInfoError('多余的mod-info.txt -> ' + os.path.join(root,file))
             for file in files:
-                self.files.append(File(os.path.relpath(os.path.join(root,file),self.__dir)))
+                self.__files.append(os.path.relpath(os.path.join(root,file),self.__dir))
+
+
+    def get_file_path(filename: str):
+        for file in self.__files:
+            if file.endswith(filename):
+                return os.path.join(self.__dir,file)
+                
+                
+    def getfiles(dir: str=None) -> list:
+        if isinstance(dir,str):
+            if dir == '.':
+                eturn filterl(lambda x: os.path.dirname(os.path.join(self.__dir,x)) == self.__dir,self.__files)
+            return filterl(lambda x: x.startswith(dir),self.__files)
+        elif dir is None:
+            return self.__files[:]
+        else:
+            raise TypeError()
             
+            
+    def getinis(dir: str=None) -> list:
+        files = filterl(lambda x: x.endswith('.ini'),self.getfiles(dir))
+        inis = []
+        for p in files:
+            with open(os.path.join(self.__dir,p),'r') as f:
+                inis.append(create_ini(f.read()))
+        return inis
+                
+
 
     @property            
     def dir(self):
@@ -66,7 +76,7 @@ class Mod(object):
     @property
     def modinfo(self):
         return self.__modinfo
-        
+
 
 def mkmod(name: str,namespace: str='default'):
     os.mkdir(name)

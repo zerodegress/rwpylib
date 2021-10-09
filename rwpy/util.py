@@ -1,6 +1,27 @@
 import os
 import json
 
+from rwpy.errors import VisitAbstractMemberError
+
+
+def filterl(func,lst):
+    return list(filter(func,lst))
+
+
+def check(obj,type):
+    if not isinstance(obj,type):
+        raise TypeError()
+
+
+class Builder(object):
+    def __init__(self,template: Builder=None):
+        if not template is None:
+            check(template,type(self))
+            
+            
+    def build(self):
+        raise VisitAbstractMemberError()
+        
 
 class CodeList(object):
     
@@ -9,7 +30,7 @@ class CodeList(object):
         self.sections = []
         self.types = []
     __slots__ = ('author','description','version','game_version')
-    
+
 
 class JSONObject(dict):
 
