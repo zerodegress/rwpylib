@@ -2,12 +2,8 @@ import os
 from functools import reduce
 from enum import Enum
 
-from rwpy.util import filterl
-
-
+from rwpy.util import filterl,Builder,check
 from rwpy.errors import IniSyntaxError
-import rwpy.util as util
-from rwpy.util import JSONObject as Jsobj
 
 
 ElementType = Enum('ElementType',('space','note','attribute'))
@@ -142,9 +138,98 @@ class Ini(object):
         
     
     def __getattr__(self,attr):
-        for sec in self.sections:
+        for sec in self.sections.reverse():
             if attr == sec.name:
                 return sec
+                
+                
+    def write(self):
+        with open(self.__filename,'w') as f:
+            f.write(str(self))
+
+
+class SectionBuilder(Builder):
+    def __init__(self,template=None):
+        Builder.__init__(self,template)
+        if template is None:
+            self.__elements = []
+            self.__name = 'section'
+        elif isinstance(template,Section):
+            self.__elements = template.elements[:]
+            self.__name = template.name
+        else:
+            raise TypeError()
+    
+    
+    def setname(self,name: str):
+        check(name,str)
+        self.__name = name
+        return self
+    
+        
+    def append_attr(self,key: str,value: str):
+        check(key,str)
+        check(value,str)
+        self.__elements.append(Attribute(key,value))
+        return self
+        
+    
+    def append_ele(self,content: str):
+        check(content,str)
+        self.__elements.append(Element(content))
+        return self
+        
+        
+    def build(self) -> Section:
+        sec = Section(self.__name)
+        sec.elements = self.__elements[:]
+        return sec
+        
+        
+class IniBuilder(Builder):
+    def __init__(self,template=None):
+        if template is None:
+            self.__elements = []
+            self.__sections = []
+            self.__filename = 'untitled.ini'
+        elif isinstance(template,Ini):
+            self.__elements = template.elements[:]
+            self.__sections = template.sections[:]
+            self.__filename = template.filename
+        else:
+            raise TypeError()
+    
+    def setfilename(self,filename: str):
+        check(filename,str)
+        self.__filename = filename
+        return self
+    
+        
+    def append_attr(self,key: str,value: str):
+        check(key,str)
+        check(value,str)
+        self.__elements.append(Attribute(key,value))
+        return self
+        
+    
+    def append_ele(self,content: str):
+        check(content,str)
+        self.__elements.append(Element(content))
+        return self
+        
+        
+    def append_sec(self,section: Section):
+        check(section,Section)
+        self.__sections.append(section)
+        return self
+        
+        
+    def build(self) -> Section:
+        ini = Ini(self.__filename)
+        ini.elements = self.__elements[:]
+        ini.sections = self.__sections[:]
+        return ini
+    
 
 
 def create_ini(text: str,filename: str='unititled.ini') -> Ini:

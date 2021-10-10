@@ -14,9 +14,8 @@ def check(obj,type):
 
 
 class Builder(object):
-    def __init__(self,template: Builder=None):
-        if not template is None:
-            check(template,type(self))
+    def __init__(self,template=None):
+        pass
             
             
     def build(self):

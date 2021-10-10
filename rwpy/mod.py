@@ -35,16 +35,16 @@ class Mod(object):
                 self.__files.append(os.path.relpath(os.path.join(root,file),self.__dir))
 
 
-    def get_file_path(filename: str):
+    def get_file_path(self,filename: str):
         for file in self.__files:
             if file.endswith(filename):
                 return os.path.join(self.__dir,file)
                 
                 
-    def getfiles(dir: str=None) -> list:
+    def getfiles(self,dir: str=None) -> list:
         if isinstance(dir,str):
             if dir == '.':
-                eturn filterl(lambda x: os.path.dirname(os.path.join(self.__dir,x)) == self.__dir,self.__files)
+                return filterl(lambda x: os.path.dirname(os.path.join(self.__dir,x)) == self.__dir,self.__files)
             return filterl(lambda x: x.startswith(dir),self.__files)
         elif dir is None:
             return self.__files[:]
@@ -52,7 +52,7 @@ class Mod(object):
             raise TypeError()
             
             
-    def getinis(dir: str=None) -> list:
+    def getinis(self,dir: str=None) -> list:
         files = filterl(lambda x: x.endswith('.ini'),self.getfiles(dir))
         inis = []
         for p in files:
