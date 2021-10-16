@@ -6,10 +6,8 @@ from rwpy.util import filterl,Builder,check
 from rwpy.errors import IniSyntaxError
 
 
-ElementType = Enum('ElementType',('space','note','attribute'))
-
-
 def connect_strs(strs: list,sep: str='\n') -> str:
+    '''链接一个list中的所有对象作为一个字符串'''
     if len(strs) == 0:
         return ''
     return reduce(lambda x,y: x + '\n' + y,map(lambda x: str(x),strs))
@@ -48,32 +46,8 @@ class Attribute(Element):
     @property
     def value(self) -> str:
         return self.__value
-        
-        
-    __str__ = Element.__str__
-    __repr = __str__
-        
-
-class ElementContainer(list):
-
-    def __init__(self):
-        list.__init__(self)
-        
-    
-    def append(element: Element):
-        if isinstance(element,Element):
-            list.append(element)
-        else:
-            raise TypeError()
 
 
-    def insert(index: int,element: Element):
-        if isinstance(element,Element):
-            list.insert(index,element)
-        else:
-            raise TypeError()
-
-    
 class Section(object):
 
     def __init__(self,name: str,linenum: int=-1):
@@ -81,13 +55,15 @@ class Section(object):
         self.elements = []
         self.linenum = linenum
         
+    
+    def append(self,ele: Element):
+        '''向段落中追加元素'''
+        check(ele,Element)
+        self.elements.append(ele)
         
-    def append(self,attr: Attribute):
-        check(attr,Attribute)
-        self.elements.append(attr)
-        
-        
+    
     def __getitem__(self,item):
+        '''获取指定键的属性'''
         check(item,str)
         attributes = filterl(lambda x: isinstance(x,Attribute),self.elements)
         finds = filter(lambda x: x.key == item,attributes)
@@ -128,8 +104,9 @@ class Ini(object):
     def filename(self):
         return self.__filename
         
-        
+    
     def __getitem__(self,item):
+        '''获取一个指定键的属性'''
         check(item,str)
         attributes = filterl(lambda x: isinstance(x,Attribute),self.elements)
         finds = filter(lambda x: x.key == item,attributes)
@@ -140,17 +117,20 @@ class Ini(object):
         
     
     def __getattr__(self,attr):
+        '''获取一个指定名称的段落'''
         for sec in self.sections.reverse():
             if attr == sec.name:
                 return sec
                 
-                
+    
     def write(self):
+        '''输出ini内容到文件'''
         with open(self.__filename,'w') as f:
             f.write(str(self))
 
 
 class SectionBuilder(Builder):
+
     def __init__(self,template=None):
         Builder.__init__(self,template)
         if template is None:
@@ -162,14 +142,16 @@ class SectionBuilder(Builder):
         else:
             raise TypeError()
     
-    
+   
     def setname(self,name: str):
+        '''设置生成段落名'''
         check(name,str)
         self.__name = name
         return self
     
-        
+    
     def append_attr(self,key: str,value: str):
+        '''追加属性'''
         check(key,str)
         check(value,str)
         self.__elements.append(Attribute(key,value))
@@ -177,18 +159,21 @@ class SectionBuilder(Builder):
         
     
     def append_ele(self,content: str):
+        '''追加元素'''
         check(content,str)
         self.__elements.append(Element(content))
         return self
         
-        
+    
     def build(self) -> Section:
+        '''构建段落'''
         sec = Section(self.__name)
         sec.elements = self.__elements[:]
         return sec
         
         
 class IniBuilder(Builder):
+
     def __init__(self,template=None):
         if template is None:
             self.__elements = []
@@ -201,13 +186,16 @@ class IniBuilder(Builder):
         else:
             raise TypeError()
     
+    
     def setfilename(self,filename: str):
+        '''设置生成ini文件名'''
         check(filename,str)
         self.__filename = filename
         return self
     
-        
+    
     def append_attr(self,key: str,value: str):
+        '''向生成ini头部追加属性'''
         check(key,str)
         check(value,str)
         self.__elements.append(Attribute(key,value))
@@ -215,18 +203,21 @@ class IniBuilder(Builder):
         
     
     def append_ele(self,content: str):
+        '''向生成ini头部追加元素'''
         check(content,str)
         self.__elements.append(Element(content))
         return self
         
-        
+    
     def append_sec(self,section: Section):
+        '''向生成ini追加段落'''
         check(section,Section)
         self.__sections.append(section)
         return self
         
-        
+    
     def build(self) -> Section:
+        '''构建ini'''
         ini = Ini(self.__filename)
         ini.elements = self.__elements[:]
         ini.sections = self.__sections[:]
@@ -235,6 +226,7 @@ class IniBuilder(Builder):
 
 
 def create_ini(text: str,filename: str='unititled.ini') -> Ini:
+    '''由字符串创建ini'''
     lines = text.split('\n')
     lines = iter(lines)
     ini = Ini(filename)
