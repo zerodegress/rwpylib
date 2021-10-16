@@ -15,6 +15,13 @@ tags: units
 
 #thumbnail: mod-thumbnail.png
 '''
+not_ini_list = [
+'.mp4',
+'.ogg',
+'.wav',
+'.tmx',
+'.png'
+]
 
 
 class Mod(object):
@@ -22,7 +29,6 @@ class Mod(object):
         if not os.path.exists(dir):
             raise errors.ModNotExistsError('指定Mod不存在->' + dir)
         self.__dir = dir
-        self.__files = []
         self.__modinfo = None
         for root,dirs,files in os.walk(dir,topdown=True):
             if 'mod-info.txt' in files:
@@ -31,35 +37,6 @@ class Mod(object):
                         self.__modinfo = create_ini(f.read())
                 else:
                     raise errors.RepeatedModInfoError('多余的mod-info.txt -> ' + os.path.join(root,file))
-            for file in files:
-                self.__files.append(os.path.relpath(os.path.join(root,file),self.__dir))
-
-
-    def get_file_path(self,filename: str):
-        for file in self.__files:
-            if file.endswith(filename):
-                return os.path.join(self.__dir,file)
-                
-                
-    def getfiles(self,dir: str=None) -> list:
-        if isinstance(dir,str):
-            if dir == '.':
-                return filterl(lambda x: os.path.dirname(os.path.join(self.__dir,x)) == self.__dir,self.__files)
-            return filterl(lambda x: x.startswith(dir),self.__files)
-        elif dir is None:
-            return self.__files[:]
-        else:
-            raise TypeError()
-            
-            
-    def getinis(self,dir: str=None) -> list:
-        files = filterl(lambda x: x.endswith('.ini'),self.getfiles(dir))
-        inis = []
-        for p in files:
-            with open(os.path.join(self.__dir,p),'r') as f:
-                inis.append(create_ini(f.read()))
-        return inis
-                
 
 
     @property            
@@ -76,6 +53,44 @@ class Mod(object):
     @property
     def modinfo(self):
         return self.__modinfo
+    
+    
+    def getfile(self,file: str) -> str:
+        for root,dirs,files in os.walk(self.__dir):
+            for file in files:
+                if os.path.relpath(self.__dir,os.path.join(root,file)) == path:
+                    return file
+                    
+                    
+    def getfiles(self,dir: str=None) -> list:
+        r_files = []
+        for root,dirs,files in os.walk(self.__dir):
+            if os.path.relpath(self.__dir,root) ==dir:
+                return files
+            elif dir is None:
+                for file in files:
+                    r_files.append(os.path.join(root,file))
+        return r_files
+                
+    def getini(self,inifile: str) -> Ini:
+        file = self.getfile(inifile)
+        if not file is None:
+            text = ''
+            with open(file,'r') as fs:
+                text = fs.read()
+            return create_ini(text,os.path.basename(inifile))
+            
+            
+    def getinis(self,dir: str) -> list:
+        files = self.getfiles(dir)
+        inifiles = filterl(lambda x: not x.split('.')[-1] in not_ini_list,files)
+        inis = []
+        for inifile in inifiles:
+            text = ''
+            with open(inifile,'r') as fs:
+                text = fs.read()
+            inis.append(create_ini(text,inifile))
+        return inis
 
 
 def mkmod(name: str,namespace: str='default'):

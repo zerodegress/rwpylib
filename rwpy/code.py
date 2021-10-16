@@ -10,6 +10,8 @@ ElementType = Enum('ElementType',('space','note','attribute'))
 
 
 def connect_strs(strs: list,sep: str='\n') -> str:
+    if len(strs) == 0:
+        return ''
     return reduce(lambda x,y: x + '\n' + y,map(lambda x: str(x),strs))
 
 
