@@ -6,6 +6,14 @@ from rwpy.util import filterl,Builder,check
 from rwpy.errors import IniSyntaxError
 
 
+not_copied_keys =[
+('core','copyFrom'),
+('#','@copyFromSection'),
+('core','dont_load'),
+('#','@copyFrom_skipThisSection')
+]
+
+
 def connect_strs(strs: list,sep: str='\n') -> str:
     '''链接一个list中的所有对象作为一个字符串'''
     if len(strs) == 0:
@@ -14,7 +22,7 @@ def connect_strs(strs: list,sep: str='\n') -> str:
 
 
 class Element(object):
-
+    '''元素，代码的基本单位'''
     def __init__(self,content: str,linenum: int=-1):
         self.__content = content
         self.__linenum = linenum
@@ -31,7 +39,7 @@ class Element(object):
         
 
 class Attribute(Element):
-
+    '''属性，代码的主要内容'''
     def __init__(self,key: str,value: str,linenum: int=-1):
         self.__key = key
         self.__value = value
@@ -40,16 +48,18 @@ class Attribute(Element):
     
     @property
     def key(self) -> str:
+        '''属性的键'''
         return self.__key
         
         
     @property
     def value(self) -> str:
+        '''属性的值'''
         return self.__value
 
 
 class Section(object):
-
+    '''段落，代码的组织单位'''
     def __init__(self,name: str,linenum: int=-1):
         self.__name = name
         self.elements = []
@@ -66,26 +76,32 @@ class Section(object):
         '''获取指定键的属性'''
         check(item,str)
         attributes = filterl(lambda x: isinstance(x,Attribute),self.elements)
-        finds = filter(lambda x: x.key == item,attributes)
+        finds = filterl(lambda x: x.key == item,attributes)
         if len(finds) == 0:
-            return
+            return None
         else:
             return finds[-1]
         
         
     def __str__(self):
+        '''对应的文本'''
         text = '[{0}]\n'.format(self.__name) + connect_strs(self.elements)
         return text
     __repr__ = __str__
     
     
     @property
-    def name(self):
+    def name(self) -> str:
         return self.__name
+        
+    
+    def getattrs(self) -> list:
+        '''获取段落中全部属性'''
+        return filterl(lambda x: isinstance(x,Attribute),self.elements)
     
 
 class Ini(object):
-
+    '''代码文件'''
     def __init__(self,filename='untitled.ini'):
         self.elements = []
         self.sections = []
@@ -93,6 +109,7 @@ class Ini(object):
         
     
     def __str__(self):
+        '''对应的文本'''
         text = ''
         text += connect_strs(self.elements) + '\n'
         text += connect_strs(self.sections)
@@ -102,6 +119,7 @@ class Ini(object):
     
     @property
     def filename(self):
+        '''代码文件的文件路径'''
         return self.__filename
         
     
@@ -111,7 +129,7 @@ class Ini(object):
         attributes = filterl(lambda x: isinstance(x,Attribute),self.elements)
         finds = filter(lambda x: x.key == item,attributes)
         if len(finds) == 0:
-            return
+            return None
         else:
             return finds[-1]
         
@@ -121,6 +139,16 @@ class Ini(object):
         for sec in self.sections.reverse():
             if attr == sec.name:
                 return sec
+            return None
+            
+            
+    def getsection(self,name: str):
+        '''获取一个指定名称的段落'''
+        finds = filterl(lambda x: x.name == name,self.sections)
+        if len(finds) == 0:
+            return None
+        else:
+            return finds[-1]
                 
     
     def write(self):
@@ -129,8 +157,26 @@ class Ini(object):
             f.write(str(self))
 
 
-class SectionBuilder(Builder):
+    def merge(self,ini):
+        '''合并指定ini到本ini'''
+        if not type(ini) == type(self):
+            raise TypeError()
+        for sec in ini.sections:
+            skip = sec['@copyFrom_skipThisSection']
+            if not skip is None:
+                if skip.value == 'true':
+                    continue
+            if not sec.name in map(lambda x: x.name,self.sections):
+                self.sections.append(Section(sec.name))
+            this_sec = self.getsection(sec.name)
+            for attr in sec.getattrs():
+                if not attr.key in map(lambda x: x.key,this_sec.getattrs()) and not attr.key in not_copied_keys[1]:
+                    this_sec.append(Attribute(attr.key,attr.value))
+            
 
+
+class SectionBuilder(Builder):
+    '''段落构造器，用于快速生成段落'''
     def __init__(self,template=None):
         Builder.__init__(self,template)
         if template is None:
@@ -173,7 +219,7 @@ class SectionBuilder(Builder):
         
         
 class IniBuilder(Builder):
-
+    '''代码文件构造器，用于快速生成代码文件'''
     def __init__(self,template=None):
         if template is None:
             self.__elements = []

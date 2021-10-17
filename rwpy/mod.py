@@ -23,9 +23,12 @@ not_ini_list = [
 '.png'
 ]
 
+class Unit(object):
+    '''由ini及其他文件构造出的单位'''
+    pass
 
 class Mod(object):
-
+    '''Mod'''
     def __init__(self,dir: str):
         if not os.path.exists(dir):
             raise errors.ModNotExistsError('指定Mod不存在->' + dir)
@@ -42,11 +45,13 @@ class Mod(object):
 
     @property
     def dir(self):
+        '''Mod根文件夹路径'''
         return self.__dir
         
         
     @property
     def modinfo(self):
+        '''mod-info.txt的内容'''
         return self.__modinfo
     
     
