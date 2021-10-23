@@ -1,6 +1,7 @@
 import os
 from functools import reduce
 from enum import Enum
+import re
 
 from rwpy.util import filterl,Builder,check
 from rwpy.errors import IniSyntaxError
@@ -196,18 +197,18 @@ class SectionBuilder(Builder):
         return self
     
     
-    def append_attr(self,key: str,value: str):
+    def append_attr(self,key: str,value: str,linenum: int=-1):
         '''追加属性'''
         check(key,str)
         check(value,str)
-        self.__elements.append(Attribute(key,value))
+        self.__elements.append(Attribute(key,value,linenum))
         return self
         
     
-    def append_ele(self,content: str):
+    def append_ele(self,content: str,linenum: int=-1):
         '''追加元素'''
         check(content,str)
-        self.__elements.append(Element(content))
+        self.__elements.append(Element(content,linenum))
         return self
         
     
@@ -240,18 +241,18 @@ class IniBuilder(Builder):
         return self
     
     
-    def append_attr(self,key: str,value: str):
+    def append_attr(self,key: str,value: str,linenum: int=-1):
         '''向生成ini头部追加属性'''
         check(key,str)
         check(value,str)
-        self.__elements.append(Attribute(key,value))
+        self.__elements.append(Attribute(key,value,linenum))
         return self
         
     
-    def append_ele(self,content: str):
+    def append_ele(self,content: str,linenum: int=-1):
         '''向生成ini头部追加元素'''
         check(content,str)
-        self.__elements.append(Element(content))
+        self.__elements.append(Element(content,linenum))
         return self
         
     
@@ -271,7 +272,7 @@ class IniBuilder(Builder):
     
 
 
-def create_ini(text: str,filename: str='unititled.ini') -> Ini:
+def create_ini(text: str,filename: str='untitled.ini') -> Ini:
     '''由字符串创建ini'''
     lines = text.split('\n')
     lines = iter(lines)
@@ -304,3 +305,38 @@ def create_ini(text: str,filename: str='unititled.ini') -> Ini:
         else:
             ptr.elements.append(Element(line,linenum))
     return ini
+    
+    
+def create_ini2(text: str,filename: str='untitled.ini') -> Ini:
+    check(text,str)
+    check(filename,str)
+    if text.isspace() or text == '':
+        return Ini()
+    inib = IniBuilder().setfilename(filename)
+    ptr = inib
+    lines = text.split('\n')
+    linenum = 0
+    while len(lines) > 0:
+        line = lines.pop(0)
+        linenum += 1
+        if not re.match(r'^[.*]$',line.strip()) is None:
+            if isinstance(ptr,SectionBuilder):
+                inib.append_sec(ptr.build())
+            ptr = SectionBuilder().setname(line.strip()[1:-1])
+        elif not re.match(r'^.*:.*$',line) is None:
+            key,value = line.split(':',1)[0], line.split(':',1)[1]
+            clinenum = linenum
+            if value.lstrip().startswith('\"\"\"'):
+                while True:
+                    if len(lines) == 0:
+                        raise IniSyntaxError('行号:{0}|意外终止的多行文本'.format(linenum))
+                    value += '\n' + lines.pop(0)
+                    linenum += 1
+                    if value.rstrip().endswith('\"\"\"'):
+                        break
+            ptr.append_attr(key.strip(),value.strip(),clinenum)
+        else:
+            ptr.append_ele(line,linenum)
+    if isinstance(ptr,SectionBuilder):
+        inib.append_sec(ptr.build())
+    return inib.build()
