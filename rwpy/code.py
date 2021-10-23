@@ -270,44 +270,9 @@ class IniBuilder(Builder):
         ini.sections = self.__sections[:]
         return ini
     
-
-
+    
 def create_ini(text: str,filename: str='untitled.ini') -> Ini:
-    '''由字符串创建ini'''
-    lines = text.split('\n')
-    lines = iter(lines)
-    ini = Ini(filename)
-    ptr = ini
-    linenum = 0
-    while True:
-        try:
-            line = next(lines)
-        except StopIteration:
-            break
-        linenum += 1
-        if ':' in line:
-            atb_key = line.split(':')[0].strip()
-            atb_value = line.split(':',1)[1].strip()
-            if atb_value.startswith('\"\"\"'):
-                while True:
-                    try:
-                        atb_value += next(lines)
-                    except StopIteration:
-                        raise IniSyntaxError('行号:{0}|意外终止的多行文本'.format(linenum))
-                    linenum += 1
-                    if atb_value.strip().endswith('\"\"\"'):
-                        break
-            ptr.elements.append(Attribute(atb_key,atb_value,linenum))
-        elif line.strip().startswith('[') and line.strip().endswith(']'):
-            section = Section(line.strip().removeprefix('[').removesuffix(']'),linenum)
-            ptr = section
-            ini.sections.append(section)
-        else:
-            ptr.elements.append(Element(line,linenum))
-    return ini
-    
-    
-def create_ini2(text: str,filename: str='untitled.ini') -> Ini:
+    '''从字符串创建ini，第二版'''
     check(text,str)
     check(filename,str)
     if text.isspace() or text == '':
