@@ -1,6 +1,7 @@
 import os
 from functools import reduce
 from enum import Enum
+from typing import List,Tuple,Callable,NewType,Optional,Union,NoReturn
 import re
 
 from rwpy.util import filterl,Builder,check
@@ -15,7 +16,7 @@ not_copied_keys =[
 ]
 
 
-def connect_strs(strs: list,sep: str='\n') -> str:
+def connect_strs(strs: List[str],sep: str='\n') -> str:
     '''链接一个list中的所有对象作为一个字符串'''
     if len(strs) == 0:
         return ''
@@ -29,13 +30,14 @@ class Element(object):
         self.__linenum = linenum
         
     
-    def __str__(self):
+    def __str__(self) -> str:
         return self.__content
     __repr__ = __str__
     
     
     @property
-    def linenum(self):
+    def linenum(self) -> int:
+        '''特殊属性，标识元素的行号'''
         return self.__linenum
         
 
@@ -67,13 +69,13 @@ class Section(object):
         self.linenum = linenum
         
     
-    def append(self,ele: Element):
+    def append(self,ele: Element) -> NoReturn:
         '''向段落中追加元素'''
         check(ele,Element)
         self.elements.append(ele)
         
     
-    def __getitem__(self,item):
+    def __getitem__(self,item) -> Optional[Attribute]:
         '''获取指定键的属性'''
         check(item,str)
         attributes = filterl(lambda x: isinstance(x,Attribute),self.elements)
@@ -84,7 +86,7 @@ class Section(object):
             return finds[-1]
         
         
-    def __str__(self):
+    def __str__(self) -> str:
         '''对应的文本'''
         text = '[{0}]\n'.format(self.__name) + connect_strs(self.elements)
         return text
@@ -96,7 +98,7 @@ class Section(object):
         return self.__name
         
     
-    def getattrs(self) -> list:
+    def getattrs(self) -> List[Attribute]:
         '''获取段落中全部属性'''
         return filterl(lambda x: isinstance(x,Attribute),self.elements)
     
@@ -109,7 +111,7 @@ class Ini(object):
         self.__filename = filename
         
     
-    def __str__(self):
+    def __str__(self) -> str:
         '''对应的文本'''
         text = ''
         text += connect_strs(self.elements) + '\n'
@@ -119,12 +121,12 @@ class Ini(object):
     
     
     @property
-    def filename(self):
+    def filename(self) -> str:
         '''代码文件的文件路径'''
         return self.__filename
         
     
-    def __getitem__(self,item):
+    def __getitem__(self,item) -> Optional[Attribute]:
         '''获取一个指定键的属性'''
         check(item,str)
         attributes = filterl(lambda x: isinstance(x,Attribute),self.elements)
@@ -135,7 +137,7 @@ class Ini(object):
             return finds[-1]
         
     
-    def __getattr__(self,attr):
+    def __getattr__(self,attr) -> Optional[Section]:
         '''获取一个指定名称的段落'''
         for sec in self.sections.reverse():
             if attr == sec.name:
@@ -143,7 +145,7 @@ class Ini(object):
             return None
             
             
-    def getsection(self,name: str):
+    def getsection(self,name: str) -> Optional[Section]:
         '''获取一个指定名称的段落'''
         finds = filterl(lambda x: x.name == name,self.sections)
         if len(finds) == 0:
@@ -152,14 +154,19 @@ class Ini(object):
             return finds[-1]
                 
     
-    def write(self):
-        '''输出ini内容到文件'''
+    def write(self) -> NoReturn:
+        '''
+        输出ini内容到文件
+        抛出IOError异常
+        '''
         with open(self.__filename,'w') as f:
             f.write(str(self))
 
 
-    def merge(self,ini):
-        '''合并指定ini到本ini'''
+    def merge(self,ini) -> NoReturn:
+        '''
+        合并指定ini到本ini
+        '''
         if not type(ini) == type(self):
             raise TypeError()
         for sec in ini.sections:
@@ -272,7 +279,10 @@ class IniBuilder(Builder):
     
     
 def create_ini(text: str,filename: str='untitled.ini') -> Ini:
-    '''从字符串创建ini，第二版'''
+    '''
+    从字符串创建ini，第二版
+    抛出IniSyntaxError
+    '''
     check(text,str)
     check(filename,str)
     if text.isspace() or text == '':

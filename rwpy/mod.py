@@ -1,11 +1,12 @@
 import os
+from typing import List,Tuple,Callable,NewType,Optional,Union,NoReturn
 
 import rwpy.errors as errors
 from rwpy.code import Ini,Section,Element,Attribute,create_ini
 from rwpy.util import filterl
 
 
-MOD_INFO_DEFAULT = '''
+MOD_INFO_DEFAULT: str = '''
 [mod]
 title: 一个rwmod
 description: 一个rwmod
@@ -15,7 +16,7 @@ tags: units
 #thumbnail: mod-thumbnail.png
 '''
 
-not_ini_list = [
+not_ini_list: List[str] = [
 '.mp4',
 '.ogg',
 '.wav',
@@ -30,6 +31,7 @@ class Unit(object):
 class Mod(object):
     '''Mod'''
     def __init__(self,dir: str):
+        '''抛出ModNorExistedError'''
         if not os.path.exists(dir):
             raise errors.ModNotExistsError('指定Mod不存在->' + dir)
         self.__dir = dir
@@ -44,27 +46,30 @@ class Mod(object):
 
 
     @property
-    def dir(self):
+    def dir(self) -> str:
         '''Mod根文件夹路径'''
         return self.__dir
         
         
     @property
-    def modinfo(self):
+    def modinfo(self) -> str:
         '''mod-info.txt的内容'''
         return self.__modinfo
     
     
     def getfile(self,file: str) -> str:
         '''获取相对于mod路径下指定文件'''
+        check(file,str)
         for root,dirs,files in os.walk(self.__dir):
             for file in files:
                 if os.path.relpath(self.__dir,os.path.join(root,file)) == path:
                     return file
                     
     
-    def getfiles(self,dir: str=None) -> list:
+    def getfiles(self,dir: Optional[str]=None) -> List[str]:
         '''获取相对于mod路径下某一文件夹下全部文件'''
+        if not dir is None and not isinstance(dir,str):
+            raise TypeError
         r_files = []
         for root,dirs,files in os.walk(self.__dir):
             if os.path.relpath(self.__dir,root) ==dir:
@@ -77,6 +82,7 @@ class Mod(object):
     
     def getini(self,inifile: str) -> Ini:
         '''构建mod中的指定ini'''
+        check(inifile,str)
         file = self.getfile(inifile)
         if not file is None:
             text = ''
@@ -85,7 +91,7 @@ class Mod(object):
             return create_ini(text,os.path.basename(inifile))
             
     
-    def getinis(self,dir: str) -> list:
+    def getinis(self,dir: str) -> List[Ini]:
         '''构建mod下某一文件夹下全部ini'''
         files = self.getfiles(dir)
         inifiles = filterl(lambda x: not x.split('.')[-1] in not_ini_list,files)
@@ -98,8 +104,13 @@ class Mod(object):
         return inis
 
 
-def mkmod(name: str,namespace: str='default'):
-    '''创建新mod'''
+def mkmod(name: str,namespace: str='default') -> Mod:
+    '''
+    创建新mod
+    抛出IOError异常
+    '''
+    check(name,str)
+    check(namespace,str)
     os.mkdir(name)
     os.mkdir(os.path.join(name,namespace))
     with open (os.path.join(name,'mod-info.txt'),'w') as f:
