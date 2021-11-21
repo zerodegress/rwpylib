@@ -1,0 +1,6362 @@
+{
+  "author": "冰点启航",
+  "version": "pt1",
+  "attributes": [
+    {
+      "key": "name:",
+      "section": "[core]",
+      "name": "名字",
+      "description": "定义单位原始名称，可以是中文。游戏使用它区分其它单位。如果没有在displayText或者语言文件设置显示名称，那么它也将作为单位的显示名称。\n具体描述文件位置:assets/translationsStrings_zh.properties格式:units.单位名称.name=写单位显示的名称\nunits.单位名称.description= [[填单位显示的描述]]",
+      "value_type": "string"
+    },
+    {
+      "key": "altNames:",
+      "section": "[core]",
+      "name": "别名",
+      "description": "以逗号分隔的名称列表。像名称一样，但优先级较低，对于启用多个自定义nod有用。",
+      "value_type": "string(s)"
+    },
+    {
+      "key": "class:",
+      "section": "[core]",
+      "name": "类",
+      "description": "无实际用处，可以删除。Luke说：保留供将来使用，默认情况下必须为CustomUnitMetadata。",
+      "value_type": "string"
+    },
+    {
+      "key": "strictLevel:",
+      "section": "[core]",
+      "name": "严格级别",
+      "description": "默认值为0，忽略代码重复。设为1时如果当前单位内有重复代码，则报错。建议添加到\"all-units.template\"以应用于所有单位,进行统一查错。",
+      "value_type": "float"
+    },
+    {
+      "key": "price:",
+      "section": "[core]",
+      "name": "价格",
+      "description": "设定单位造价，可以是负数，负数时提直接供资金。",
+      "value_type": "int"
+    },
+    {
+      "key": "mass:",
+      "section": "[core]",
+      "name": "质量",
+      "description": "单位的“重量”定义了它与其他单位的碰撞方式，值越大，推动就越困难。",
+      "value_type": "int"
+    },
+    {
+      "key": "techLevel:",
+      "section": "[core]",
+      "name": "科技等级",
+      "description": "设置单位的科技等级，共有3个级别，1级GUI显示为绿色，2、3级显示为黄色。",
+      "value_type": "int"
+    },
+    {
+      "key": "buildSpeed:",
+      "section": "[core]",
+      "name": "建造速度",
+      "description": "建造此单位需要的时间，填秒。以前的计算方式为：此处所填时间=1÷(60x你需要的秒)如果定义了工厂速率则需要乘以建造乘数。",
+      "value_type": "float / s"
+    },
+    {
+      "key": "radius:",
+      "section": "[core]",
+      "name": "半径",
+      "description": "单位的实际碰擦体积，也是实际的可选择范围。其光圈在displayRadius覆盖时真实体积不变。",
+      "value_type": "int"
+    },
+    {
+      "key": "isBio:",
+      "section": "[core]",
+      "name": "是生物",
+      "description": "此单位是否为生物，为生物则影响死亡声音和血迹（图像在drawable/blood_mark.png，hideScorchMark：true时可以隐藏）非生物则为黑色爆炸效果。",
+      "value_type": "bool"
+    },
+    {
+      "key": "isBug:",
+      "section": "[core]",
+      "name": "是虫子",
+      "description": "是否为虫子，用于沙盒中的单独分类。",
+      "value_type": "bool"
+    },
+    {
+      "key": "isBuilder:",
+      "section": "[core]",
+      "name": "是建造者",
+      "description": "若需要此单位建造建筑物，则通常需要此代码。并且默认设为[ai] useAsBuilder。",
+      "value_type": "bool"
+    },
+    {
+      "key": "maxHp:",
+      "section": "[core]",
+      "name": "生命值",
+      "description": "单位最大生命值，默认生成时即为此值。",
+      "value_type": "int"
+    },
+    {
+      "key": "selfRegenRate:",
+      "section": "[core]",
+      "name": "生命恢复速度",
+      "description": "此数值决定每帧增加血量。游戏内默认速度下，一秒为60逻辑帧，而你看到的FPS帧数为渲染帧，所以电脑上几百帧和手机上60帧和省电模式下30帧并不影响计算。所以不要写太大。可以写负值用于自毁。",
+      "value_type": "float"
+    },
+    {
+      "key": "maxShield:",
+      "section": "[core]",
+      "name": "护盾值",
+      "description": "单位最大护盾值，默认生成时即为此值。如果设置了startShieldAtZero:true，则初始为0.",
+      "value_type": "int"
+    },
+    {
+      "key": "startShieldAtZero:",
+      "section": "[core]",
+      "name": "护盾初始为0",
+      "description": "如果为true，则单位护盾值从0开始增加。",
+      "value_type": "bool"
+    },
+    {
+      "key": "shieldRegen:",
+      "section": "[core]",
+      "name": "护盾恢复速度",
+      "description": "此数值决定每帧增加护盾值，游戏内一秒为60帧，所以不要写太大。可以写负值。",
+      "value_type": "float"
+    },
+    {
+      "key": "energyMax:",
+      "section": "[core]",
+      "name": "能量值",
+      "description": "默认值为0。可以用作炮塔，激光防御和行动的弹药的能量。",
+      "value_type": "float"
+    },
+    {
+      "key": "energyRegen:",
+      "section": "[core]",
+      "name": "能量恢复速度",
+      "description": "能量每帧恢复速度，游戏内一秒为60帧，所以不要写太大。可以写负值。",
+      "value_type": "float"
+    },
+    {
+      "key": "energyRegenWhenRecharging",
+      "section": "[core]",
+      "name": "充能时能量恢复速度",
+      "description": "能量恢复是持续的，如果你设置了energyNeedsToRechargeToFull，那么攻击时按energyRegen恢复，耗尽时的灰条按此处设定值恢复。",
+      "value_type": "float"
+    },
+    {
+      "key": "energyStartingPercentage:",
+      "section": "[core]",
+      "name": "能量初始百分比",
+      "description": "单位生成时所携带的能量百分比。",
+      "value_type": "float"
+    },
+    {
+      "key": "energyNeedsToRechargeToFull:",
+      "section": "[core]",
+      "name": "能量需要充满",
+      "description": "若果能量耗尽，则需要完全充能才能进行攻击。",
+      "value_type": "float"
+    },
+    {
+      "key": "armour:",
+      "section": "[core]",
+      "name": "装甲",
+      "description": "抵消敌方攻击所造成的伤害。",
+      "value_type": "int"
+    },
+    {
+      "key": "armourMinDamageToKeep:",
+      "section": "[core]",
+      "name": "装甲最低伤害",
+      "description": "至少造成多少点伤害，默认为1.防止护甲太高完全打不动。",
+      "value_type": "int"
+    },
+    {
+      "key": "borrowResourcesWhileAlive:",
+      "section": "[core]",
+      "name": "资源活着时借用",
+      "description": "创建时获取这些资源，删除或销毁时将其返回。例如用于电力逻辑，负数供电和正数耗电。",
+      "value_type": "price"
+    },
+    {
+      "key": "generation_resources:",
+      "section": "[core]",
+      "name": "资源获取",
+      "description": "单位定时获得的资源，可自定义资源。",
+      "value_type": "price"
+    },
+    {
+      "key": "generation_active:",
+      "section": "[core]",
+      "name": "资源取得条件",
+      "description": "获取资源条件。可用于受损时无法产出。",
+      "value_type": "logicBoolean"
+    },
+    {
+      "key": "generation_credits:",
+      "section": "[core]",
+      "name": "资金获取",
+      "description": "生成资源，仅用于默认的资金，也就是铁锈默认的金钱。",
+      "value_type": "int"
+    },
+    {
+      "key": "generation_delay:",
+      "section": "[core]",
+      "name": "资金获取时间",
+      "description": "多久帧添加添加一次资源(generation_creditsvi指定数值)。默认值为40，一秒为60帧。Luke不建议使用。",
+      "value_type": "int"
+    },
+    {
+      "key": "showInEditor:",
+      "section": "[core]",
+      "name": "显示在沙盒中",
+      "description": "设置为false可在沙箱编辑器中隐藏单位。 （默认为true）",
+      "value_type": "bool"
+    },
+    {
+      "key": "displayText:",
+      "section": "[core]",
+      "name": "界面显示名称",
+      "description": "默认单位显示给玩家的单位名称。不填则显示core下的单位name。此条目依据语言设定不同会被下一条覆盖。",
+      "value_type": "LocaleString"
+    },
+    {
+      "key": "displayText_{LANG}:",
+      "section": "[core]",
+      "name": "界面显示文本多语言",
+      "description": "为单位名称添加多语言支持。此方法并不方便，不如设置游戏内部语言文件，建议催luke改。zh(中文通用) zh-cn(简体) zh-tw(台湾) zh-hk中文(香港) en(英语通用) ru(俄语) 其它自查(此列表并不全)，不过你应该不会闲着支持这么多语言。西班牙语（西班牙）es-ES、葡萄牙语（葡萄牙）pt-PT、日语ja、阿姆哈拉语am、爱沙尼亚语et、保加利亚语bg、冰岛语is、波兰语pl、丹麦语da、德语de、法语（法国）fr-FR、法语（加拿大）fr-CA、菲律宾语fil、芬兰语fi、韩语ko、荷兰语nl、加泰罗尼亚语ca、捷克语cs、克罗地亚语hr、拉脱维亚语lv、立陶宛语lt、罗马尼亚语ro、马来语ms、南非荷兰语af、挪威语no、葡萄牙语（巴西）pt-BR、瑞典语sv、塞尔维亚语sr、斯洛伐克语sk、斯洛文尼亚语sl、斯瓦希里语sw、泰语th、土耳其语tr、乌克兰语uk、西班牙语（拉丁美洲）es-419、希伯来语he、希腊语el、匈牙利语hu、意大利语it、印地语hi、印度尼西亚语id in、英语（美国）en-US、英语（英国）en-GB、越南语vi、祖鲁语zu",
+      "value_type": "string"
+    },
+    {
+      "key": "displayDescription:",
+      "section": "[core]",
+      "name": "界面显示描述",
+      "description": "单位显示给玩家的单位描述。",
+      "value_type": "LocaleString"
+    },
+    {
+      "key": "displayDescription_{LANG}:",
+      "section": "[core]",
+      "name": "界面显示描述_其它语言",
+      "description": "为单位描述添加多语言支持。此方法并不方便，不如设置游戏内部语言文件，建议催luke改。地区码见上。",
+      "value_type": "string"
+    },
+    {
+      "key": "displayLocaleKey:",
+      "section": "[core]",
+      "name": "界面显示内部调用",
+      "description": "调用内部语言文件的单位名称和说明的翻译文件。",
+      "value_type": "string"
+    },
+    {
+      "key": "displayRadius:",
+      "section": "[core]",
+      "name": "单位选择时显示圆圈",
+      "description": "修改选择单位时显示的绿色圆圈，不更改实际碰撞(radius)和可选择范围。",
+      "value_type": "int"
+    },
+    {
+      "key": "uiTargetRadius",
+      "section": "[core]",
+      "name": "为目标时半径",
+      "description": "默认值为displayRadius。当攻击/回收/等等这个单位使用半径",
+      "value_type": "int"
+    },
+    {
+      "key": "shieldRenderRadius:",
+      "section": "[core]",
+      "name": "单位护盾显示半径",
+      "description": "护盾绘制半径，默认值比半径大一点。可以设置在单位上显示更大或更小的护盾圈。",
+      "value_type": "int"
+    },
+    {
+      "key": "shieldDisplayOnlyDeflection:",
+      "section": "[core]",
+      "name": "护盾只在受攻击时显示",
+      "description": "隐藏护盾，只在受到攻击时显示。",
+      "value_type": "bool"
+    },
+    {
+      "key": "shieldDeflectionDisplayRate:",
+      "section": "[core]",
+      "name": "护盾消失速度",
+      "description": "默认值为4。数值越大消失越快。",
+      "value_type": "float"
+    },
+    {
+      "key": "showOnMinimap:",
+      "section": "[core]",
+      "name": "显示在小地图上",
+      "description": "默认为true。如果为false，则在小地图上不显示此单位。",
+      "value_type": "bool"
+    },
+    {
+      "key": "showOnMinimapToEnemies",
+      "section": "[core]",
+      "name": "显示于敌人小地图",
+      "description": "是否在敌人小地图上显示。目前不支持逻辑。",
+      "value_type": "bool"
+    },
+    {
+      "key": "showActionsWithMixedSelectionIfOtherUnitsHaveTag:",
+      "section": "[core]",
+      "name": "混合所选单位所显示的行为",
+      "description": "如果选择的单位都包含此处使用的标签，则合并“行为(action)”。比如你的步兵通过部署转化成另一个单位，在混合时可以当作同一个单位处理，不再是默认的谁都无法执行操作。例子如红警的盟军大兵在混合选中后依旧可执行部署或解除。",
+      "value_type": "tags"
+    },
+    {
+      "key": "isBuilding:",
+      "section": "[core]",
+      "name": "是建筑",
+      "description": "定义单位是否为建筑物。",
+      "value_type": "bool"
+    },
+    {
+      "key": "footprint:",
+      "section": "[core]",
+      "name": "建筑碰撞范围",
+      "description": "填四个数值(左，上，右，下)，单位是格子，建筑默认占一格，向左和向上需要填负数，填整数在选择时有偏移。\n四个数值可以完全颠倒，这样不会阻碍单位移动。决定建筑单位碰撞体积，此区域内单位不能通过，如果在单位运动途中单位则会绕过。单位实际可选择面积使用的是radius。",
+      "value_type": "ints"
+    },
+    {
+      "key": "constructionFootprint:",
+      "section": "[core]",
+      "name": "建筑覆盖范围",
+      "description": "基础规则同上，这个区域内不能建造建筑，但是单位可以通过。一般需要设定比上一个面积大。好处是即使建造的密密麻麻，单位也有路可走",
+      "value_type": "ints"
+    },
+    {
+      "key": "displayFootprint:",
+      "section": "[core]",
+      "name": "建筑选择UI",
+      "description": "基础规则同上，用于选择单位时UI显示。不设定则默认为建筑覆盖区域。",
+      "value_type": "ints"
+    },
+    {
+      "key": "buildingSelectionOffset:",
+      "section": "[core]",
+      "name": "建筑UI调整",
+      "description": "默认值为0。以像素为单位对选框额外设定。",
+      "value_type": "int"
+    },
+    {
+      "key": "buildingToFootprintOffsetX:",
+      "section": "[core]",
+      "name": "建筑X轴偏移",
+      "description": "设置X轴位置偏移，默认10.若设置非对称的建筑，单位会根据覆盖范围会挤在角上，这时如果要准确显示就需要额外偏移。与直接使用图像偏移的区别:\n由于铁锈判断选中单位是根据单位体积(radius),因此图像偏移实际上单位的位置不变，会容易造成点击时的误差。而当前代码实际上是移动单位，则不会造成这个问题。",
+      "value_type": "float"
+    },
+    {
+      "key": "buildingToFootprintOffsetY:",
+      "section": "[core]",
+      "name": "建筑Y轴偏移",
+      "description": "设置Y轴位置偏移，默认10.其它参上条",
+      "value_type": "float"
+    },
+    {
+      "key": "placeOnlyOnResPool:",
+      "section": "[core]",
+      "name": "建筑只能建造在资源池上",
+      "description": "通常用于提取器，会强制在资源池中进行建筑物构造。可以用于在自定义战役中限制某单位只能在某地建造。",
+      "value_type": "bool"
+    },
+    {
+      "key": "selfBuildRate:",
+      "section": "[core]",
+      "name": "自动建造速度",
+      "description": "此单位自动构造所需要的时间，目前用于虫族。计算方式为：此处所填时间=1÷(60x你需要的秒)。",
+      "value_type": "float"
+    },
+    {
+      "key": "ignoreInUnitCapCalculation",
+      "section": "[core]",
+      "name": "不计入单位数量统计",
+      "description": "铁锈中有单位数量上限设定，填true时不计入统计，多用于辅助单位，建筑物的默认值为true。",
+      "value_type": "bool"
+    },
+    {
+      "key": "copyFrom:",
+      "section": "[core]",
+      "name": "复制数据自",
+      "description": "加载其它文件的单位数据作为该单位的默认值，支持多个文件。无后缀名限制，可不写dont_load，用于模块化。",
+      "value_type": "file(s) (ini)"
+    },
+    {
+      "key": "dont_load:",
+      "section": "[core]",
+      "name": "禁止加载",
+      "description": "不加载此单位，缺失数据时不会出错。与copyFrom一起使用时很有用。",
+      "value_type": "bool"
+    },
+    {
+      "key": "overrideAndReplace:",
+      "section": "[core]",
+      "name": "覆盖单位",
+      "description": "用此单位覆盖另一个单位，地图上所有单位也将被替换，可以用来替换dex内无法修改的单位。",
+      "value_type": "string(s)"
+    },
+    {
+      "key": "onNewMapSpawn:",
+      "section": "[core]",
+      "name": "地图位置产生指定单位",
+      "description": "在地图上添加此单位。可以用于覆盖铁锈默认的资源逻辑。参数：\nemptyResourcePools_asNeutral  产生位置于空资源池，并且为中立所属\nemptyOrOccupiedResourcePools_asNeutral 空的或者已经占用的资源池，并且为中立所属\nmapCenter_asNeutral 地图中心，且为中立所属\nmapCenter_eachActiveTeam 地图中心，且给与每个玩家\nspawnPoint_eachActiveTeam 玩家初始位置，给与每个玩家",
+      "value_type": "string"
+    },
+    {
+      "key": "globalScale:",
+      "section": "[core]",
+      "name": "全局缩放",
+      "description": "废弃代码，不要用。将一个单位按比例放大，但不放大攻击力。默认值为1。不建议更改。",
+      "value_type": "float"
+    },
+    {
+      "key": "isLocked:",
+      "section": "[core]",
+      "name": "锁定",
+      "description": "禁止建造该单位。可以与overrideAndReplace一起使用，以限制玩家可以建造的单位。",
+      "value_type": "bool"
+    },
+    {
+      "key": "isLockedIfGameModeNoNuke:",
+      "section": "[core]",
+      "name": "禁核模式锁定",
+      "description": "如果在游戏开始前选择了禁用核武器，禁止建造此单位。",
+      "value_type": "bool"
+    },
+    {
+      "key": "experimental:",
+      "section": "[core]",
+      "name": "实验单位标志",
+      "description": "标记单位为实验单位。影响缩小图标和游戏结束统计。",
+      "value_type": "bool"
+    },
+    {
+      "key": "stayNeutral:",
+      "section": "[core]",
+      "name": "保持中立",
+      "description": "设置为false时，单位处于中立队伍情况下，禁止靠近时更改为玩家所属。仍然有其它方式获得。",
+      "value_type": "bool"
+    },
+    {
+      "key": "createNeutral:",
+      "section": "[core]",
+      "name": "创建时中立",
+      "description": "设置为true时，产生该单位总是自动转变为中立队伍。创建时中立，但不妨碍玩家捕获。",
+      "value_type": "bool"
+    },
+    {
+      "key": "createOnAggressiveTeam:",
+      "section": "[core]",
+      "name": "创建为敌对中立",
+      "description": "设置为true时，此中立单位对所有玩家有敌意。",
+      "value_type": "bool"
+    },
+    {
+      "key": "tags:",
+      "section": "[core]",
+      "name": "标签",
+      "description": "标签，用于对单位进行分类，用于实现各种各样的特殊作。比如单位数量限制，伤害修正，增益损益，触发条件等等",
+      "value_type": "string(s)"
+    },
+    {
+      "key": "fogOfWarSightRange:",
+      "section": "[core]",
+      "name": "视野",
+      "description": "设置单位视野，在战争迷雾中可以看到的瓷砖数量。默认为15。",
+      "value_type": "int"
+    },
+    {
+      "key": "fogOfWarSightRangeWhileNotBuilt",
+      "section": "[core]",
+      "name": "未完成时视野",
+      "description": "填数值，当建筑或单位没有建造完成时，它的视野范围",
+      "value_type": "int"
+    },
+    {
+      "key": "softCollisionOnAll:",
+      "section": "[core]",
+      "name": "碰撞体积软化",
+      "description": "与其他单位碰撞时产生柔和的碰撞效果，填负数会导致单位相互吸引。",
+      "value_type": "int"
+    },
+    {
+      "key": "disableAllUnitCollisions:",
+      "section": "[core]",
+      "name": "禁用碰撞",
+      "description": "如果为true，则该单位无视与其它单位碰撞。无碰撞体积单位可以用于固定位置制造效果，或是用于一些不影响单位通行的场景。",
+      "value_type": "bool"
+    },
+    {
+      "key": "isUnrepairableUnit:",
+      "section": "[core]",
+      "name": "禁止被修复",
+      "description": "如果为true，则任何单位都无法修复此单位。但负伤害仍然可以维修。",
+      "value_type": "bool"
+    },
+    {
+      "key": "isUnselectable:",
+      "section": "[core]",
+      "name": "禁止选择",
+      "description": "如果为true，则无法选择单位。 （包括AI）可用于效果单位，禁止被玩家选择。",
+      "value_type": "bool"
+    },
+    {
+      "key": "isUnselectableAsTarget",
+      "section": "[core]",
+      "name": "禁止选择和作为目标",
+      "description": "默认效果为isUnselectable。可以用来创造不能被选择但是可以被攻击，回收的单位",
+      "value_type": "bool"
+    },
+    {
+      "key": "isPickableStartingUnit:",
+      "section": "[core]",
+      "name": "为可选初始单位",
+      "description": "如果为true，则将单位添加到游戏高级设置菜单中，用于可选初始单位菜单。",
+      "value_type": "bool"
+    },
+    {
+      "key": "startFallingWhenStartingUnit:",
+      "section": "[core]",
+      "name": "为可选单位开局后从天而降",
+      "description": "如果为true，则游戏开始时，此单位会从从天而降。",
+      "value_type": "bool"
+    },
+    {
+      "key": "soundOnAttackOrder:",
+      "section": "[core]",
+      "name": "攻击指令音效",
+      "description": "填音效名称列表。用,隔开。每次下达攻击指令时只播放其中一个。仅支持.ogg和.wav格式，注意如果你mod用于pc端，则不要直接修改后缀名，要转换格式。",
+      "value_type": "sound(s)"
+    },
+    {
+      "key": "soundOnMoveOrder:",
+      "section": "[core]",
+      "name": "移动指令音效",
+      "description": "填声音名称列表。用,隔开。每次下达移动指令时只播放其中一个。仅支持.ogg和.wav格式，注意不要直接修改后缀名，要转换格式。",
+      "value_type": "sound(s)"
+    },
+    {
+      "key": "soundOnNewSelection:",
+      "section": "[core]",
+      "name": "选择指令音效",
+      "description": "填声音名称列表。用,隔开。每次下达选择指令时只播放其中一个。仅支持.ogg和.wav格式，注意不要直接修改后缀名，要转换格式。",
+      "value_type": "sound(s)"
+    },
+    {
+      "key": "canNotBeDirectlyAttacked:",
+      "section": "[core]",
+      "name": "禁止直接攻击",
+      "description": "无敌，如果为true，任何单位都不能直接瞄准此单位，也不会受到范围武器伤害。则还将在胜利/失败检查中跳过检查。",
+      "value_type": "bool"
+    },
+    {
+      "key": "canNotBeDamaged",
+      "section": "[core]",
+      "name": "禁止受到伤害",
+      "description": "无敌，可被敌方攻击，但不造成实质伤害。如果canNotBeDirectlyAttacked为true,此语句为false,则不可被直接攻击但受到范围伤害。",
+      "value_type": "bool"
+    },
+    {
+      "key": "canNotBeGivenOrdersByPlayer:",
+      "section": "[core]",
+      "name": "禁止接受指令",
+      "description": "如果为true，则单位不会接受玩家或AI的命令。可以选中查看信息。",
+      "value_type": "bool"
+    },
+    {
+      "key": "canOnlyBeAttackedByUnitsWithTags:",
+      "section": "[core]",
+      "name": "仅许带此标签单位攻击",
+      "description": "填标签，只有带有这些标签的单位才能直接定位到该单位。",
+      "value_type": "strings(s)"
+    },
+    {
+      "key": "transportSlotsNeeded:",
+      "section": "[core]",
+      "name": "运输占用位置",
+      "description": "默认值为1。此单位在运输载具中占据的格子数。",
+      "value_type": "int"
+    },
+    {
+      "key": "maxTransportingUnits:",
+      "section": "[core]",
+      "name": "运输槽位数量",
+      "description": "该单位载员格子数量。",
+      "value_type": "int"
+    },
+    {
+      "key": "transportUnitsRequireTag:",
+      "section": "[core]",
+      "name": "被运输单位需要标签",
+      "description": "仅允许运输具有这些标签之一的单位。可以用于运输类型分类，如人运物资，步兵车运人，气垫船运车辆。或是子机限制，如航母飞机只能降落到航母。",
+      "value_type": "string(s)"
+    },
+    {
+      "key": "transportUnitsRequireMovementType:",
+      "section": "[core]",
+      "name": "被运输单位类型限制",
+      "description": "仅允许运输具有这些移动类型之一的单位。默认陆地。比如可以设定某单位可以运输空军以实现停机坪，只运输海军等。",
+      "value_type": "movementTypes"
+    },
+    {
+      "key": "transportUnitsBlockAirAndWaterUnits:",
+      "section": "[core]",
+      "name": "禁止运输空军和海军",
+      "description": "禁止运输空军和海军，默认为true。如果为true，则此单位只能运输LAND单位。",
+      "value_type": "bool"
+    },
+    {
+      "key": "transportUnitsKeepBuiltUnits:",
+      "section": "[core]",
+      "name": "单位建造完成时保留在载具内",
+      "description": "使建造的单位留在运输者中，而不是造完直接从载具中出来。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "transportUnitsCanUnloadUnits:",
+      "section": "[core]",
+      "name": "载具可以卸载单位",
+      "description": "载具卸载单位需要满足条件，默认为“ if not self.isOverLiquid() and not self.isMoving()”(不在液体上且没有移动)",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "transportUnitsAddUnloadOption:",
+      "section": "[core]",
+      "name": "载具显示卸载按钮",
+      "description": "是否显示卸载按钮",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "transportUnitsUnloadDelayBetweenEachUnit:",
+      "section": "[core]",
+      "name": "载具卸载时间间隔",
+      "description": "卸载单位之间的延迟时间。",
+      "value_type": "float"
+    },
+    {
+      "key": "transportUnitsKillOnDeath:",
+      "section": "[core]",
+      "name": "载具内单位和载具一同死亡",
+      "description": "默认为true。如果载具死亡，则其中单位也死亡。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "transportUnitsHealBy:",
+      "section": "[core]",
+      "name": "载具治疗内部单位速度",
+      "description": "填数值，以帧为单位。自动治疗载具内部单位。",
+      "value_type": "float"
+    },
+    {
+      "key": "transportUnitsBlockOtherTransports:",
+      "section": "[core]",
+      "name": "载具禁止装载其它载具",
+      "description": "默认值为true，如果为false，则此载具可以装载其它载具。比如步兵装物资，载具装步兵，运输船装载具。",
+      "value_type": "bool"
+    },
+    {
+      "key": "whileNeutralTransportAnyTeam:",
+      "section": "[core]",
+      "name": "中立时可装载任意所属单位",
+      "description": "如果是中立的，则这个部队可以装载任何队伍的部队。可用于占领中立单位，比如坦克需要驾驶员，步兵建筑平民建筑。",
+      "value_type": "bool"
+    },
+    {
+      "key": "whileNeutralConvertToTransportedTeam:",
+      "section": "[core]",
+      "name": "中立时转换为载员队伍",
+      "description": "中立时将其转换为载员队伍。与whileNeutralTransportAnyTeam一起使用，用于占领中立单位。",
+      "value_type": "bool"
+    },
+    {
+      "key": "convertToNeutralIfNotTransporting:",
+      "section": "[core]",
+      "name": "卸载所有单位时恢复为中立",
+      "description": "卸载单位时将其恢复为中立队伍。与whileNeutralTransportAnyTeam一起使用。",
+      "value_type": "bool"
+    },
+    {
+      "key": "transportUnitsOnTeamChangeKeepCurrentTeam:",
+      "section": "[core]",
+      "name": "转换所属时保留内部单位所属",
+      "description": "如果为true，则单位转换阵营时仍然将运输的单位保留在其原始队伍中。",
+      "value_type": "bool"
+    },
+    {
+      "key": "transportUnitsEachUnitAlwaysUsesSingleSlot",
+      "section": "[core]",
+      "name": "载员只占用一个槽位",
+      "description": "所有载员无论体积只占用一个运输槽。但体积大于载员数时仍然不能进入。",
+      "value_type": "bool"
+    },
+    {
+      "key": "resourceRate:",
+      "section": "[core]",
+      "name": "回收速率",
+      "description": "回收速度。按帧算。与canReclaimResources一起使用。允许其他队伍回收该单位。通常与中立队伍配合使用。使用价格来设置获取哪些资源。",
+      "value_type": "float"
+    },
+    {
+      "key": "similarResourcesHaveTag:",
+      "section": "[core]",
+      "name": "像用于此标签的单位",
+      "description": "有这些标签时，资源采集单位将视为同一种资源",
+      "value_type": "string(s)"
+    },
+    {
+      "key": "resourceMaxConcurrentReclaimingThis:",
+      "section": "[core]",
+      "name": "可同时被此数目单位回收",
+      "description": "默认为无限制。限制有多少单位可以同时回收此资源。",
+      "value_type": "int"
+    },
+    {
+      "key": "reclaimPrice:",
+      "section": "[core]",
+      "name": "回收价格",
+      "description": "自定义资源，类似价格。对于自定义资源很有用。",
+      "value_type": "int"
+    },
+    {
+      "key": "canReclaimResources:",
+      "section": "[core]",
+      "name": "可以回收资源",
+      "description": "如果为true，则此单位可以收集资源，这对于resourceRate很有用。",
+      "value_type": "bool"
+    },
+    {
+      "key": "canReclaimResourcesNextSearchRange:",
+      "section": "[core]",
+      "name": "搜寻资源范围",
+      "description": "当一处资源采集完后，搜寻更多资源的范围。",
+      "value_type": "int"
+    },
+    {
+      "key": "canReclaimResourcesOnlyWithTags:",
+      "section": "[core]",
+      "name": "仅允许回收特定标签资源",
+      "description": "仅允许回收有此标签的单位。",
+      "value_type": "string(s)"
+    },
+    {
+      "key": "canRepairBuildings:",
+      "section": "[core]",
+      "name": "可以修建筑",
+      "description": "如果为true，该单位可以修复建筑。 （isBuilder：true是必需的）",
+      "value_type": "bool"
+    },
+    {
+      "key": "canRepairUnits:",
+      "section": "[core]",
+      "name": "可以修单位",
+      "description": "如果为true，此单位可以修复单位。 （isBuilder：true是必需的）",
+      "value_type": "bool"
+    },
+    {
+      "key": "autoRepair:",
+      "section": "[core]",
+      "name": "可以自动修",
+      "description": "自动维修附近单位，范围为nanoRange。 （isBuilder：true是必需的）",
+      "value_type": "bool"
+    },
+    {
+      "key": "canReclaimUnitsOnlyWithTags",
+      "section": "[core]",
+      "name": "仅允许回收特定标签单位",
+      "description": "仅允许此单位回收具有特定标签单位。",
+      "value_type": "tags"
+    },
+    {
+      "key": "canRepairUnitsOnlyWithTags",
+      "section": "[core]",
+      "name": "仅允许维修特定标签单位",
+      "description": "仅允许此单位维修具有特定标签单位。",
+      "value_type": "tags"
+    },
+    {
+      "key": "nanoRange:",
+      "section": "[core]",
+      "name": "维修或建造范围",
+      "description": "默认值为85。定义单位的构建/修复/回收范围。",
+      "value_type": "int"
+    },
+    {
+      "key": "nanoRepairSpeed:",
+      "section": "[core]",
+      "name": "维修速度",
+      "description": "默认值为0.2。定义单位修复速度。",
+      "value_type": "float"
+    },
+    {
+      "key": "nanoBuildSpeed:",
+      "section": "[core]",
+      "name": "建造速度",
+      "description": "默认值为1。定义单位建造速度。 （可能与目标的buildSpeed相乘）",
+      "value_type": "float"
+    },
+    {
+      "key": "nanoRangeForRepairIsMelee:",
+      "section": "[core]",
+      "name": "维修范围按近战逻辑",
+      "description": "定义此单位维修时是否为近战算法，默认计算是从自身中心到目标中心，如果单位过大运动又受到阻碍，则虽然看起来很近，然而实际太远无法建造。\n近战类算法则是算上其半径，由中心计算改为从边缘计算。",
+      "value_type": "bool"
+    },
+    {
+      "key": "nanoRangeForReclaimIsMelee:",
+      "section": "[core]",
+      "name": "回收范围按近战逻辑",
+      "description": "与上条类似，本条定义其回收范围是否为近战算法。",
+      "value_type": "bool"
+    },
+    {
+      "key": "nanoRangeForRepair:",
+      "section": "[core]",
+      "name": "维修距离",
+      "description": "此单位维修距离。",
+      "value_type": "int"
+    },
+    {
+      "key": "nanoRangeForReclaim:",
+      "section": "[core]",
+      "name": "回收距离",
+      "description": "此单位回收距离。",
+      "value_type": "int"
+    },
+    {
+      "key": "nanoFactorySpeed:",
+      "section": "[core]",
+      "name": "工厂速度乘数",
+      "description": "默认值为1。如果此单位是工厂，则乘以创建单位的buildSpeed值。用于加速或者减速建造。",
+      "value_type": "float"
+    },
+    {
+      "key": "extraBuildRangeWhenBuildingThis:",
+      "section": "[core]",
+      "name": "额外建造距离",
+      "description": "此单位额外的建造距离，可以使建造者在更远的地方建造它，多用于水上建筑。",
+      "value_type": "int"
+    },
+    {
+      "key": "builtFrom_#_name:",
+      "section": "[core]",
+      "name": "从此单位建造",
+      "description": "除非你向原版工厂添加单位，否则不建议使用。将该单位添加到目标建筑物中。",
+      "value_type": "string(s)"
+    },
+    {
+      "key": "builtFrom_#_pos:",
+      "section": "[core]",
+      "name": "从此单位建造排序",
+      "description": "在列表中的排序，越小越靠前。",
+      "value_type": "float"
+    },
+    {
+      "key": "builtFrom_#_forceNano:",
+      "section": "[core]",
+      "name": "从此单位像建筑一样建造",
+      "description": "如果为true，则像构建建筑一样造此单位。 （即使是一个单位）",
+      "value_type": "bool"
+    },
+    {
+      "key": "builtFrom_#_isLocked:",
+      "section": "[core]",
+      "name": "从此单位建造条件",
+      "description": "如果为true，则无法在目标中构建此单位。 （逻辑布尔值，设置建造条件）",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "builtFrom_#_isLockedMessage:",
+      "section": "[core]",
+      "name": "从此单位建造锁定信息",
+      "description": "无法建造时显示的信息。",
+      "value_type": "LocaleString"
+    },
+    {
+      "key": "exit_x:",
+      "section": "[core]",
+      "name": "离开x轴",
+      "description": "从载具卸载或者工厂生产完成时，单位出现的位置，默认为0",
+      "value_type": "float"
+    },
+    {
+      "key": "exit_y:",
+      "section": "[core]",
+      "name": "离开y轴",
+      "description": "从载具卸载或者工厂生产完成时，单位出现的位置，默认为5，正数向下。",
+      "value_type": "float"
+    },
+    {
+      "key": "exit_dirOffset:",
+      "section": "[core]",
+      "name": "离开旋转角度",
+      "description": "单位默认为180(朝下)，建筑物默认为0(朝右)。定义已创建或卸载单位的退出方向。",
+      "value_type": "float"
+    },
+    {
+      "key": "exit_heightOffset:",
+      "section": "[core]",
+      "name": "离开高度",
+      "description": "默认值为0。定义创建或卸载的单位出现的高度。",
+      "value_type": "float"
+    },
+    {
+      "key": "exit_moveAwayAmount:",
+      "section": "[core]",
+      "name": "离开距离",
+      "description": "默认值为70。定义创建或卸载的单位与该单位的距离。",
+      "value_type": "float"
+    },
+    {
+      "key": "exitHeightIgnoreParent",
+      "section": "[core]",
+      "name": "离开高度忽略父单位",
+      "description": "离开时的高度不考虑父高度;用于与父单位一起建造时分离附件",
+      "value_type": "bool"
+    },
+    {
+      "key": "dieOnConstruct:",
+      "section": "[core]",
+      "name": "构建时死亡",
+      "description": "如果为true，则创建建筑时删除自身。（目标建筑物/单位需要selfBuildRate以自动建造完成）",
+      "value_type": "bool"
+    },
+    {
+      "key": "dieOnZeroEnergy:",
+      "section": "[core]",
+      "name": "无能量时死亡",
+      "description": "如果能量值为零，该单位死亡。",
+      "value_type": "bool"
+    },
+    {
+      "key": "numBitsOnDeath:",
+      "section": "[core]",
+      "name": "死亡产生碎片",
+      "description": "定义该单位死亡时散落的碎片的数量。",
+      "value_type": "int"
+    },
+    {
+      "key": "nukeOnDeath:",
+      "section": "[core]",
+      "name": "死亡核爆",
+      "description": "不推荐使用。建议使用死亡武器代替，其拥有更丰富的设定选项。如果为true，单位死亡时会生成一个内置的核弹爆炸效果。",
+      "value_type": "bool"
+    },
+    {
+      "key": "nukeOnDeathRange:",
+      "section": "[core]",
+      "name": "死亡核爆范围",
+      "description": "不推荐使用。定义使用nukeOnDeath时的核弹效果范围。",
+      "value_type": "float"
+    },
+    {
+      "key": "nukeOnDeathDamage:",
+      "section": "[core]",
+      "name": "死亡核爆伤害",
+      "description": "不推荐使用。定义使用nukeOnDeath时的核武器效果区域伤害。",
+      "value_type": "float"
+    },
+    {
+      "key": "nukeOnDeathDisableWhenNoNuke:",
+      "section": "[core]",
+      "name": "死亡核爆条件",
+      "description": "不推荐使用。默认为false。如果为true，则禁用核武器时，该单位死亡时不会产生核爆炸。",
+      "value_type": "bool"
+    },
+    {
+      "key": "fireTurretXAtSelfOnDeath:",
+      "section": "[core]",
+      "name": "死亡武器",
+      "description": "死亡武器。单位死后，使用指定炮塔攻击自身所在位置。",
+      "value_type": "turret ref"
+    },
+    {
+      "key": "explodeOnDeath:",
+      "section": "[core]",
+      "name": "死亡爆炸",
+      "description": "默认为true。如果为false，则禁用单位死亡时的内置爆炸效果。",
+      "value_type": "bool"
+    },
+    {
+      "key": "explodeOnDeathGroundCollision:",
+      "section": "[core]",
+      "name": "死亡撞击地面爆炸",
+      "description": "默认为true。如果为false，则禁用接触地面时内置爆炸效果。",
+      "value_type": "boolean"
+    },
+    {
+      "key": "effectOnDeath:",
+      "section": "[core]",
+      "name": "死亡效果",
+      "description": "单位死亡时产生内置或自定义效果。",
+      "value_type": "effect(s) ref"
+    },
+    {
+      "key": "effectOnDeathGroundCollision:",
+      "section": "[core]",
+      "name": "死亡撞击地面效果",
+      "description": "类似于effectOnDeath，但当单位接触地面时。对飞行单位有用。",
+      "value_type": "effect(s) ref"
+    },
+    {
+      "key": "unitsSpawnedOnDeath:",
+      "section": "[core]",
+      "name": "死亡产生单位",
+      "description": "死亡时产生这些单位。逗号分隔的单位标识符。",
+      "value_type": "string(s)"
+    },
+    {
+      "key": "unitsSpawnedOnDeath_setToTeamOfLastAttacker:",
+      "section": "[core]",
+      "name": "死亡产生单位所属",
+      "description": "如果为true，死亡时产生的单位将更改归属为最后一个攻击者的队伍。",
+      "value_type": "bool"
+    },
+    {
+      "key": "hideScorchMark:",
+      "section": "[core]",
+      "name": "死亡痕迹",
+      "description": "如果为true，则禁止单位死亡时留下焦痕。",
+      "value_type": "bool"
+    },
+    {
+      "key": "soundOnDeath:",
+      "section": "[core]",
+      "name": "死亡音效",
+      "description": "为该单位设置自定义死亡声音。",
+      "value_type": "string(s)"
+    },
+    {
+      "key": "explodeTypeOnDeath:",
+      "section": "[core]",
+      "name": "死亡时爆炸类型",
+      "description": "options: verysmall, small, normal, large, largeUnit, building, buildingNoShockwaveOrSmoke, verylargeBuilding\n添加内置死亡效果关键字，选项：非常小，很小，正常，大，大单位，建筑物，没有冲击波和烟雾的建筑物，非常大建筑",
+      "value_type": "preset effects"
+    },
+    {
+      "key": "effectOnDeathIfUnbuilt:",
+      "section": "[core]",
+      "name": "没建造完成时死亡效果",
+      "description": "如果这个单位没建造完成就被毁了，则播放此效果",
+      "value_type": "effect(s) ref"
+    },
+    {
+      "key": "disableDeathOnZeroHp",
+      "section": "[core]",
+      "name": "禁用零血死亡",
+      "description": "如果为true，允许单位在0血量的情况下仍然存活，单位不会自然死亡。对自定义“死亡”动作很有用",
+      "value_type": "bool"
+    },
+    {
+      "key": "autoTriggerCooldownTime:",
+      "section": "[core]",
+      "name": "自动触发间隔",
+      "description": "设置自动触发动作间隔。默认为1s。警告：对于许多设备，将此值设置得太低可能会影响性能，具体取决于操作效果。",
+      "value_type": "time (seconds)"
+    },
+    {
+      "key": "autoTriggerCooldownTime_allowDangerousHighCPU",
+      "section": "[core]",
+      "name": "允许超高频触发",
+      "description": "自动触发冷却时间，允许高CPU占用，也就是可以使用非常高频的触发，但不建议这么做。",
+      "value_type": "bool"
+    },
+    {
+      "key": "action_#_convertTo:",
+      "section": "[core]",
+      "name": "action_#_convertTo:",
+      "description": "在1.13版中已弃用，请改用[action_x]节",
+      "value_type": "string"
+    },
+    {
+      "key": "action_#_pos:",
+      "section": "[core]",
+      "name": "action_#_pos:",
+      "description": "订单操作出现在用户界面中",
+      "value_type": "float"
+    },
+    {
+      "key": "action_#_price:",
+      "section": "[core]",
+      "name": "action_#_price:",
+      "description": "您对该单位采取的行动的价格。 （您所有的子操作都将链接到您使用的＃号）",
+      "value_type": "int"
+    },
+    {
+      "key": "action_#_text:",
+      "section": "[core]",
+      "name": "action_#_text:",
+      "description": "选择单位动作时的显示文本，用于说明其目的。",
+      "value_type": "string"
+    },
+    {
+      "key": "action_#_description:",
+      "section": "[core]",
+      "name": "action_#_description:",
+      "description": "动作说明。",
+      "value_type": "string"
+    },
+    {
+      "key": "action_#_addEnergy:",
+      "section": "[core]",
+      "name": "action_#_addEnergy:",
+      "description": "为单位增加能量。除非设置了energyMax，否则不起作用",
+      "value_type": "float"
+    },
+    {
+      "key": "action_#_whenBuilding_cannotMove:",
+      "section": "[core]",
+      "name": "action_#_whenBuilding_cannotMove:",
+      "description": "在执行操作时停止单位移动。对于部署类似动作很有用。",
+      "value_type": "bool"
+    },
+    {
+      "key": "canBuild_#_name/pos/isLocked:",
+      "section": "[core]",
+      "name": "canBuild_#_name/pos/isLocked:",
+      "description": "请改用canBuild部分。",
+      "value_type": "string"
+    },
+    {
+      "key": "name:",
+      "section": "[canBuild_NAME]",
+      "name": "名字",
+      "description": "该单位可以创建的单位名列表。可以是建筑物或单位。",
+      "value_type": "string(s)"
+    },
+    {
+      "key": "pos:",
+      "section": "[canBuild_NAME]",
+      "name": "排序",
+      "description": "此单位在用户界面中排序，越小越靠上。",
+      "value_type": "float"
+    },
+    {
+      "key": "tech:",
+      "section": "[canBuild_NAME]",
+      "name": "科技",
+      "description": "没啥用。科技等级。通常只会影响此单位界面中的颜色。默认为1，只能填1、2、3。",
+      "value_type": "int"
+    },
+    {
+      "key": "forceNano:",
+      "section": "[canBuild_NAME]",
+      "name": "建造方式",
+      "description": "如果为true，则将目标当作是建筑物建造。 （即使是一个单位）",
+      "value_type": "bool"
+    },
+    {
+      "key": "isVisible:",
+      "section": "[canBuild_NAME]",
+      "name": "可见条件",
+      "description": "如果满足条件，则从界面中显示此单位。比如用于科技树。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "isLocked:",
+      "section": "[canBuild_NAME]",
+      "name": "锁定",
+      "description": "如果满足条件，则从界面中锁定此单位。比如用于科技树，或是限造单位。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "isLockedMessage:",
+      "section": "[canBuild_NAME]",
+      "name": "锁定原因描述",
+      "description": "告知玩家单位为何被锁定。",
+      "value_type": "string"
+    },
+    {
+      "key": "isLockedMessage_{LANG}:",
+      "section": "[canBuild_NAME]",
+      "name": "锁定文本多语言",
+      "description": "设置锁定文本在不同语言下显示的内容。语言代码点击此处。",
+      "value_type": "string"
+    },
+    {
+      "key": "isLockedAlt:",
+      "section": "[canBuild_NAME]",
+      "name": "更多锁定原因",
+      "description": "另一个被锁定原因。只是允许显示不同的消息。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "isLockedAltMessage:",
+      "section": "[canBuild_NAME]",
+      "name": "锁定原因描述",
+      "description": "另一个被锁定原因描述。",
+      "value_type": "string"
+    },
+    {
+      "key": "isLockedAlt2:",
+      "section": "[canBuild_NAME]",
+      "name": "更多锁定原因2",
+      "description": "更多的锁定原因…",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "isLockedAlt2Message:",
+      "section": "[canBuild_NAME]",
+      "name": "锁定文本2描述",
+      "description": "更多的锁定描述…",
+      "value_type": "string"
+    },
+    {
+      "key": "addResources:",
+      "section": "[canBuild_NAME]",
+      "name": "增加资源",
+      "description": "在放置建筑物或生产单位时，将这些资源添加到自身中。",
+      "value_type": "price(s)"
+    },
+    {
+      "key": "price:",
+      "section": "[canBuild_NAME]",
+      "name": "价格",
+      "description": "覆盖单位/建筑物的价格。 默认为单位内置的价格。\n用处如建造一个建筑时候附送一个单位。此代码可用设定为两者价钱之和,矿场600,送矿车1400,而建造时花2000,送1400,卖600,可避免玩家刷钱。",
+      "value_type": "price(s)"
+    },
+    {
+      "key": "isGuiBlinking:",
+      "section": "[canBuild_NAME]",
+      "name": "界面闪烁",
+      "description": "如果为true，则在UI中生成闪烁效果。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "image:",
+      "section": "[graphics]",
+      "name": "主体图像",
+      "description": "填图片名称，格式为png。",
+      "value_type": "file (image)"
+    },
+    {
+      "key": "image_back:",
+      "section": "[graphics]",
+      "name": "背景图像",
+      "description": "可选的在单位后面绘制图像，不随单位转动。可用于工厂底图，单位角标等。",
+      "value_type": "file (image)"
+    },
+    {
+      "key": "image_wreak:",
+      "section": "[graphics]",
+      "name": "死亡图像",
+      "description": "可选的单位死亡时使用的图像。",
+      "value_type": "file (image)"
+    },
+    {
+      "key": "image_shield",
+      "section": "[graphics]",
+      "name": "护盾图像",
+      "description": "自定义护盾所使用的图像。",
+      "value_type": "file (image)"
+    },
+    {
+      "key": "image_offsetX:",
+      "section": "[graphics]",
+      "name": "图像X轴偏移",
+      "description": "图像在X轴偏移，用于不对称图像，比如你的单位有个吊臂，这样中心不在正中间。",
+      "value_type": "int"
+    },
+    {
+      "key": "image_offsetY:",
+      "section": "[graphics]",
+      "name": "图像Y轴偏移",
+      "description": "图像在Y轴偏移,用于比较高的单位。",
+      "value_type": "int"
+    },
+    {
+      "key": "isVisible",
+      "section": "[graphics]",
+      "name": "可见",
+      "description": "默认为true,如果为false将隐藏单位。",
+      "value_type": "logic"
+    },
+    {
+      "key": "isVisibleToEnemies",
+      "section": "[graphics]",
+      "name": "对敌人可见",
+      "description": "与showOnMinimapToEnemies,canOnlyBeAttackedByUnitsWithTags一起使用时，可以创建隐形系统。",
+      "value_type": "logic"
+    },
+    {
+      "key": "teamColorsUseHue:",
+      "section": "[graphics]",
+      "name": "阵营色色相",
+      "description": "luke不建议使用。单位上的绿色像素转换为团队颜色。 若为true整个单位都带有团队色彩。 默认为false，挺难看的。",
+      "value_type": "bool"
+    },
+    {
+      "key": "teamColoringMode",
+      "section": "[graphics]",
+      "name": "阵营色模式",
+      "description": "设置单位着色逻辑，默认是纯绿。有四个值disabled,hueShift,hueAdd,pureGreen。(禁用，色相偏移，色相添加，纯绿)",
+      "value_type": "string"
+    },
+    {
+      "key": "scaleImagesTo:",
+      "section": "[graphics]",
+      "name": "缩放图像到",
+      "description": "单位像素。调整图像大小以使其适合像素值。同时影响腿部和阴影图像。",
+      "value_type": "float"
+    },
+    {
+      "key": "imageScale:",
+      "section": "[graphics]",
+      "name": "图像缩放比例",
+      "description": "调整图像大小。默认值为1。也可以影响腿部和阴影图像。",
+      "value_type": "float"
+    },
+    {
+      "key": "drawLayer:",
+      "section": "[graphics]",
+      "name": "绘制图层",
+      "description": "陆上单位通常默认为ground或ground2。运输船为ground2。wreaks, underwater, bottom, ground, ground2, experimentals, air, top",
+      "value_type": "string"
+    },
+    {
+      "key": "whenBeingBuiltMakeTransparentTill",
+      "section": "[graphics]",
+      "name": "建造时透明度",
+      "description": "设为0则一开始便完全不透明，设为1则直到建造完成时才不透明。",
+      "value_type": "float"
+    },
+    {
+      "key": "icon_zoomed_out",
+      "section": "[graphics]",
+      "name": "缩放图标",
+      "description": "缩放时显示的图标",
+      "value_type": "file (image)"
+    },
+    {
+      "key": "icon_zoomed_out_neverShow",
+      "section": "[graphics]",
+      "name": "缩放图标永不显示",
+      "description": "缩放图标永不显示。",
+      "value_type": "bool"
+    },
+    {
+      "key": "image_turret:",
+      "section": "[graphics]",
+      "name": "炮塔图像",
+      "description": "所有炮塔的默认图像，也可以为每个炮塔设置专用图像。",
+      "value_type": "file (image)"
+    },
+    {
+      "key": "teamColorsOnTurret",
+      "section": "[graphics]",
+      "name": "炮塔使用队伍色",
+      "description": "默认为false。在转塔上也应用团队颜色。",
+      "value_type": "bool"
+    },
+    {
+      "key": "scaleTurretImagesTo:",
+      "section": "[graphics]",
+      "name": "炮塔图像缩放",
+      "description": "单位像素。缩放炮塔图像至指定像素，只用填宽度",
+      "value_type": "float"
+    },
+    {
+      "key": "lock_body_rotation_with_main_turret:",
+      "section": "[graphics]",
+      "name": "锁定主体旋转随主炮塔",
+      "description": "锁定主体图像旋转追随主炮塔",
+      "value_type": "bool"
+    },
+    {
+      "key": "lock_leg_rotation_with_main_turret",
+      "section": "[graphics]",
+      "name": "锁定腿脚旋转随主炮塔",
+      "description": "锁定腿脚图像旋转追随主炮塔",
+      "value_type": "bool"
+    },
+    {
+      "key": "image_shadow:",
+      "section": "[graphics]",
+      "name": "阴影图像",
+      "description": "填NONE或AUTO,或图像文件。",
+      "value_type": "file (image)"
+    },
+    {
+      "key": "shadowOffsetX:",
+      "section": "[graphics]",
+      "name": "阴影图像偏移X轴",
+      "description": "阴影x轴偏移值，正数往右",
+      "value_type": "float"
+    },
+    {
+      "key": "shadowOffsetY:",
+      "section": "[graphics]",
+      "name": "阴影图像偏移Y轴",
+      "description": "阴影y轴偏移值，正数往下",
+      "value_type": "float"
+    },
+    {
+      "key": "image_shadow_frames",
+      "section": "[graphics]",
+      "name": "阴影图像指定",
+      "description": "true时阴影不随单位移动而改变方向。",
+      "value_type": "bool"
+    },
+    {
+      "key": "lock_shadow_rotation_with_main_turret:",
+      "section": "[graphics]",
+      "name": "阴影锁定为主炮塔方向",
+      "description": "将身体图像阴影锁定到主炮塔的方向",
+      "value_type": "bool"
+    },
+    {
+      "key": "total_frames",
+      "section": "[graphics]",
+      "name": "图像帧数",
+      "description": "默认值为1。将图像分割为指定分数，用于动画。第一帧编号为0",
+      "value_type": "int"
+    },
+    {
+      "key": "frame_width:",
+      "section": "[graphics]",
+      "name": "图像宽度",
+      "description": "设置单帧宽度，自动计算并覆盖总帧数。",
+      "value_type": "int"
+    },
+    {
+      "key": "frame_height:",
+      "section": "[graphics]",
+      "name": "图像高度",
+      "description": "默认为图像高度",
+      "value_type": "int"
+    },
+    {
+      "key": "splastEffect:",
+      "section": "[graphics]",
+      "name": "水波效果",
+      "description": "在水上时创建水波效果。默认为false",
+      "value_type": "bool"
+    },
+    {
+      "key": "dustEffect:",
+      "section": "[graphics]",
+      "name": "灰尘效果",
+      "description": "在地面上产生灰尘效果。默认为false",
+      "value_type": "bool"
+    },
+    {
+      "key": "splastEffectReverse:",
+      "section": "[graphics]",
+      "name": "逆向水波效果",
+      "description": "填true时，在倒车时也能产生效果",
+      "value_type": "bool"
+    },
+    {
+      "key": "dustEffectReverse:",
+      "section": "[graphics]",
+      "name": "逆向灰尘效果",
+      "description": "填true时，在倒车时也能产生效果",
+      "value_type": "bool"
+    },
+    {
+      "key": "movementEffect",
+      "section": "[graphics]",
+      "name": "运动效果",
+      "description": "自定义运动效果，可以是内置的或者自定义的。",
+      "value_type": "effect"
+    },
+    {
+      "key": "movementEffectReverse",
+      "section": "[graphics]",
+      "name": "逆向运动效果",
+      "description": "自定义倒车效果。",
+      "value_type": "effect"
+    },
+    {
+      "key": "movementEffectRate",
+      "section": "[graphics]",
+      "name": "运动效果频率",
+      "description": "自定义效果产生频率，每隔多少帧一次。",
+      "value_type": "float"
+    },
+    {
+      "key": "movementEffectReverseFlipEffects",
+      "section": "[graphics]",
+      "name": "逆向时反转运动效果",
+      "description": "倒车时反转效果",
+      "value_type": "bool"
+    },
+    {
+      "key": "repairEffect",
+      "section": "[graphics]",
+      "name": "维修效果",
+      "description": "自定义维修效果，可以是任何东西。替换构建时的默认效果",
+      "value_type": "effect"
+    },
+    {
+      "key": "repairEffectAtTarget",
+      "section": "[graphics]",
+      "name": "维修目标效果",
+      "description": "维修目标上产生的效果。",
+      "value_type": "effect"
+    },
+    {
+      "key": "repairEffectRate",
+      "section": "[graphics]",
+      "name": "维修效果频率",
+      "description": "维修效果每隔多少帧产生一次。",
+      "value_type": "float"
+    },
+    {
+      "key": "reclaimEffect",
+      "section": "[graphics]",
+      "name": "回收效果",
+      "description": "自定义回收效果，可以是任何东西。替换回收时的默认效果",
+      "value_type": "effect"
+    },
+    {
+      "key": "reclaimEffectAtTarget",
+      "section": "[graphics]",
+      "name": "回收目标效果",
+      "description": "回收目标上产生的效果。",
+      "value_type": "effect"
+    },
+    {
+      "key": "reclaimEffectRate",
+      "section": "[graphics]",
+      "name": "回收效果频率",
+      "description": "回收效果每隔多少帧产生一次。",
+      "value_type": "float"
+    },
+    {
+      "key": "rotate_with_direction:",
+      "section": "[graphics]",
+      "name": "随角度旋转",
+      "description": "默认为true。设置为false时将单位图像锁定为0度。通常与animation_direction_ *一起用作多向视图。",
+      "value_type": "bool"
+    },
+    {
+      "key": "animation_direction_units:",
+      "section": "[graphics]",
+      "name": "多向动画度数",
+      "description": "每隔多少度切换一次素材,比如填45代表8个方向，90个代表4个方向的动画。与rotate_with_direction一起使用。",
+      "value_type": "float"
+    },
+    {
+      "key": "animation_direction_strideX:",
+      "section": "[graphics]",
+      "name": "多向动画x向",
+      "description": "动画帧取值在X方向改变时偏移。一般填0",
+      "value_type": "int"
+    },
+    {
+      "key": "animation_direction_strideY:",
+      "section": "[graphics]",
+      "name": "多向动画y向",
+      "description": "动画帧在方向改变Y轴偏移偏移。与frame_height一起使用。一般填1",
+      "value_type": "int"
+    },
+    {
+      "key": "animation_direction_starting:",
+      "section": "[graphics]",
+      "name": "多向动画朝向",
+      "description": "第一帧的方向，取决于你的素材。你要考虑转向后避免正负数交替现象，否则会导致素材朝向异常。",
+      "value_type": "float"
+    },
+    {
+      "key": "disableLowHpFire",
+      "section": "[graphics]",
+      "name": "禁用低生命冒火",
+      "description": "禁用低生命值时冒火的视觉效果",
+      "value_type": "bool"
+    },
+    {
+      "key": "disableLowHpSmoke",
+      "section": "[graphics]",
+      "name": "禁用低生命冒烟",
+      "description": "禁用低生命值时冒烟的视觉效果",
+      "value_type": "bool"
+    },
+    {
+      "key": "showTransportBar",
+      "section": "[graphics]",
+      "name": "显示运输条",
+      "description": "填true时显示运输条,false禁用。默认为true.",
+      "value_type": "bool"
+    },
+    {
+      "key": "showHealthBar",
+      "section": "[graphics]",
+      "name": "显示生命条",
+      "description": "填true时显示生命条,false禁用。默认为true.",
+      "value_type": "bool"
+    },
+    {
+      "key": "showEnergyBar",
+      "section": "[graphics]",
+      "name": "显示能量条",
+      "description": "填true时显示能量条,false禁用。默认为true.",
+      "value_type": "bool"
+    },
+    {
+      "key": "showShieldBar",
+      "section": "[graphics]",
+      "name": "显示护盾条",
+      "description": "填true时显示护盾条,false禁用。默认为true.",
+      "value_type": "bool"
+    },
+    {
+      "key": "showQueueBar",
+      "section": "[graphics]",
+      "name": "显示队列条",
+      "description": "填true时显示操作、生成的队列条,false禁用。默认为true.",
+      "value_type": "bool"
+    },
+    {
+      "key": "animation_TYPE_start:",
+      "section": "[graphics]",
+      "name": "动画_类型_开始",
+      "description": "已弃用，请改用[animation]部分",
+      "value_type": "int"
+    },
+    {
+      "key": "animation_TYPE_end:",
+      "section": "[graphics]",
+      "name": "动画_类型_结束:",
+      "description": "结束帧，必须更大然后开始",
+      "value_type": "int"
+    },
+    {
+      "key": "animation_TYPE_scale_start:",
+      "section": "[graphics]",
+      "name": "动画_类型_缩放开始:",
+      "description": "比例单位图像。默认值为1。适用于生物单位或呼吸效果。",
+      "value_type": "float"
+    },
+    {
+      "key": "animation_TYPE_scale_end:",
+      "section": "[graphics]",
+      "name": "动画_类型_缩放结束:",
+      "description": "比例单位图像。默认值为1。适用于生物单位或呼吸效果。",
+      "value_type": "float"
+    },
+    {
+      "key": "animation_TYPE_speed:",
+      "section": "[graphics]",
+      "name": "动画_类型_速度:",
+      "description": "动画每一帧的延迟。较大的值会导致动画变慢",
+      "value_type": "float"
+    },
+    {
+      "key": "animation_TYPE_pingPong:",
+      "section": "[graphics]",
+      "name": "动画_类型_膨胀:",
+      "description": "重复播放之前，请反向播放动画。与scale_start / scale_end一起使用",
+      "value_type": "bool"
+    },
+    {
+      "key": "maxAttackRange:",
+      "section": "[attack]",
+      "name": "攻击距离",
+      "description": "最大攻击距离。（会乘以globalScale，但不建议使用globalScale）",
+      "value_type": "float"
+    },
+    {
+      "key": "canAttack:",
+      "section": "[attack]",
+      "name": "可以攻击",
+      "description": "如果设置为false，则不能攻击任何单位。其他canAttack选项将无效。",
+      "value_type": "bool"
+    },
+    {
+      "key": "canAttackFlyingUnits:",
+      "section": "[attack]",
+      "name": "可攻击空中单位",
+      "description": "可以攻击空中单位，下面的攻击条件代码可于任意炮塔单独设置。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "canAttackLandUnits:",
+      "section": "[attack]",
+      "name": "可攻击表面单位",
+      "description": "可以攻击表面单位（包括陆地和水面）",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "canAttackUnderwaterUnits:",
+      "section": "[attack]",
+      "name": "可攻击水下单位",
+      "description": "可以攻击水下单位",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "canAttackNotTouchingWaterUnits:",
+      "section": "[attack]",
+      "name": "可以攻击非接触水单位",
+      "description": "可以攻击非接触水单位，默认为true。如果是false，则只能攻击与水接触的单位，不能攻击岸上。用于鱼雷逻辑。也可以根据炮塔需要设置。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "canOnlyAttackUnitsWithTags",
+      "section": "[attack]",
+      "name": "只攻击带特定标签单位",
+      "description": "只能攻击带特定标签的单位",
+      "value_type": "tags"
+    },
+    {
+      "key": "canOnlyAttackUnitsWithoutTags",
+      "section": "[attack]",
+      "name": "不攻击带特定标签单位",
+      "description": "不能攻击带特定标签的单位",
+      "value_type": "tags"
+    },
+    {
+      "key": "turretMultiTargeting",
+      "section": "[attack]",
+      "name": "每个炮塔向不同目标射击",
+      "description": "允许每个炮塔同时向不同的目标射击。如果使用[turretlimitingAngle(限制角度)非常有用",
+      "value_type": "bool"
+    },
+    {
+      "key": "isMelee:",
+      "section": "[attack]",
+      "name": "近战",
+      "description": "近战单位。与低攻击范围配合使用（例如maxAttackRange：9）可使自身和目标半径添加到范围内，并影响AI。",
+      "value_type": "bool"
+    },
+    {
+      "key": "meleeEngangementDistance",
+      "section": "[attack]",
+      "name": "近战索敌距离",
+      "description": "使部队游猎，自动移动以攻击附近的敌方部队。近战默认为250，非近战默认为0（即使非近战也可以使用。）",
+      "value_type": "int"
+    },
+    {
+      "key": "turretRotateWithBody",
+      "section": "[attack]",
+      "name": "炮塔随主体旋转",
+      "description": "炮塔随主体旋转。默认true",
+      "value_type": "bool"
+    },
+    {
+      "key": "attackMovement:",
+      "section": "[attack]",
+      "name": "攻击移动类型",
+      "description": "移动攻击类型。填normal/bomber。能量耗尽时，轰炸机攻击运动将后退。可填moveaway，strafing但无效。",
+      "value_type": "string"
+    },
+    {
+      "key": "dieOnAttack:",
+      "section": "[attack]",
+      "name": "自杀攻击",
+      "description": "攻击时自毁。",
+      "value_type": "bool"
+    },
+    {
+      "key": "isFixedFiring:",
+      "section": "[attack]",
+      "name": "固定射击",
+      "description": "必须将身体对准目标射击。通常会使得部队需要停下来才能瞄准和射击。比如火炮。",
+      "value_type": "bool"
+    },
+    {
+      "key": "aimOffsetSpread:",
+      "section": "[attack]",
+      "name": "瞄准偏移",
+      "description": "将每次攻击时的偏移量乘以目标半径。默认为0.6。设为0则不偏移，对范围武器影响较大。",
+      "value_type": "bool"
+    },
+    {
+      "key": "stopTargetingAfterFiring",
+      "section": "[attack]",
+      "name": "自动停火",
+      "description": "单位射击后停止瞄准。很少使用或需要。如用于你不希望胡乱攻击浪费弹药的单位。",
+      "value_type": "bool"
+    },
+    {
+      "key": "disablePassiveTargeting:",
+      "section": "[attack]",
+      "name": "不能主动攻击",
+      "description": "单位只攻击手动选择的目标。很少使用或需要。如用于自爆卡车守家，如果自动攻击敌人就太蠢了。",
+      "value_type": "bool"
+    },
+    {
+      "key": "showRangeUIGuide",
+      "section": "[attack]",
+      "name": "显示范围UI",
+      "description": "显示攻击范围的白圈。默认true.",
+      "value_type": "bool"
+    },
+    {
+      "key": "turretSize:",
+      "section": "[attack]",
+      "name": "炮塔大小",
+      "description": "设置所有炮塔大小。填数值，按像素计算，不决定素材大小，而是以此为半径的开火位置。",
+      "value_type": "float"
+    },
+    {
+      "key": "turretTurnSpeed:",
+      "section": "[attack]",
+      "name": "炮塔转速",
+      "description": "炮塔转速，单位是每帧旋转角度。",
+      "value_type": "float"
+    },
+    {
+      "key": "shootDelay:",
+      "section": "[attack]",
+      "name": "攻击间隔",
+      "description": "开火间隔，也可以在每个转塔上使用延迟",
+      "value_type": "float"
+    },
+    {
+      "key": "x:",
+      "section": "[attack]",
+      "name": "x:",
+      "description": "坐标X",
+      "value_type": "float"
+    },
+    {
+      "key": "y:",
+      "section": "[attack]",
+      "name": "y:",
+      "description": "坐标Y",
+      "value_type": "float"
+    },
+    {
+      "key": "copyFrom:",
+      "section": "[attack]",
+      "name": "复制数据自",
+      "description": "复制指定炮塔的所有值，作为该炮塔的默认值。新写代码重复时则覆盖掉它。",
+      "value_type": "turret ref"
+    },
+    {
+      "key": "projectile",
+      "section": "[attack]",
+      "name": "抛射体",
+      "description": "使用此抛射体。默认为第一个抛射体。",
+      "value_type": "projectile ref"
+    },
+    {
+      "key": "altProjectile",
+      "section": "[attack]",
+      "name": "关联抛射体",
+      "description": "当altProjectileCondition为true时，从此炮塔发射的抛射体。",
+      "value_type": "projectile ref"
+    },
+    {
+      "key": "altProjectileCondition",
+      "section": "[attack]",
+      "name": "关联抛射体条件",
+      "description": "用于altProjectile",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "barrelX",
+      "section": "[attack]",
+      "name": "炮弹x",
+      "description": "默认值为0。控制抛射体生成的X轴位置。",
+      "value_type": "float"
+    },
+    {
+      "key": "barrelY",
+      "section": "[attack]",
+      "name": "炮弹y",
+      "description": "默认为大0。注意：size和barrelY含义相同",
+      "value_type": "float"
+    },
+    {
+      "key": "barrelHeight",
+      "section": "[attack]",
+      "name": "炮弹高度",
+      "description": "高度（用于3d）。影响抛射体产生的高度。",
+      "value_type": "float"
+    },
+    {
+      "key": "size:",
+      "section": "[attack]",
+      "name": "炮塔大小",
+      "description": "控制炮塔中心与弹丸产生点之间的距离。",
+      "value_type": "float"
+    },
+    {
+      "key": "turnSpeed",
+      "section": "[attack]",
+      "name": "炮塔转速",
+      "description": "炮塔最大转动速度。单位度每帧。",
+      "value_type": "float"
+    },
+    {
+      "key": "turnSpeedAcceleration",
+      "section": "[attack]",
+      "name": "炮塔旋转加速度",
+      "description": "炮塔加速度，默认设置为禁用，并使用全转速度。",
+      "value_type": "float"
+    },
+    {
+      "key": "turnSpeedDeceleration",
+      "section": "[attack]",
+      "name": "炮塔旋转减速度",
+      "description": "默认为turnSpeedAcceleration。将此值设置为高于转弯加速度可能会允许更快地命中目标",
+      "value_type": "float"
+    },
+    {
+      "key": "idleDir",
+      "section": "[attack]",
+      "name": "闲时角度",
+      "description": "闲置时角度。",
+      "value_type": "float"
+    },
+    {
+      "key": "idleDirReversing",
+      "section": "[attack]",
+      "name": "闲时角度反转",
+      "description": "允许闲置时角度反转。除非连接到另一个炮塔（否则连接的炮塔在反转时通常会旋转），否则默认为idleDir + 180。如重坦逆行时炮塔转向。",
+      "value_type": "float"
+    },
+    {
+      "key": "shouldResetTurret:",
+      "section": "[attack]",
+      "name": "空闲自动归位",
+      "description": "默认为true。 填false时禁止炮塔自动归位。",
+      "value_type": "bool"
+    },
+    {
+      "key": "idleSweepAngle",
+      "section": "[attack]",
+      "name": "空闲扫描角度",
+      "description": "炮塔闲时扫描角度。这一系列用于设置炮塔闲置时候转圈警戒动作。",
+      "value_type": "int"
+    },
+    {
+      "key": "idleSweepDelay",
+      "section": "[attack]",
+      "name": "空闲扫描延迟",
+      "description": "炮塔闲时扫描间隔，多久动一次。",
+      "value_type": "float"
+    },
+    {
+      "key": "idleSweepSpeed",
+      "section": "[attack]",
+      "name": "空闲扫描速度",
+      "description": "炮塔闲时扫描转向的速度。",
+      "value_type": "float"
+    },
+    {
+      "key": "idleSweepCondition",
+      "section": "[attack]",
+      "name": "空闲扫描条件",
+      "description": "炮塔闲时扫描的条件，比如单位移动但没攻击时炮塔确实是闲置的，但这时可能不该旋转。",
+      "value_type": "logic boolean"
+    },
+    {
+      "key": "idleSweepAddRandomDelay",
+      "section": "[attack]",
+      "name": "空闲扫描随机延迟",
+      "description": "炮塔闲时扫描的随机延迟",
+      "value_type": "float"
+    },
+    {
+      "key": "idleSweepAddRandomAngle",
+      "section": "[attack]",
+      "name": "空闲扫描随机角度",
+      "description": "炮塔闲时扫描的随机角度",
+      "value_type": "int"
+    },
+    {
+      "key": "attachedTo:",
+      "section": "[attack]",
+      "name": "链接到",
+      "description": "要连接的另一个炮塔的ID，将相对于它定位，并随其旋转。",
+      "value_type": "turret ref"
+    },
+    {
+      "key": "slave:",
+      "section": "[attack]",
+      "name": "隶属",
+      "description": "锁定此转塔的方向，并为附加的转塔发射冷却时间。常用于多炮管单位。",
+      "value_type": "bool"
+    },
+    {
+      "key": "isMainNanoTurret:",
+      "section": "[attack]",
+      "name": "是主构建炮塔",
+      "description": "默认为false。用于创建建筑物的炮塔。只能在一个炮塔上为true，并且canShoot设置为false。",
+      "value_type": "bool"
+    },
+    {
+      "key": "energyUsage:",
+      "section": "[attack]",
+      "name": "能量需求",
+      "description": "发射武器所需的能量。与resourceUsage相同：energy = X",
+      "value_type": "float"
+    },
+    {
+      "key": "resourceUsage",
+      "section": "[attack]",
+      "name": "资源需求",
+      "description": "可以使用资金/能源/生命/护盾/弹药等。如果不符合条件则停止攻击。credits/energy/hp/shield/ammo",
+      "value_type": "price"
+    },
+    {
+      "key": "delay:",
+      "section": "[attack]",
+      "name": "开火间隔",
+      "description": "设置攻击间隔，覆盖全局炮塔间隔数据。",
+      "value_type": "float"
+    },
+    {
+      "key": "linkDelayWithTurret",
+      "section": "[attack]",
+      "name": "链接间隔",
+      "description": "当另一炮塔开火时，该炮塔上的冷却延迟将被重置/删除",
+      "value_type": "turret ref"
+    },
+    {
+      "key": "warmup:",
+      "section": "[attack]",
+      "name": "预热",
+      "description": "射击前延迟。需要准备多长时间才能攻击，可以制作出蓄力效果。",
+      "value_type": "float"
+    },
+    {
+      "key": "warmupCallDownRate",
+      "section": "[attack]",
+      "name": "预热下降速度",
+      "description": "停止攻击后预热条下降速度",
+      "value_type": "float"
+    },
+    {
+      "key": "warmupNoReset",
+      "section": "[attack]",
+      "name": "预热不重置",
+      "description": "默认为false。射击后未重设真正的预热时。与warmupCallDownRate一起使用",
+      "value_type": "bool"
+    },
+    {
+      "key": "warmupShootDelayTransfer",
+      "section": "[attack]",
+      "name": "开火间隔过渡",
+      "description": "默认值为0，这是一个乘数，用于通过预热值减少下一次开火延迟。与warmupNoReset一起使用时，可以使攻击速度越来越快。",
+      "value_type": "float"
+    },
+    {
+      "key": "onShoot_freezeBodyMovementFor",
+      "section": "[attack]",
+      "name": "射击时冻结主体",
+      "description": "射击时禁止运动。",
+      "value_type": "bool"
+    },
+    {
+      "key": "barrelOffsetX_onOddShots: ",
+      "section": "[attack]",
+      "name": "奇数射击时炮弹偏移",
+      "description": "默认0。在奇数射击时横向偏移，用于简化双管单位制作。",
+      "value_type": null
+    },
+    {
+      "key": "canShoot:",
+      "section": "[attack]",
+      "name": "可以开火",
+      "description": "可以开火，默认为true",
+      "value_type": "bool"
+    },
+    {
+      "key": "canAttackFlyingUnits:",
+      "section": "[attack]",
+      "name": "可攻击空中单位",
+      "description": "可以攻击空中单位，覆盖[attack]的设定。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "canAttackLandUnits:",
+      "section": "[attack]",
+      "name": "可攻击表面单位",
+      "description": "可以攻击表面单位（包括陆地和水面）",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "canAttackUnderwaterUnits:",
+      "section": "[attack]",
+      "name": "可攻击水下单位",
+      "description": "可以攻击水下单位",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "canAttackNotTouchingWaterUnits:",
+      "section": "[attack]",
+      "name": "可以攻击非接触水单位",
+      "description": "可以攻击非接触水单位，默认为true。如果是false，则只能攻击与水接触的单位，不能攻击岸上。用于鱼雷逻辑。也可以根据炮塔需要设置。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "canOnlyAttackUnitsWithTags",
+      "section": "[attack]",
+      "name": "只攻击带特定标签单位",
+      "description": "只能攻击带特定标签的单位",
+      "value_type": "tags"
+    },
+    {
+      "key": "canOnlyAttackUnitsWithoutTags",
+      "section": "[attack]",
+      "name": "不攻击带特定标签单位",
+      "description": "不能攻击带特定标签的单位",
+      "value_type": "tags"
+    },
+    {
+      "key": "canAttackCondition:",
+      "section": "[attack]",
+      "name": "攻击条件",
+      "description": "攻击需要满足条件。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "clearTurretTargetAfterFiring",
+      "section": "[attack]",
+      "name": "射击后重置炮塔目标",
+      "description": "射击后重置炮塔目标。",
+      "value_type": "bool"
+    },
+    {
+      "key": "limitingRange:",
+      "section": "[attack]",
+      "name": "限制范围",
+      "description": "限制此炮塔的最远攻击范围。不要将此代码应用到所有炮塔，如果需要则设置maxAttackRange。",
+      "value_type": "float"
+    },
+    {
+      "key": "limitingAngle",
+      "section": "[attack]",
+      "name": "限制角度",
+      "description": "与idleDir配合。炮塔只能以+/-此角度进行攻击。",
+      "value_type": "float"
+    },
+    {
+      "key": "limitingMinRange",
+      "section": "[attack]",
+      "name": "最小距离",
+      "description": "设置炮塔的最小攻击范围，不能攻击此范围内单位，也就是死角。",
+      "value_type": "float"
+    },
+    {
+      "key": "canAttackMaxAngle",
+      "section": "[attack]",
+      "name": "可攻击最大角度",
+      "description": "设置炮塔的最大射击角度。如果单位在可攻击角度外则不会开火。默认值为5，不要设置得更低。可以设置为181炮塔，即不需要转向就可发射炮弹。",
+      "value_type": "float"
+    },
+    {
+      "key": "interceptProjectiles_withTags",
+      "section": "[attack]",
+      "name": "拦截抛射体需有标签",
+      "description": "拦截具有此标签的抛射体，目前铁锈用于反核武器。",
+      "value_type": "string"
+    },
+    {
+      "key": "interceptProjectiles_andTargetingGroundUnderDistance",
+      "section": "[attack]",
+      "name": "拦截抛射体检索范围",
+      "description": "守护的范围，只有当敌方攻击目标地点落在此圈子内时才考虑拦截。",
+      "value_type": "int"
+    },
+    {
+      "key": "interceptProjectiles_andUnderDistance",
+      "section": "[attack]",
+      "name": "拦截抛射体攻击范围",
+      "description": "默认值为2000，当抛射体到达这个距离时才开始发射拦截。",
+      "value_type": "int"
+    },
+    {
+      "key": "interceptProjectiles_andOverHeight",
+      "section": "[attack]",
+      "name": "拦截抛射体高度",
+      "description": "需要超过高度才会拦截。",
+      "value_type": "int"
+    },
+    {
+      "key": "interceptProjectile_removeTargetLifeOnly",
+      "section": "[attack]",
+      "name": "拦截抛射体移除目标存活时间",
+      "description": "默认值为false，射弹被移除。用于设定命中抛射体时是否执行分裂逻辑。",
+      "value_type": "bool"
+    },
+    {
+      "key": "laserDefenceEnergyUse:",
+      "section": "[attack]",
+      "name": "激光防御能量需求",
+      "description": "炮塔启用激光防御拦截敌方抛射体。还应在core中设置energyMax。",
+      "value_type": "float"
+    },
+    {
+      "key": "aimOffsetSpread:",
+      "section": "[attack]",
+      "name": "瞄准偏移",
+      "description": "将每次攻击时的偏移量乘以目标半径。默认为0.6。设为0则不偏移，对范围武器影响较大。",
+      "value_type": "bool"
+    },
+    {
+      "key": "invisible:",
+      "section": "[attack]",
+      "name": "隐藏炮塔图像",
+      "description": "即不显示炮塔本身图像，但是攻击什么的还是可以。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "image:",
+      "section": "[attack]",
+      "name": "图像",
+      "description": "使用自定义图片。覆盖单位的主炮塔图像",
+      "value_type": "file (image)"
+    },
+    {
+      "key": "image_applyTeamColors",
+      "section": "[attack]",
+      "name": "图像应用队伍颜色",
+      "description": "炮塔图像使用队伍颜色。默认为false。",
+      "value_type": "bool"
+    },
+    {
+      "key": "image_drawOffsetX",
+      "section": "[attack]",
+      "name": "图像绘制偏移x",
+      "description": "炮塔图像在X轴偏移。",
+      "value_type": "float"
+    },
+    {
+      "key": "image_drawOffsetY",
+      "section": "[attack]",
+      "name": "图像绘制偏移y",
+      "description": "炮塔图像在Y轴偏移。",
+      "value_type": "float"
+    },
+    {
+      "key": "chargeEffectImage:\n",
+      "section": "[attack]",
+      "name": "充能效果图像",
+      "description": "预热时的充能效果。默认是由小变大。",
+      "value_type": "file (image)"
+    },
+    {
+      "key": "warmupStartEffect",
+      "section": "[attack]",
+      "name": "预热效果",
+      "description": "开火延迟时产生效果。",
+      "value_type": "effects"
+    },
+    {
+      "key": "shoot_sound:",
+      "section": "[attack]",
+      "name": "开火音效",
+      "description": "开火音效，填声音文件。有以下内置条目。attack、move、click、missile_fire、missile_hit、unit_explode、buiding_explode、\ntank_firing、cannon_firing、gun_fire、lighting_burst、plasma_fire、plasma_fire2、firing3、firing4、large_gun_fire1、\nlarge_gun_fire2、bug_die、bug_attack、interface_error、nuke_explode、nuke_launch、laser_deflect、laser_deflect2",
+      "value_type": "string"
+    },
+    {
+      "key": "shoot_sound_vol:",
+      "section": "[attack]",
+      "name": "开火音效大小",
+      "description": "播放声音大小。",
+      "value_type": "float"
+    },
+    {
+      "key": "shoot_flame:",
+      "section": "[attack]",
+      "name": "开火动画",
+      "description": "开火动画，内置参考表末尾。Luke推荐为：small, large, smoke, shockwave。可以自定义。",
+      "value_type": "effects"
+    },
+    {
+      "key": "shoot_light",
+      "section": "[attack]",
+      "name": "开火闪光",
+      "description": "开火时闪光，16进制argb格式。#AARRGGBB,透明度，红，绿，蓝",
+      "value_type": "color"
+    },
+    {
+      "key": "idleSpin:",
+      "section": "[attack]",
+      "name": "闲时转速",
+      "description": "炮塔闲置时的旋转速度,单位度每帧。",
+      "value_type": "float"
+    },
+    {
+      "key": "onShoot_playAnimation",
+      "section": "[attack]",
+      "name": "开火播放动画",
+      "description": "开火后播放[Animation]中的自定义动画",
+      "value_type": "animation ref"
+    },
+    {
+      "key": "onShoot_freezeBodyMovementFor",
+      "section": "[attack]",
+      "name": "开火冻结移动",
+      "description": "开火时冻结单位主体运动。",
+      "value_type": "bool"
+    },
+    {
+      "key": "onShoot_triggerActions",
+      "section": "[attack]",
+      "name": "开火触发行为",
+      "description": "每次这个炮塔开火时触发这些动作",
+      "value_type": "action refs"
+    },
+    {
+      "key": "recoilOffset",
+      "section": "[attack]",
+      "name": "后坐力大小",
+      "description": "开火后向前或向后推动炮塔，以产生后坐力。填像素。",
+      "value_type": "float"
+    },
+    {
+      "key": "recoilOutTime",
+      "section": "[attack]",
+      "name": "后坐力速度",
+      "description": "开火后到达偏移位置的时间",
+      "value_type": "float"
+    },
+    {
+      "key": "recoilReturnTime",
+      "section": "[attack]",
+      "name": "后坐力恢复",
+      "description": "开火后回到默认位置所需时间。",
+      "value_type": "float"
+    },
+    {
+      "key": "showRangeUIGuide",
+      "section": "[attack]",
+      "name": "显示范围UI",
+      "description": "显示攻击范围的白圈。默认true.",
+      "value_type": "bool"
+    },
+    {
+      "key": "life:",
+      "section": "[projectile_NAME]",
+      "name": "存在时间",
+      "description": "开火后炮弹在没命中时的存活时间，单位为帧。60为1s。多少合适取决于速度与射程。",
+      "value_type": "int"
+    },
+    {
+      "key": "deflectionPower:",
+      "section": "[projectile_NAME]",
+      "name": "激光拦截耗能",
+      "description": "默认值为1。此抛射体被激光防御摧毁所需的能量。 -1为禁止拦截。（对特殊武器如火焰）",
+      "value_type": "float"
+    },
+    {
+      "key": "explodeOnEndOfLife",
+      "section": "[projectile_NAME]",
+      "name": "寿终爆炸",
+      "description": "默认为false。True则会在寿命终结时爆炸，并产生其命中时该有的效果。而不是直接消失。",
+      "value_type": "bool"
+    },
+    {
+      "key": "autoTargetingOnDeadTarget:",
+      "section": "[projectile_NAME]",
+      "name": "自动切换目标",
+      "description": "如果目标死亡则自动切换单位。填true时如果有代码\"targetGround:true\"炮弹将会追踪距离它最近的单位。如果没有\"targetGround\"时将会在单位死亡后再改变目标。",
+      "value_type": "bool"
+    },
+    {
+      "key": "autoTargetingOnDeadTargetRange",
+      "section": "[projectile_NAME]",
+      "name": "自动切换目标检索范围",
+      "description": "当旧目标死亡时选择新目标的范围",
+      "value_type": "int"
+    },
+    {
+      "key": "autoTargetingOnDeadTargetLead",
+      "section": "[projectile_NAME]",
+      "name": "自动切换目标预判",
+      "description": "尝试新的目标时的预判",
+      "value_type": "float"
+    },
+    {
+      "key": "unloadUpToXUnitsFromSource",
+      "section": "[projectile_NAME]",
+      "name": "卸载单位至命中地",
+      "description": "将指定个数单位卸载到抛射体爆炸位置。",
+      "value_type": "int"
+    },
+    {
+      "key": "teleportSource",
+      "section": "[projectile_NAME]",
+      "name": "传送",
+      "description": "将单位移动到抛射体爆炸的位置，用于传送自身。",
+      "value_type": "bool"
+    },
+    {
+      "key": "spawnUnit",
+      "section": "[projectile_NAME]",
+      "name": "产生单位",
+      "description": "在弹丸爆炸位置产生这种单位",
+      "value_type": "unit types"
+    },
+    {
+      "key": "convertHitToSourceTeam",
+      "section": "[projectile_NAME]",
+      "name": "命中时更改所属",
+      "description": "将更改被命中的单位转换队伍为自身所属。",
+      "value_type": "bool"
+    },
+    {
+      "key": "tags",
+      "section": "[projectile_NAME]",
+      "name": "标签",
+      "description": "用于抛射体拦截功能。",
+      "value_type": "tags"
+    },
+    {
+      "key": "flameWeapon:",
+      "section": "[projectile_NAME]",
+      "name": "火焰武器",
+      "description": "命中时产生小火焰（仅用于装饰）",
+      "value_type": "bool"
+    },
+    {
+      "key": "spawnProjectilesOnEndOfLife",
+      "section": "[projectile_NAME]",
+      "name": "在寿命结束时刷抛射体",
+      "description": "填抛射体名。在寿命(life)结束时刷抛射体。刷抛射体逻辑具体参数参考后面刷抛射体大项。这简化了过去许多需要多炮塔(如贯穿攻击)或是刷辅助单位才能实现的操作。",
+      "value_type": "projectile ref"
+    },
+    {
+      "key": "spawnProjectilesOnExplode",
+      "section": "[projectile_NAME]",
+      "name": "在爆炸时刷抛射体",
+      "description": "填抛射体名。只在爆炸时刷抛射体，如果耗光life则不会刷。",
+      "value_type": "projectile ref"
+    },
+    {
+      "key": "spawnProjectilesOnCreate",
+      "section": "[projectile_NAME]",
+      "name": "在创建时刷抛射体",
+      "description": "填抛射体名。抛射体创建时刷抛射体。",
+      "value_type": "projectile ref"
+    },
+    {
+      "key": "directDamage:",
+      "section": "[projectile_NAME]",
+      "name": "直接伤害",
+      "description": "击中对目标单位造成伤害。不适用于targetGround:true。",
+      "value_type": "int"
+    },
+    {
+      "key": "areaDamage:",
+      "section": "[projectile_NAME]",
+      "name": "范围伤害",
+      "description": "范围伤害值，此区域内敌方单位都将受到损伤，默认向边缘递减。",
+      "value_type": "int"
+    },
+    {
+      "key": "areaRadius:",
+      "section": "[projectile_NAME]",
+      "name": "范围半径",
+      "description": "范围伤害区域大小，此区域内敌方单位都将受到损伤，默认向边缘递减。数值类型为像素，大小算法为半径，铁锈内地块一格长为20像素。",
+      "value_type": "float"
+    },
+    {
+      "key": "areaDamageNoFalloff",
+      "section": "[projectile_NAME]",
+      "name": "范围伤害不衰减",
+      "description": "默认false.为true时范围伤害不再向边缘递减。",
+      "value_type": "bool"
+    },
+    {
+      "key": "areaRadiusFromEdge",
+      "section": "[projectile_NAME]",
+      "name": "范围伤害从边缘计算",
+      "description": "范围伤害将从单位的边缘计算，而不是默认的中心计算。主要用于攻击大型单位。",
+      "value_type": "bool"
+    },
+    {
+      "key": "areaExpandTime",
+      "section": "[projectile_NAME]",
+      "name": "范围扩展时间",
+      "description": "将区域伤害变为爆炸波向边缘扩散。效果如核弹。",
+      "value_type": "float"
+    },
+    {
+      "key": "areaHitAirAndLandAtSameTime",
+      "section": "[projectile_NAME]",
+      "name": "范围武器同时攻击空中和地面",
+      "description": "范围武器将同时打击空中和地面。",
+      "value_type": "bool"
+    },
+    {
+      "key": "areaHitUnderwaterAlways",
+      "section": "[projectile_NAME]",
+      "name": "范围武器可攻击深海",
+      "description": "范围武器将可以打击深海单位如潜艇。",
+      "value_type": "bool"
+    },
+    {
+      "key": "areaIgnoreUnitsCloserThan",
+      "section": "[projectile_NAME]",
+      "name": "范围伤害忽略区域",
+      "description": "小于此范围的单位不会受到攻击影响。需要比areaRadius小，否则造不成伤害。",
+      "value_type": "int"
+    },
+    {
+      "key": "buildingDamageMultiplier",
+      "section": "[projectile_NAME]",
+      "name": "建筑伤害乘数",
+      "description": "默认为1。对建筑物伤害乘上此数值，用于伤害修正。比如闪电对建筑物伤害低，火焰对建筑物伤害高。",
+      "value_type": "float"
+    },
+    {
+      "key": "shieldDamageMultiplier",
+      "section": "[projectile_NAME]",
+      "name": "护盾伤害乘数",
+      "description": "默认为1。对护盾伤害乘数。如0对护盾不造成伤害，2对护盾造成双倍伤害",
+      "value_type": "float"
+    },
+    {
+      "key": "shieldDefectionMultiplier",
+      "section": "[projectile_NAME]",
+      "name": "护盾阻挡乘数",
+      "description": "护盾阻挡乘数，填0则可无视护盾，同时对单位和盾造成伤害。",
+      "value_type": "float"
+    },
+    {
+      "key": "hullDamageMultiplier",
+      "section": "[projectile_NAME]",
+      "name": "护盾损伤乘数",
+      "description": "可以用来制造只影响护盾的电磁脉冲武器。0忽略单位，只伤害护盾",
+      "value_type": "float"
+    },
+    {
+      "key": "armourIgnoreAmount",
+      "section": "[projectile_NAME]",
+      "name": "无视装甲数量",
+      "description": "无视目标装甲数量并造成伤害。",
+      "value_type": "int"
+    },
+    {
+      "key": "friendlyFire",
+      "section": "[projectile_NAME]",
+      "name": "友伤",
+      "description": "范围武器有友伤，可以伤害自己单位。铁锈限制不能对盟友有伤害。负数友伤可以用于范围维修，如果修盟友则需要用中立单位实现。参数false true only-ignoreEnemy",
+      "value_type": "bool/string"
+    },
+    {
+      "key": "mutatorX_ifUnitWithTags",
+      "section": "[projectile_NAME]",
+      "name": "修正需要标签",
+      "description": "伤害修正所需标签，仅对携带标签单位有效。否则为原始伤害。",
+      "value_type": "float"
+    },
+    {
+      "key": "mutatorX_ifUnitWithoutTags",
+      "section": "[projectile_NAME]",
+      "name": "修正除此标签",
+      "description": "伤害修正除此标签外有效。",
+      "value_type": "float"
+    },
+    {
+      "key": "mutatorX_directDamageMultiplier",
+      "section": "[projectile_NAME]",
+      "name": "修正直接伤害",
+      "description": "伤害修正,直接伤害(directDamage)乘数。比如直接伤害100，这里填2，对目标就造成200伤害。",
+      "value_type": "float"
+    },
+    {
+      "key": "mutatorX_areaDamageMultiplier",
+      "section": "[projectile_NAME]",
+      "name": "修正范围伤害",
+      "description": "伤害修正,范围伤害(areaDamage)乘数。比如直接伤害100，这里填2，对目标就造成200伤害。",
+      "value_type": "float"
+    },
+    {
+      "key": "mutatorX_changedExplodeEffect",
+      "section": "[projectile_NAME]",
+      "name": "修正命中效果",
+      "description": "如果此修正处于有效状态，则更改爆炸效果。",
+      "value_type": "effect"
+    },
+    {
+      "key": "mutatorX_addResourcesDirectHit",
+      "section": "[projectile_NAME]",
+      "name": "修正直接添加资源",
+      "description": "伤害修正,用于直接伤害(directDamage)，给目标添加指定资源。用途如给目标资源后，目标检测自身资源然后禁止移动。",
+      "value_type": "resource"
+    },
+    {
+      "key": "mutatorX_addResourcesAreaHit",
+      "section": "[projectile_NAME]",
+      "name": "修正区域添加资源",
+      "description": "伤害修正,用于范围伤害(areaDamage)，给目标添加指定资源。",
+      "value_type": "resource"
+    },
+    {
+      "key": "targetGround",
+      "section": "[projectile_NAME]",
+      "name": "目标为地面",
+      "description": "抛射体瞄准并攻击目标所在的地面，而不是追踪目标。直接伤害(directDamage)将会失效，需要使用areaDamage和areaRadius。",
+      "value_type": "bool"
+    },
+    {
+      "key": "targetGround_includeTargetHeight",
+      "section": "[projectile_NAME]",
+      "name": "目标为地面包括目标高度",
+      "description": "区域影响AA武器",
+      "value_type": "float"
+    },
+    {
+      "key": "targetGroundHeightOffset",
+      "section": "[projectile_NAME]",
+      "name": "目标为地面高度偏移",
+      "description": "在目标上方或下方射击。可能对分裂和落下的炮弹有用。",
+      "value_type": "float"
+    },
+    {
+      "key": "speed:",
+      "section": "[projectile_NAME]",
+      "name": "速度",
+      "description": "抛射体飞行速度，单位是每帧飞行像素。铁锈地块1格20像素，填1则每秒飞行3格。",
+      "value_type": "float"
+    },
+    {
+      "key": "targetSpeed:",
+      "section": "[projectile_NAME]",
+      "name": "到达速度",
+      "description": "加速到这个速度",
+      "value_type": "float"
+    },
+    {
+      "key": "targetSpeedAcceleration",
+      "section": "[projectile_NAME]",
+      "name": "加速度",
+      "description": "加速度，控制targetSpeed的速度提升",
+      "value_type": "float"
+    },
+    {
+      "key": "ballistic:",
+      "section": "[projectile_NAME]",
+      "name": "弹道",
+      "description": "弹道导弹效果，使抛射体先飞向空中并向下飞，而不是走直线。",
+      "value_type": "bool"
+    },
+    {
+      "key": "ballistic_delaymove_height:",
+      "section": "[projectile_NAME]",
+      "name": "弹道垂直飞行高度",
+      "description": "弹道导弹发射初期效果，决定弹道一开始先升高多少，再斜向爬升到最高过度。",
+      "value_type": "float"
+    },
+    {
+      "key": "ballistic_height:",
+      "section": "[projectile_NAME]",
+      "name": "弹道高度",
+      "description": "弹道最终高度。",
+      "value_type": "float"
+    },
+    {
+      "key": "targetGroundSpread:",
+      "section": "[projectile_NAME]",
+      "name": "目标为地面散布",
+      "description": "填数值，用于目标为地面时随机造成偏差效果",
+      "value_type": "float"
+    },
+    {
+      "key": "speedSpread:",
+      "section": "[projectile_NAME]",
+      "name": "速度散布",
+      "description": "随机改变炮弹初始速度",
+      "value_type": "float"
+    },
+    {
+      "key": "instant",
+      "section": "[projectile_NAME]",
+      "name": "瞬间命中",
+      "description": "开火时立即击中目标,用于激光、闪电、波束。",
+      "value_type": "bool"
+    },
+    {
+      "key": "instantReuseLast:",
+      "section": "[projectile_NAME]",
+      "name": "瞬间命中回收最后抛射体",
+      "description": "用于激光和闪电。激光或闪电命中后还会存在一段时间，当此抛射体命中后，清除上一个抛射体效果。使得只有一个抛射体存在。如使用高频射速变成光束武器，而不是瞎眼叠加。",
+      "value_type": "bool"
+    },
+    {
+      "key": "instantReuseLast_alsoChangeTurretAim",
+      "section": "[projectile_NAME]",
+      "name": "命中回收抛射体且改变瞄准",
+      "description": "使炮塔瞄准受到命中目标扫描效果的影响，对光束武器有用",
+      "value_type": "bool"
+    },
+    {
+      "key": "instantReuseLast_keepAreaDamageList",
+      "section": "[projectile_NAME]",
+      "name": "命中回收抛射体区域伤害列表",
+      "description": "瞬间命中并回收最后的抛射体并且保持区域伤害列表，默认false,保持列表是1.13的正常行为，造成区域伤害不会第二次生效，但不是很有用。只有当你想要旧的行为时才使用这个。",
+      "value_type": "bool"
+    },
+    {
+      "key": "disableLeadTargeting",
+      "section": "[projectile_NAME]",
+      "name": "禁用预判",
+      "description": "瞄准移动目标时，禁用预判计算。默认为false。",
+      "value_type": "bool"
+    },
+    {
+      "key": "leadTargetingSpeedCalculation",
+      "section": "[projectile_NAME]",
+      "name": "预判计算",
+      "description": "用于使用targetGround时预判计算。目标计算的预期速度。默认为“targetSpeed”。如果设置则基于speed. ",
+      "value_type": "float"
+    },
+    {
+      "key": "initialUnguidedSpeedHeight",
+      "section": "[projectile_NAME]",
+      "name": "初始非制导垂直速度",
+      "description": "设置抛射体和地面间的垂直速度，利用gravity制造出平滑的抛物线。比较迷，填1左右，重力可以不填。",
+      "value_type": "float"
+    },
+    {
+      "key": "initialUnguidedSpeedX",
+      "section": "[projectile_NAME]",
+      "name": "初非导引速度X",
+      "description": "让抛射体以弧线形式移动,负数向左，正数向右。",
+      "value_type": "float"
+    },
+    {
+      "key": "initialUnguidedSpeedY",
+      "section": "[projectile_NAME]",
+      "name": "初非导引速度Y",
+      "description": "修改抛射体的高度，正数向下，负数向上。",
+      "value_type": "float"
+    },
+    {
+      "key": "gravity",
+      "section": "[projectile_NAME]",
+      "name": "重力",
+      "description": "控制地面的弹丸的拉力。与initialUnguidedSpeedHeight一起使用。",
+      "value_type": "float"
+    },
+    {
+      "key": "turnSpeed",
+      "section": "[projectile_NAME]",
+      "name": "转弯速度",
+      "description": "限制抛射体的转弯速度，更好的做出弹道效果。",
+      "value_type": "float"
+    },
+    {
+      "key": "turnSpeedWhenNear",
+      "section": "[projectile_NAME]",
+      "name": "靠近时转弯速度",
+      "description": "用于当射弹非常接近目标时，默认禁用转弯速度以使其能够命中。",
+      "value_type": "bool"
+    },
+    {
+      "key": "wobbleAmplitude",
+      "section": "[projectile_NAME]",
+      "name": "摆动幅度",
+      "description": "抛射体飞行中摆动的剧烈程度。",
+      "value_type": "float"
+    },
+    {
+      "key": "wobbleFrequency",
+      "section": "[projectile_NAME]",
+      "name": "摆动频率",
+      "description": "抛射体飞行中摆动的频率。",
+      "value_type": "float"
+    },
+    {
+      "key": "pushForce",
+      "section": "[projectile_NAME]",
+      "name": "推动力量",
+      "description": "弹丸所携带的“重量”,质量越大，推力越大。推动（或以负值拉动）被击中的单位。除以目标质量",
+      "value_type": "float"
+    },
+    {
+      "key": "pushVelocity",
+      "section": "[projectile_NAME]",
+      "name": "推进速度",
+      "description": "抛射体爆炸后可用推动单位,推力相对于方向的速度，推动（或以负值拉动）被击中的单位。忽略目标质量",
+      "value_type": "float"
+    },
+    {
+      "key": "moveWithParent",
+      "section": "[projectile_NAME]",
+      "name": "随父物体移动",
+      "description": "当父单位移动时也移动抛射体。对光束效果武器很有用。",
+      "value_type": "bool"
+    },
+    {
+      "key": "sweepOffset",
+      "section": "[projectile_NAME]",
+      "name": "扫描偏移",
+      "description": "扫描偏移，用于制作类似于两栖护盾坦克的激光武器。对光束效果很有用。",
+      "value_type": "float"
+    },
+    {
+      "key": "sweepSpeed",
+      "section": "[projectile_NAME]",
+      "name": "扫描速度",
+      "description": "扫描速度，用于制作类似于两栖护盾坦克的激光武器。对光束效果很有用。",
+      "value_type": "float"
+    },
+    {
+      "key": "sweepOffsetFromTargetRadius",
+      "section": "[projectile_NAME]",
+      "name": "扫描偏移目标半径",
+      "description": "以目标半径作为扫描偏移量乘数，用于制作类似于两栖护盾坦克的激光武器。对光束效果很有用。",
+      "value_type": "float"
+    },
+    {
+      "key": "retargetingInFlight",
+      "section": "[projectile_NAME]",
+      "name": "重新瞄准在飞行时",
+      "description": "在飞行过程中重新瞄准一个新的目标，非常适合投掷式武器和相互碰撞的抛射体",
+      "value_type": "bool"
+    },
+    {
+      "key": "retargetingInFlightSearchDelay",
+      "section": "[projectile_NAME]",
+      "name": "重新瞄准在飞行时搜索延迟",
+      "description": "寻找新目标之间的时间。默认5",
+      "value_type": "float/time"
+    },
+    {
+      "key": "retargetingInFlightSearchRange",
+      "section": "[projectile_NAME]",
+      "name": "重新瞄准在飞行时搜索范围",
+      "description": "重新选择目标的范围。默认值120",
+      "value_type": "int"
+    },
+    {
+      "key": "retargetingInFlightSearchLead",
+      "section": "[projectile_NAME]",
+      "name": "重新瞄准在飞行时预判",
+      "description": "引导射弹试图击中目标。默认15",
+      "value_type": "float"
+    },
+    {
+      "key": "retargetingInFlightSearchOnlyTags",
+      "section": "[projectile_NAME]",
+      "name": "重新瞄准在飞行时针对标签",
+      "description": "只针对具有这些标签的单位进行重定向。",
+      "value_type": "tag ref"
+    },
+    {
+      "key": "color",
+      "section": "[projectile_NAME]",
+      "name": "颜色",
+      "description": "使用十六进制值对该抛射体重新着色，它也决定了激光颜色，颜色格式为#AARRGGBB。",
+      "value_type": "color"
+    },
+    {
+      "key": "teamColorRatio",
+      "section": "[projectile_NAME]",
+      "name": "阵营色色相",
+      "description": "将团队颜色混合到抛射体颜色中，填0-1。",
+      "value_type": "float"
+    },
+    {
+      "key": "teamColorRatio_sourceRatio",
+      "section": "[projectile_NAME]",
+      "name": "阵营色色相比例",
+      "description": "将团队颜色混合到抛射体颜色中与原色比例，默认为(1-teamColorRatio)",
+      "value_type": "float"
+    },
+    {
+      "key": "invisible",
+      "section": "[projectile_NAME]",
+      "name": "隐藏",
+      "description": "隐藏抛射体图像。",
+      "value_type": "bool"
+    },
+    {
+      "key": "image:",
+      "section": "[projectile_NAME]",
+      "name": "图像",
+      "description": "使用自定义图片。覆盖drawType和frame",
+      "value_type": "file (image)"
+    },
+    {
+      "key": "shadowImage",
+      "section": "[projectile_NAME]",
+      "name": "阴影图像",
+      "description": "使用自定义图片给抛射体加阴影。",
+      "value_type": "file (image)"
+    },
+    {
+      "key": "drawType",
+      "section": "[projectile_NAME]",
+      "name": "绘制类型",
+      "description": "使用内置抛射体图像。 0:projectiles.png 1:projectiles_large.png 2:projectiles2.png",
+      "value_type": "int"
+    },
+    {
+      "key": "drawSize:",
+      "section": "[projectile_NAME]",
+      "name": "绘制大小",
+      "description": "缩放抛射体大小。默认为1",
+      "value_type": "float"
+    },
+    {
+      "key": "frame",
+      "section": "[projectile_NAME]",
+      "name": "帧",
+      "description": "使用的内置图像帧，编号从零开始。和drawType结合使用。",
+      "value_type": "int"
+    },
+    {
+      "key": "hitSound:",
+      "section": "[projectile_NAME]",
+      "name": "打击音效",
+      "description": "启用命中音效，默认true",
+      "value_type": "bool"
+    },
+    {
+      "key": "explodeEffect",
+      "section": "[projectile_NAME]",
+      "name": "爆炸效果",
+      "description": "抛射体爆炸效果",
+      "value_type": "effect ref list"
+    },
+    {
+      "key": "explodeEffectOnShield",
+      "section": "[projectile_NAME]",
+      "name": "护盾上爆炸效果",
+      "description": "如果目标上有护盾，则使用此效果",
+      "value_type": "effect ref list"
+    },
+    {
+      "key": "drawUnderUnits",
+      "section": "[projectile_NAME]",
+      "name": "绘制与单位下",
+      "description": "绘制于单位下方。",
+      "value_type": "bool"
+    },
+    {
+      "key": "effectOnCreate",
+      "section": "[projectile_NAME]",
+      "name": "创建时效果",
+      "description": "创建时效果，会追随抛射体。",
+      "value_type": "effect ref list"
+    },
+    {
+      "key": "shouldRevealFog",
+      "section": "[projectile_NAME]",
+      "name": "揭开迷雾",
+      "description": "抛射体在爆炸时向玩家揭开迷雾。",
+      "value_type": "bool"
+    },
+    {
+      "key": "alwaysVisibleInFog",
+      "section": "[projectile_NAME]",
+      "name": "迷雾中显示",
+      "description": "抛射体总是在迷雾中显示。",
+      "value_type": "bool"
+    },
+    {
+      "key": "nukeWeapon",
+      "section": "[projectile_NAME]",
+      "name": "核武器",
+      "description": "发射时在迷你地图上显示。还有其他一些效果。",
+      "value_type": "bool"
+    },
+    {
+      "key": "trailEffect",
+      "section": "[projectile_NAME]",
+      "name": "尾焰",
+      "description": "设置为true时为默认的尾焰。但也可以指向任何自定义效果，或使用内置效果。",
+      "value_type": "bool/effect"
+    },
+    {
+      "key": "trailEffectRate",
+      "section": "[projectile_NAME]",
+      "name": "尾焰频率",
+      "description": "尾焰产生频率，默认为3",
+      "value_type": "float"
+    },
+    {
+      "key": "lightSize:",
+      "section": "[projectile_NAME]",
+      "name": "闪光大小",
+      "description": "抛射体光照大小,单位半径是地块格子",
+      "value_type": "float"
+    },
+    {
+      "key": "lightColor",
+      "section": "[projectile_NAME]",
+      "name": "闪光颜色",
+      "description": "抛射体光照颜色,不决定激光颜色，激光由color决定。",
+      "value_type": "color"
+    },
+    {
+      "key": "lightCastOnGround",
+      "section": "[projectile_NAME]",
+      "name": "闪光映射到地面",
+      "description": "将闪光效果映射到地面，如火炮的光和抛射体是分离的。",
+      "value_type": "bool"
+    },
+    {
+      "key": "largeHitEffect:",
+      "section": "[projectile_NAME]",
+      "name": "大的打击效果",
+      "description": "为true时会产生大的爆炸效果和声音（仅用于装饰），设为false时会禁用范围武器的冲击波效果。",
+      "value_type": "bool"
+    },
+    {
+      "key": "lightingEffect:",
+      "section": "[projectile_NAME]",
+      "name": "闪电效果",
+      "description": "将抛射体图像修改为闪电，一般需要instant(瞬间命中)搭配.",
+      "value_type": "bool"
+    },
+    {
+      "key": "laserEffect:",
+      "section": "[projectile_NAME]",
+      "name": "激光效果",
+      "description": "将抛射体图像修改为激光。",
+      "value_type": "bool"
+    },
+    {
+      "key": "delayedStartTimer",
+      "section": "[projectile_NAME]",
+      "name": "延迟时间",
+      "description": "抛射体发射延迟时间。",
+      "value_type": "time"
+    },
+    {
+      "key": "beamImage",
+      "section": "[projectile_NAME]",
+      "name": "波束图像",
+      "description": "用于激光效果的主体图像，图像会被复制为多份显示。例如可用于做红警中的正弦波状辐射武器。因为本质是图像拼接,所以长度限制不能小于20",
+      "value_type": "file (image)"
+    },
+    {
+      "key": "beamImageOffsetRate",
+      "section": "[projectile_NAME]",
+      "name": "波束偏移频率",
+      "description": "波束图像的移动频率。",
+      "value_type": "float"
+    },
+    {
+      "key": "beamImageStart",
+      "section": "[projectile_NAME]",
+      "name": "波束开始图像",
+      "description": "光束动画开火端效果图像",
+      "value_type": "file (image)"
+    },
+    {
+      "key": "beamImageEnd",
+      "section": "[projectile_NAME]",
+      "name": "波束命中图像",
+      "description": "光束动画命中端效果图像",
+      "value_type": "file (image)"
+    },
+    {
+      "key": "beamImageStartRotated",
+      "section": "[projectile_NAME]",
+      "name": "波束始端旋转",
+      "description": "光束动画开火端效果图像是否以炮塔角度旋转旋转,默认false,不旋转.",
+      "value_type": "bool"
+    },
+    {
+      "key": "beamImageEndRotated",
+      "section": "[projectile_NAME]",
+      "name": "波束末端旋转",
+      "description": "光束动画命中端效果图像是否旋转,默认false.",
+      "value_type": "bool"
+    },
+    {
+      "key": "movementType:",
+      "section": "[movement]",
+      "name": "运动类型",
+      "description": "定义单位将能够通过的地形以及与单位类型相关的其他属性。类型：无、陆地、建筑、空中、水面、两栖、跨悬崖、跨水和悬崖\nNONE、LAND、BUILDING、AIR、WATER、HOVER、OVER_CLIFF、OVER_CLIFF_WATER",
+      "value_type": "string"
+    },
+    {
+      "key": "moveSpeed:",
+      "section": "[movement]",
+      "name": "移动速度",
+      "description": "单位的最大移动速度。",
+      "value_type": "float"
+    },
+    {
+      "key": "moveAccelerationSpeed:",
+      "section": "[movement]",
+      "name": "加速度",
+      "description": "定义单位加速到最大速度的加速度。",
+      "value_type": "float"
+    },
+    {
+      "key": "moveDecelerationSpeed:",
+      "section": "[movement]",
+      "name": "减速度",
+      "description": "与加速度相对应得减速度。不要设的太小。",
+      "value_type": "float"
+    },
+    {
+      "key": "reverseSpeedPercentage:",
+      "section": "[movement]",
+      "name": "倒车速度比率",
+      "description": "0.6默认值。超过0.4会在短距离（以40％的速度）时反转。 如果设置为1前进后退则不转弯。 填0时禁止倒退，必须旋转。",
+      "value_type": "float"
+    },
+    {
+      "key": "landOnGround:",
+      "section": "[movement]",
+      "name": "降落到地面",
+      "description": "闲置时使飞行器降落。",
+      "value_type": "bool"
+    },
+    {
+      "key": "targetHeight:",
+      "section": "[movement]",
+      "name": "到达高度",
+      "description": "默认为0，但如果运动类型为空军则默认为35。",
+      "value_type": "float"
+    },
+    {
+      "key": "targetHeightDrift:",
+      "section": "[movement]",
+      "name": "高度浮动",
+      "description": "默认0，空军1.5.单位高度上下浮动高度。",
+      "value_type": "float"
+    },
+    {
+      "key": "startingHeightOffset",
+      "section": "[movement]",
+      "name": "创建时高度偏移",
+      "description": "单位在创建时高度。负数上升比较慢。",
+      "value_type": "float"
+    },
+    {
+      "key": "maxTurnSpeed:",
+      "section": "[movement]",
+      "name": "转弯速度",
+      "description": "最大转弯速度。",
+      "value_type": "float"
+    },
+    {
+      "key": "turnAcceleration:",
+      "section": "[movement]",
+      "name": "转弯加速度",
+      "description": "转弯加速度。",
+      "value_type": "float"
+    },
+    {
+      "key": "moveSlidingMode:",
+      "section": "[movement]",
+      "name": "移动后滑动",
+      "description": "移动后滑动，相当于惯性。和单位的速度，加速度，转弯速度有关。True时受推力影响",
+      "value_type": "bool"
+    },
+    {
+      "key": "moveIgnoringBody:",
+      "section": "[movement]",
+      "name": "移动忽略转向",
+      "description": "true效果即不必转弯便能运动，false效果即原地转弯完成才能运动",
+      "value_type": "bool"
+    },
+    {
+      "key": "moveSlidingDir:",
+      "section": "[movement]",
+      "name": "移动滑动角度",
+      "description": "移动滑动角度。无明显效果。",
+      "value_type": "int"
+    },
+    {
+      "key": "joinsGroupFormations:",
+      "section": "[movement]",
+      "name": "加入队形",
+      "description": "将单位组成小队。铁锈调集大量部队时将其组成方阵以降低运算压力，但队形可能影响速度或浪费时间。禁用后则不参与组队。",
+      "value_type": "bool"
+    },
+    {
+      "key": "slowDeathFall:",
+      "section": "[movement]",
+      "name": "死亡缓慢降落",
+      "description": "为\"true\"时，被击毁时降落速度减慢，并且向前滑行一段距离。注意，必须设置死亡图像，不然坠落后会显示生前图像，而不是直接炸掉。",
+      "value_type": "bool"
+    },
+    {
+      "key": "heightChangeRate:",
+      "section": "[movement]",
+      "name": "高度改变速率",
+      "description": "单位改变高度的频率，无论是转换还是浮动",
+      "value_type": "float"
+    },
+    {
+      "key": "fallingAcceleration:",
+      "section": "[movement]",
+      "name": "降落加速度",
+      "description": "单位降落时的加速度",
+      "value_type": "float"
+    },
+    {
+      "key": "fallingAccelerationDead:",
+      "section": "[movement]",
+      "name": "坠毁加速度",
+      "description": "单位被摧毁时降落的加速度",
+      "value_type": "float"
+    },
+    {
+      "key": "AI",
+      "section": "[movement]",
+      "name": null,
+      "description": "[ai]",
+      "value_type": null
+    },
+    {
+      "key": "useAsBuilder:",
+      "section": "[movement]",
+      "name": "用作建造者",
+      "description": "作为建造者。如果单位可以建造或维修建筑物，则设置为true。 默认为[core] isBuilder。",
+      "value_type": "bool"
+    },
+    {
+      "key": "useAsTransport",
+      "section": "[movement]",
+      "name": "用作运输",
+      "description": "作为载具。如果单位可以运输单位，则默认为true.如果你的单位可以运输又能攻击，则AI可能囤积起来而不攻击，则需要设置false.",
+      "value_type": "bool"
+    },
+    {
+      "key": "useAsAttacker",
+      "section": "[movement]",
+      "name": "用作攻击者",
+      "description": "是否作为攻击者。",
+      "value_type": "bool"
+    },
+    {
+      "key": "useAsHarvester",
+      "section": "[movement]",
+      "name": "用作采集",
+      "description": "作为采集者。如果单位可以回收资源，则默认为true",
+      "value_type": "bool"
+    },
+    {
+      "key": "disableUse:",
+      "section": "[movement]",
+      "name": "禁用",
+      "description": "禁止AI建立这个单位或建筑物",
+      "value_type": "bool"
+    },
+    {
+      "key": "ai_upgradePriority",
+      "section": "[movement]",
+      "name": "AI升级优先级",
+      "description": "升级优先级。默认值为0.06。 设置在0-1之间，越高，表示AI更有可能先于其他升级该单位。",
+      "value_type": "float"
+    },
+    {
+      "key": "buildPriority:",
+      "section": "[movement]",
+      "name": "建造优先级",
+      "description": "建造优先级，填0-1。 越大越AI越可能造。Luke的的第一座土地工厂使用0.8，空中工厂使用0.48，第一炮塔使用0.47。",
+      "value_type": "float"
+    },
+    {
+      "key": "noneInBaseExtraPriority:",
+      "section": "[movement]",
+      "name": "基地内没有时优先级",
+      "description": "如果AI基地中不存在此单位，则增加其优先级。",
+      "value_type": "float"
+    },
+    {
+      "key": "noneGlobalExtraPriority:",
+      "section": "[movement]",
+      "name": "全图没有时优先级",
+      "description": "如果此单位在地图上的任何位置都不存在，则增加其优先级。",
+      "value_type": "float"
+    },
+    {
+      "key": "recommendedInEachBaseNum",
+      "section": "[movement]",
+      "name": "推荐在每个基地的数量",
+      "description": "推荐在每个基地中的数量。",
+      "value_type": "int"
+    },
+    {
+      "key": "recommendedInEachBasePriorityIfUnmet",
+      "section": "[movement]",
+      "name": "推荐条件不满足时优先级",
+      "description": "如果未满足，推荐在基地中的优先级。",
+      "value_type": "float"
+    },
+    {
+      "key": "upgradedFrom:",
+      "section": "[movement]",
+      "name": "升级自",
+      "description": "创建到另一个单位的链接，用于保留同一单位已升级和未升级的计数。",
+      "value_type": "string"
+    },
+    {
+      "key": "maxGlobal:",
+      "section": "[movement]",
+      "name": "全图最大数量",
+      "description": "全图最多拥有的数量。",
+      "value_type": "int"
+    },
+    {
+      "key": "maxEachBase:",
+      "section": "[movement]",
+      "name": "每个基地最大数量",
+      "description": "每个基地最多拥有的数量。",
+      "value_type": "int"
+    },
+    {
+      "key": "notPassivelyTargetedByOtherUnits",
+      "section": "[movement]",
+      "name": "不被动地被其他单位瞄准",
+      "description": "允许更好的墙壁建筑物，默认情况下，这些建筑物不会瞄准目标。用于围墙",
+      "value_type": "bool"
+    },
+    {
+      "key": "lowPriorityTargetForOtherUnits",
+      "section": "[movement]",
+      "name": "低优先级目标",
+      "description": "其它单位不优先考虑此单位。用于围墙",
+      "value_type": "bool"
+    },
+    {
+      "key": "whenUsingAsHarvester_recommendedInEachBase",
+      "section": "[movement]",
+      "name": "每个基地此采集者数量",
+      "description": "当此单位用作采集者时，每个基地推荐的采集者数量。",
+      "value_type": "int"
+    },
+    {
+      "key": "whenUsingAsHarvester_recommendedGlobal",
+      "section": "[movement]",
+      "name": "全地图推荐采集者数量",
+      "description": "当此单位用作采集者时，全图推荐的采集者数量。",
+      "value_type": "int"
+    },
+    {
+      "key": "whenUsingAsHarvester_includeOtherHarvesterCounts",
+      "section": "[movement]",
+      "name": "是否算在采集者计数中",
+      "description": "当此单位用作采集者时，是否算在其它采集者统计中。",
+      "value_type": "bool"
+    },
+    {
+      "key": "onlyUseAsHarvester_ifBaseHasUnitTagged",
+      "section": "[movement]",
+      "name": "有此标签才作为采集者",
+      "description": "只有当基地有单位标记时才可以作为采集者使用.",
+      "value_type": "string"
+    },
+    {
+      "key": "x:",
+      "section": "[leg_#] / [arm_#]",
+      "name": "x:",
+      "description": "设置脚在X轴上的位置。",
+      "value_type": "float"
+    },
+    {
+      "key": "y:",
+      "section": "[leg_#] / [arm_#]",
+      "name": "y:",
+      "description": "设置脚在Y轴上的位置。",
+      "value_type": "float"
+    },
+    {
+      "key": "copyFrom:",
+      "section": "[leg_#] / [arm_#]",
+      "name": "复制与",
+      "description": "从另一条腿复制。仅需设置一次腿部值时有用",
+      "value_type": "int"
+    },
+    {
+      "key": "attach_x:",
+      "section": "[leg_#] / [arm_#]",
+      "name": "x轴链接位置",
+      "description": "在X轴上设置腿部的附着点。",
+      "value_type": "float"
+    },
+    {
+      "key": "attach_y:",
+      "section": "[leg_#] / [arm_#]",
+      "name": "Y轴链接位置",
+      "description": "在Y轴上设置腿部的附着点。",
+      "value_type": "float"
+    },
+    {
+      "key": "rotateSpeed:",
+      "section": "[leg_#] / [arm_#]",
+      "name": "旋转速度",
+      "description": "设置脚旋转速度，非对称情况下很明显。",
+      "value_type": "float"
+    },
+    {
+      "key": "endDirOffset",
+      "section": "[leg_#] / [arm_#]",
+      "name": "末端角度偏移值",
+      "description": "目标脚/末端相对于身体的旋转角度。",
+      "value_type": "int"
+    },
+    {
+      "key": "lockMovement",
+      "section": "[leg_#] / [arm_#]",
+      "name": "锁定运动",
+      "description": "禁止使用腿脚，将其锁定到主体。用于将行走单位转换为飞行单。",
+      "value_type": "bool"
+    },
+    {
+      "key": "heightSpeed:",
+      "section": "[leg_#] / [arm_#]",
+      "name": "高度速度",
+      "description": "移动时脚抬高速度和高度。",
+      "value_type": "float"
+    },
+    {
+      "key": "moveSpeed",
+      "section": "[leg_#] / [arm_#]",
+      "name": "移动速度",
+      "description": "腿脚移动速度。",
+      "value_type": "float"
+    },
+    {
+      "key": "moveWarmUp",
+      "section": "[leg_#] / [arm_#]",
+      "name": "移动延迟",
+      "description": "腿脚移动延迟",
+      "value_type": "float"
+    },
+    {
+      "key": "holdDisMin:",
+      "section": "[leg_#] / [arm_#]",
+      "name": "最小移动距离",
+      "description": "默认值为7。如果相邻的腿还没有重新移动，则至少移动此距离。",
+      "value_type": "float"
+    },
+    {
+      "key": "holdDisMax:",
+      "section": "[leg_#] / [arm_#]",
+      "name": "最大移动距离",
+      "description": "默认值为16。如果已经移动超过此距离则强制重新放置腿。",
+      "value_type": "float"
+    },
+    {
+      "key": "holdDisMin_maxMovingLegs",
+      "section": "[leg_#] / [arm_#]",
+      "name": "最大移动腿数目",
+      "description": "最多移动腿数目",
+      "value_type": "int"
+    },
+    {
+      "key": "hold_moveOnlyIfFurthest",
+      "section": "[leg_#] / [arm_#]",
+      "name": "只在最远时保持移动",
+      "description": "保持移动仅在最远时候。",
+      "value_type": "bool"
+    },
+    {
+      "key": "holdDisMin_checkNeighbours",
+      "section": "[leg_#] / [arm_#]",
+      "name": "最小移动距离检查相邻",
+      "description": "移动最小距离时检查相邻的腿脚。",
+      "value_type": "bool"
+    },
+    {
+      "key": "hardLimit:",
+      "section": "[leg_#] / [arm_#]",
+      "name": "硬性限制",
+      "description": "默认值为50。强制腿部不要走的超过此数值。最好不要用到。",
+      "value_type": "float"
+    },
+    {
+      "key": "estimatingPositionMultiplier",
+      "section": "[leg_#] / [arm_#]",
+      "name": "预测位置乘数",
+      "description": "默认值为1。根据单位速度预测单位可用的腿脚放置位置。",
+      "value_type": "float"
+    },
+    {
+      "key": "hidden:",
+      "section": "[leg_#] / [arm_#]",
+      "name": "隐藏",
+      "description": "隐藏",
+      "value_type": "logic boolean"
+    },
+    {
+      "key": "image_end",
+      "section": "[leg_#] / [arm_#]",
+      "name": "末端图像",
+      "description": "末端图像，相当于脚。",
+      "value_type": "image"
+    },
+    {
+      "key": "image_end_shadow",
+      "section": "[leg_#] / [arm_#]",
+      "name": "末端图像阴影",
+      "description": "末端图像阴影。",
+      "value_type": "image"
+    },
+    {
+      "key": "image_end_teamColors",
+      "section": "[leg_#] / [arm_#]",
+      "name": "末端图像着色",
+      "description": "末端图像使用阵营色。",
+      "value_type": "bool"
+    },
+    {
+      "key": "image_foot",
+      "section": "[leg_#] / [arm_#]",
+      "name": "脚图像",
+      "description": "脚图像，与image_end相同",
+      "value_type": "image"
+    },
+    {
+      "key": "image_foot_shadow",
+      "section": "[leg_#] / [arm_#]",
+      "name": "脚图像阴影",
+      "description": "脚图像阴影。",
+      "value_type": "image"
+    },
+    {
+      "key": "image_middle",
+      "section": "[leg_#] / [arm_#]",
+      "name": "中部图像",
+      "description": "中部图像，相当于腿。",
+      "value_type": "image"
+    },
+    {
+      "key": "image_leg",
+      "section": "[leg_#] / [arm_#]",
+      "name": "腿图像",
+      "description": "腿图像，与image_middle相同",
+      "value_type": "image"
+    },
+    {
+      "key": "draw_foot_on_top",
+      "section": "[leg_#] / [arm_#]",
+      "name": "绘制脚在顶层",
+      "description": "绘制脚在顶层。",
+      "value_type": "bool"
+    },
+    {
+      "key": "drawOverBody",
+      "section": "[leg_#] / [arm_#]",
+      "name": "绘制主体之上",
+      "description": "绘制在主体之上。",
+      "value_type": "bool"
+    },
+    {
+      "key": "drawUnderAllUnits",
+      "section": "[leg_#] / [arm_#]",
+      "name": "绘制所有单位之下",
+      "description": "绘制所有单位之下。",
+      "value_type": "bool"
+    },
+    {
+      "key": "drawDirOffset",
+      "section": "[leg_#] / [arm_#]",
+      "name": "绘制角度偏移",
+      "description": "绘制角度偏移。",
+      "value_type": "float"
+    },
+    {
+      "key": "dust_effect:",
+      "section": "[leg_#] / [arm_#]",
+      "name": "灰尘效果",
+      "description": "脚落地时产生灰尘。",
+      "value_type": "bool"
+    },
+    {
+      "key": "spinRate",
+      "section": "[leg_#] / [arm_#]",
+      "name": "旋转速度",
+      "description": "使手臂/腿脚一直旋转，像转塔的idleSpin。用处如直升机的螺旋桨。",
+      "value_type": "float"
+    },
+    {
+      "key": "favourOppositeSideNeighbours",
+      "section": "[leg_#] / [arm_#]",
+      "name": "偏向于临近一侧",
+      "description": "填true时，使得左右的腿脚拉开时间差，这样更好看。否则看起来顺拐。计算相邻的X比接近的Y查10倍时间。",
+      "value_type": "bool"
+    },
+    {
+      "key": "drawLegWhenZoomedOut",
+      "section": "[leg_#] / [arm_#]",
+      "name": "缩小时绘制腿",
+      "description": "在缩小显示倍数(看到东西更多)后绘制腿。False时不绘制。为了提高绘制腿性能，默认值根据单位大小而变化。",
+      "value_type": "bool"
+    },
+    {
+      "key": "drawFootWhenZoomedOut",
+      "section": "[leg_#] / [arm_#]",
+      "name": "缩小时绘制脚",
+      "description": "在缩小显示倍数(看到东西更多)后绘制脚。False时不绘制。为了提高绘制腿性能，默认值根据单位大小而变化。如果单独设置阴影则可能比较怪异。",
+      "value_type": "bool"
+    },
+    {
+      "key": "resetAngle:",
+      "section": "[leg_#] / [arm_#]",
+      "name": "复位角度",
+      "description": "复位角度。",
+      "value_type": "float"
+    },
+    {
+      "key": "x",
+      "section": "[attachment_NAME]",
+      "name": "x",
+      "description": "子单位x轴位置",
+      "value_type": "float"
+    },
+    {
+      "key": "y",
+      "section": "[attachment_NAME]",
+      "name": "y",
+      "description": "子单位Y轴位置",
+      "value_type": "float"
+    },
+    {
+      "key": "height",
+      "section": "[attachment_NAME]",
+      "name": "高度",
+      "description": "子单位高度。",
+      "value_type": "float"
+    },
+    {
+      "key": "idleDir",
+      "section": "[attachment_NAME]",
+      "name": "闲置方向",
+      "description": "闲置时角度。",
+      "value_type": "int"
+    },
+    {
+      "key": "idleDirReversing",
+      "section": "[attachment_NAME]",
+      "name": "闲置方向反转",
+      "description": "允许朝向反转，比如重坦倒退移动时炮塔反转，而不需要整个单位转向。",
+      "value_type": "float"
+    },
+    {
+      "key": "isVisible",
+      "section": "[attachment_NAME]",
+      "name": "是可见",
+      "description": "是可见的。",
+      "value_type": "bool"
+    },
+    {
+      "key": "onCreateSpawnUnitOf",
+      "section": "[attachment_NAME]",
+      "name": "创建时生成单位",
+      "description": "此创造时也产生此子单位。",
+      "value_type": "units"
+    },
+    {
+      "key": "canBeAttackedAndDamaged",
+      "section": "[attachment_NAME]",
+      "name": "可被攻击或损坏",
+      "description": "可以被攻击或受到伤害。",
+      "value_type": "bool"
+    },
+    {
+      "key": "isUnselectable",
+      "section": "[attachment_NAME]",
+      "name": "不可选择",
+      "description": "是不可选择的。",
+      "value_type": "bool"
+    },
+    {
+      "key": "lockLegMovement",
+      "section": "[attachment_NAME]",
+      "name": "锁定腿脚运动",
+      "description": "锁定腿脚防止乱动。",
+      "value_type": "bool"
+    },
+    {
+      "key": "keepAliveWhenParentDies",
+      "section": "[attachment_NAME]",
+      "name": "保持子存活",
+      "description": "当此单位死亡时，子单位保持存活。",
+      "value_type": "bool"
+    },
+    {
+      "key": "setDrawLayerOnTop",
+      "section": "[attachment_NAME]",
+      "name": "绘制于顶层",
+      "description": "此子单位绘制于顶层。",
+      "value_type": "bool"
+    },
+    {
+      "key": "setDrawLayerOnBottom",
+      "section": "[attachment_NAME]",
+      "name": "绘制于底层",
+      "description": "此子单位绘制于底层。",
+      "value_type": "bool"
+    },
+    {
+      "key": "addTransportedUnits",
+      "section": "[attachment_NAME]",
+      "name": "增加被运输单位",
+      "description": "添加到运输单位槽中。",
+      "value_type": "bool"
+    },
+    {
+      "key": "lockRotation",
+      "section": "[attachment_NAME]",
+      "name": "锁定旋转",
+      "description": "锁定方向，禁止旋转。",
+      "value_type": "bool"
+    },
+    {
+      "key": "rotateWithParent",
+      "section": "[attachment_NAME]",
+      "name": "子单位一同旋转",
+      "description": "旋转时子单位是否一同旋转。",
+      "value_type": "bool"
+    },
+    {
+      "key": "resetRotationWhenNotAttacking",
+      "section": "[attachment_NAME]",
+      "name": "不攻击时重置角度",
+      "description": "不攻击时恢复到自身默认角度",
+      "value_type": "bool"
+    },
+    {
+      "key": "deattachIfWantingToMove",
+      "section": "[attachment_NAME]",
+      "name": "移动时脱离",
+      "description": "若收到移动命令，子单位将自动分离。这包括来自action的路径点。可以用来制作机场。",
+      "value_type": "bool"
+    },
+    {
+      "key": "prioritizeParentsMainTarget",
+      "section": "[attachment_NAME]",
+      "name": "优先考虑父单位的主要目标",
+      "description": "子单位优先考虑父单位当前的目标。",
+      "value_type": "bool"
+    },
+    {
+      "key": "alwaysAllowedToAttackParentsMainTarget",
+      "section": "[attachment_NAME]",
+      "name": "总是攻击父单位的主要目标",
+      "description": "子单总是跟随攻击父单位的主要目标。",
+      "value_type": "bool"
+    },
+    {
+      "key": "canAttack",
+      "section": "[attachment_NAME]",
+      "name": "可攻击",
+      "description": "默认值为true。设置为false以阻止子单位自动攻击。",
+      "value_type": "bool"
+    },
+    {
+      "key": "onParentTeamChangeKeepCurrentTeam",
+      "section": "[attachment_NAME]",
+      "name": "改变队伍时子单位保持原队伍",
+      "description": "默认值为false。如果为true则父单位改变队伍时子单位不改变队伍。",
+      "value_type": "bool"
+    },
+    {
+      "key": "smoothlyBlendPositionWhenExistingUnitAdded",
+      "section": "[attachment_NAME]",
+      "name": "补充时平滑移动",
+      "description": "补充所装载单位至槽位时平滑移动。",
+      "value_type": "bool"
+    },
+    {
+      "key": "keepWaypointsNeedingMovement",
+      "section": "[attachment_NAME]",
+      "name": "保持需要移动路径点",
+      "description": "默认值为false。当为false时，队列中任何需要移动才能完成的队列路径点都会被移除。",
+      "value_type": "bool"
+    },
+    {
+      "key": "showAllActionsFrom",
+      "section": "[attachment_NAME]",
+      "name": "显示所有操作来源",
+      "description": "当被选中时，在父单元列表中显示所有附加单位的动作",
+      "value_type": "logic boolean"
+    },
+    {
+      "key": "createIncompleteIfParentIs:",
+      "section": "[attachment_NAME]",
+      "name": "创建随父单位",
+      "description": "如果父节单位不完整，则创建子单位不完整",
+      "value_type": "bool"
+    },
+    {
+      "key": "redirectDamageToParent:",
+      "section": "[attachment_NAME]",
+      "name": "重定向伤害到父单位",
+      "description": "将对附属造成的伤害重定向到父单位，而不是伤害子单位自身。",
+      "value_type": "bool"
+    },
+    {
+      "key": "redirectDamageToParent_shieldOnly:",
+      "section": "[attachment_NAME]",
+      "name": "重定向伤害到父单位护盾",
+      "description": "只将对附属造成的伤害重定向到父单位的护盾，而不是伤害子单位自身。如果盾没了那就伤害自身，如模块蜘蛛。",
+      "value_type": "bool"
+    },
+    {
+      "key": "life",
+      "section": "[effect_NAME]",
+      "name": "效果存在时间",
+      "description": "默认值为200。到时间效果消失。 设置得尽可能低以减少效果开销。",
+      "value_type": "float"
+    },
+    {
+      "key": "lifeRandom",
+      "section": "[effect_NAME]",
+      "name": "效果存在时间随机值",
+      "description": "效果存在时间的随机范围。",
+      "value_type": "float"
+    },
+    {
+      "key": "alsoEmitEffectsOnDeath",
+      "section": "[effect_NAME]",
+      "name": "死亡时创建效果",
+      "description": "在生命耗尽的时候创造这些效果。",
+      "value_type": "effect ref"
+    },
+    {
+      "key": "alsoEmitEffects",
+      "section": "[effect_NAME]",
+      "name": "也创造效果",
+      "description": "创建时创建更多效果，对于多效果很有用。 注意：创建的效果上的其他“ alsoEmitEffects”将被忽略，禁止套娃。",
+      "value_type": "effect ref"
+    },
+    {
+      "key": "ifSpawnFailsEmitEffects",
+      "section": "[effect_NAME]",
+      "name": "如果失败则创建效果",
+      "description": "如果此效果的“spawnChance”失败，则产生这些效果。",
+      "value_type": "effect ref"
+    },
+    {
+      "key": "alsoPlaySound",
+      "section": "[effect_NAME]",
+      "name": "也播放音效",
+      "description": "播放音效，填文件名或内置。",
+      "value_type": "sound ref"
+    },
+    {
+      "key": "createWhenOffscreen",
+      "section": "[effect_NAME]",
+      "name": "可创建于画面之外",
+      "description": "允许在画面之外产生此效果，默认为false。",
+      "value_type": "bool"
+    },
+    {
+      "key": "createWhenZoomedOut",
+      "section": "[effect_NAME]",
+      "name": "缩小时可产生效果",
+      "description": "允许缩小时产生此效果，默认值为true",
+      "value_type": "bool"
+    },
+    {
+      "key": "createWhenOverLiquid",
+      "section": "[effect_NAME]",
+      "name": "创建于液体上",
+      "description": "允许在液体上方产生此效果，默认值为true",
+      "value_type": "bool"
+    },
+    {
+      "key": "createWhenOverLand",
+      "section": "[effect_NAME]",
+      "name": "创建于陆地上",
+      "description": "允许在陆地上方产生此效果，默认值为true",
+      "value_type": "bool"
+    },
+    {
+      "key": "spawnChance",
+      "section": "[effect_NAME]",
+      "name": "产生几率",
+      "description": "默认值1.如果小于1，则效果随机被创建",
+      "value_type": "float"
+    },
+    {
+      "key": "showInFog",
+      "section": "[effect_NAME]",
+      "name": "在雾中显示",
+      "description": "默认为false",
+      "value_type": "boolean"
+    },
+    {
+      "key": "delayedStartTimer",
+      "section": "[effect_NAME]",
+      "name": "延迟创建",
+      "description": "等待这么久再播放此动画，单位为帧。",
+      "value_type": "float"
+    },
+    {
+      "key": "delayedStartTimerRandom",
+      "section": "[effect_NAME]",
+      "name": "延迟创建随机时间",
+      "description": "等待时间随机变化",
+      "value_type": "float"
+    },
+    {
+      "key": "liveAfterAttachedDies",
+      "section": "[effect_NAME]",
+      "name": "目标死后存活",
+      "description": "目标死后动画继续存活,使用AttachedToUnit时默认为false.",
+      "value_type": "bool"
+    },
+    {
+      "key": "priority",
+      "section": "[effect_NAME]",
+      "name": "优先级",
+      "description": "默认为高，一次显示太多效果时依据重要程度丢弃不重要的以用于创建新的。verylow/low/high/veryhigh/critical(很低，低，高，很高，至关重要)",
+      "value_type": "string"
+    },
+    {
+      "key": "attachedToUnit",
+      "section": "[effect_NAME]",
+      "name": "附着在单位上",
+      "description": "此效果产生时吸附到目标单位或抛射体。将与之一起移动。",
+      "value_type": "bool"
+    },
+    {
+      "key": "alwayStartDirAtZero",
+      "section": "[effect_NAME]",
+      "name": "初始角度总是为零",
+      "description": "忽略附属单位或者产者的角度。",
+      "value_type": "bool"
+    },
+    {
+      "key": "atmospheric",
+      "section": "[effect_NAME]",
+      "name": "空气效果",
+      "description": "添加阻力使此效果减慢速度，并添加随机移动。用于模拟尾焰。",
+      "value_type": "bool"
+    },
+    {
+      "key": "physics",
+      "section": "[effect_NAME]",
+      "name": "物理效果",
+      "description": "撞击地面时反弹。需要高度才能生效。",
+      "value_type": "bool"
+    },
+    {
+      "key": "physicsGravity",
+      "section": "[effect_NAME]",
+      "name": "物理重力",
+      "description": "默认为1。physics:true时的垂直方向加速度。",
+      "value_type": "float"
+    },
+    {
+      "key": "xOffsetRelative",
+      "section": "[effect_NAME]",
+      "name": "X相对偏移量",
+      "description": "效果起始时相对于炮塔，炮弹，单位的偏移的方向位置。正数向右，负数向左。",
+      "value_type": "float"
+    },
+    {
+      "key": "yOffsetRelative",
+      "section": "[effect_NAME]",
+      "name": "Y相对偏移量",
+      "description": "效果起始时相对于炮塔，炮弹，单位的偏移的方向位置。正数向前，负数向后。",
+      "value_type": "float"
+    },
+    {
+      "key": "xOffsetRelativeRandom",
+      "section": "[effect_NAME]",
+      "name": "X相对随机偏移量",
+      "description": "X相对目标随机偏移量。随机增加或减少此值，用于偏移像素。",
+      "value_type": "float"
+    },
+    {
+      "key": "yOffsetRelativeRandom",
+      "section": "[effect_NAME]",
+      "name": "Y相对随机偏移量",
+      "description": "Y相对目标随机偏移量。随机增加或减少此值，用于偏移像素。",
+      "value_type": "float"
+    },
+    {
+      "key": "xOffsetAbsolute",
+      "section": "[effect_NAME]",
+      "name": "X绝对偏移量",
+      "description": "Absolute类为绝对偏移，它不像Relative那样考虑单位的方向。比如设置x向速度为1，绝对偏移则始终向右移动，相对偏移可以向任意方向移动。",
+      "value_type": "float"
+    },
+    {
+      "key": "yOffsetAbsolute",
+      "section": "[effect_NAME]",
+      "name": "Y绝对偏移量",
+      "description": "按位置偏移起动效果，忽略附加炮塔单位等的方向。",
+      "value_type": "float"
+    },
+    {
+      "key": "xOffsetAbsoluteRandom",
+      "section": "[effect_NAME]",
+      "name": "X绝对随机偏移量",
+      "description": "随机增加或减少此值，用于偏移像素。",
+      "value_type": "float"
+    },
+    {
+      "key": "yOffsetAbsoluteRandom",
+      "section": "[effect_NAME]",
+      "name": "Y绝对随机偏移量",
+      "description": "随机增加或减少此值，用于偏移像素。",
+      "value_type": "float"
+    },
+    {
+      "key": "xSpeedRelative",
+      "section": "[effect_NAME]",
+      "name": "X相对速度",
+      "description": "X轴相对于目标的移动速度。，正数向右，负数向左。",
+      "value_type": "float"
+    },
+    {
+      "key": "ySpeedRelative",
+      "section": "[effect_NAME]",
+      "name": "Y相对速度",
+      "description": "Y轴相对于目标的移动速度。正数向前，负数向后。",
+      "value_type": "float"
+    },
+    {
+      "key": "xSpeedRelativeRandom",
+      "section": "[effect_NAME]",
+      "name": "X随机相对速度",
+      "description": "随机增加或减少此值，用于偏移像素。",
+      "value_type": "float"
+    },
+    {
+      "key": "ySpeedRelativeRandom",
+      "section": "[effect_NAME]",
+      "name": "Y随机相对速度",
+      "description": "随机增加或减少此值，用于偏移像素。",
+      "value_type": "float"
+    },
+    {
+      "key": "xSpeedAbsolute",
+      "section": "[effect_NAME]",
+      "name": "X绝对速度",
+      "description": "X轴相对于起点的绝对移动速度。",
+      "value_type": "float"
+    },
+    {
+      "key": "ySpeedAbsolute",
+      "section": "[effect_NAME]",
+      "name": "Y绝对速度",
+      "description": "Y轴相对于起点的绝对移动速度。",
+      "value_type": "float"
+    },
+    {
+      "key": "xSpeedAbsoluteRandom",
+      "section": "[effect_NAME]",
+      "name": "X随机绝对速度",
+      "description": "按此值随机更改初始值。",
+      "value_type": "float"
+    },
+    {
+      "key": "ySpeedAbsoluteRandom",
+      "section": "[effect_NAME]",
+      "name": "Y随机绝对速度",
+      "description": "按此值随机更改初始值。",
+      "value_type": "float"
+    },
+    {
+      "key": "hOffset",
+      "section": "[effect_NAME]",
+      "name": "高度偏移",
+      "description": "距目标的高度偏移。正数向上，负数向下。",
+      "value_type": "float"
+    },
+    {
+      "key": "hOffsetRandom",
+      "section": "[effect_NAME]",
+      "name": "随机高度偏移",
+      "description": "按此值随机更改初始值。",
+      "value_type": "float"
+    },
+    {
+      "key": "hSpeed",
+      "section": "[effect_NAME]",
+      "name": "高度速度",
+      "description": "高度移动速度。正数向上，负数向下。",
+      "value_type": "float"
+    },
+    {
+      "key": "hSpeedRandom",
+      "section": "[effect_NAME]",
+      "name": "随机高度速度偏移",
+      "description": "按此值随机更改初始值。",
+      "value_type": "float"
+    },
+    {
+      "key": "dirOffset",
+      "section": "[effect_NAME]",
+      "name": "角度偏移",
+      "description": "角度偏移，修改初始朝向。注意,0度可能存在朝向问题。",
+      "value_type": "float"
+    },
+    {
+      "key": "dirOffsetRandom",
+      "section": "[effect_NAME]",
+      "name": "随机角度偏移量",
+      "description": "按此值随机更改偏移角度。",
+      "value_type": "float"
+    },
+    {
+      "key": "dirSpeed",
+      "section": "[effect_NAME]",
+      "name": "转速",
+      "description": "修改效果的旋转速度。",
+      "value_type": "float"
+    },
+    {
+      "key": "dirSpeedRandom",
+      "section": "[effect_NAME]",
+      "name": "随机转速",
+      "description": "按此值随机更改旋转速度。",
+      "value_type": "float"
+    },
+    {
+      "key": "frameIndex",
+      "section": "[effect_NAME]",
+      "name": "帧索引",
+      "description": "使用内置效果时所取用的帧编号，0取第一帧。",
+      "value_type": "int"
+    },
+    {
+      "key": "frameIndexRandom",
+      "section": "[effect_NAME]",
+      "name": "帧随机",
+      "description": "随机增减索引值，用于随机使用同组内不同的图像。",
+      "value_type": "int"
+    },
+    {
+      "key": "stripIndex",
+      "section": "[effect_NAME]",
+      "name": "图像集",
+      "description": "要使用的内置图像集。不能与自定义图像一起使用。如effects 效果1对应res内文件effects.png，以此类推。\nexplode_big爆炸效果图、light_50闪光贴图、flame开火图火焰、dust灰尘贴图、smoke_black黑烟、shockwave冲击波、fire火焰图、lava_bubble岩浆泡、effects2效果2、plasma_shot等离子、shockwave_large大冲击波、explode_bits碎片、explode_big2大爆炸、explode_bits_bug虫碎片、projectiles抛射体、projectiles2抛射体2、effects3效果3",
+      "value_type": "int/string"
+    },
+    {
+      "key": "Image",
+      "section": "[effect_NAME]",
+      "name": "图像",
+      "description": "要使用的自定义图像文件。不能与stripIndex一起使用。",
+      "value_type": "image"
+    },
+    {
+      "key": "imageShadow",
+      "section": "[effect_NAME]",
+      "name": "阴影图像",
+      "description": "用于自定义阴影的图像",
+      "value_type": "image"
+    },
+    {
+      "key": "scaleTo",
+      "section": "[effect_NAME]",
+      "name": "结束缩放倍数",
+      "description": "效果结束时缩放倍数。",
+      "value_type": "float"
+    },
+    {
+      "key": "scaleFrom",
+      "section": "[effect_NAME]",
+      "name": "初始缩放倍数",
+      "description": "效果初始时缩放倍数，用于效果从小到大缩放，或者反向缩放。",
+      "value_type": "float"
+    },
+    {
+      "key": "color",
+      "section": "[effect_NAME]",
+      "name": "颜色",
+      "description": "填16进制颜色值，给图像上叠加颜色。一般建议图像使用灰度图，然后叠加颜色。注意彩色图是无法叠加白色变白的。",
+      "value_type": "color"
+    },
+    {
+      "key": "teamColorRatio",
+      "section": "[effect_NAME]",
+      "name": "队伍色相",
+      "description": "填0-1在图像上叠加阵营色，1为完全为阵营色。",
+      "value_type": "float"
+    },
+    {
+      "key": "drawUnderUnits",
+      "section": "[effect_NAME]",
+      "name": "绘制在单位下方",
+      "description": "将此效果绘制在单位下方。",
+      "value_type": "bool"
+    },
+    {
+      "key": "fadeInTime",
+      "section": "[effect_NAME]",
+      "name": "淡入时间",
+      "description": "设置淡入效果时间，从透明到不透明。透明度值从0%到100%。",
+      "value_type": "float"
+    },
+    {
+      "key": "fadeOut",
+      "section": "[effect_NAME]",
+      "name": "淡出",
+      "description": "设置淡入效果时间，透明度从100%淡出到%0。把alpha设置为高于1可以延长淡出。",
+      "value_type": "bool"
+    },
+    {
+      "key": "alpha",
+      "section": "[effect_NAME]",
+      "name": "透明度",
+      "description": "介于0-1之间。可以设置为大于1以延迟淡出效果",
+      "value_type": "float"
+    },
+    {
+      "key": "shadow",
+      "section": "[effect_NAME]",
+      "name": "阴影",
+      "description": "true时绘制阴影。如果使用imageShadow则强制为true",
+      "value_type": "bool"
+    },
+    {
+      "key": "total_frames",
+      "section": "[effect_NAME]",
+      "name": "动画总帧数",
+      "description": "动画的总帧数，与图像(image)或frameIndex一起使用。",
+      "value_type": "int"
+    },
+    {
+      "key": "animateFrameStart",
+      "section": "[effect_NAME]",
+      "name": "动画开始帧",
+      "description": "动画从哪一帧开始,第一帧编号为0",
+      "value_type": "int"
+    },
+    {
+      "key": "animateFrameEnd",
+      "section": "[effect_NAME]",
+      "name": "动画结束帧",
+      "description": "动画在哪一帧结束。",
+      "value_type": "int"
+    },
+    {
+      "key": "animateFramePingPong",
+      "section": "[effect_NAME]",
+      "name": "动画帧重放",
+      "description": "动画正序播放完毕后再倒序播放一次。",
+      "value_type": "int"
+    },
+    {
+      "key": "animateFrameSpeed",
+      "section": "[effect_NAME]",
+      "name": "动画帧速度",
+      "description": "动画播放速度，单位位游戏帧，一般动画帧数也不高，所以设置一般为0.x",
+      "value_type": "time"
+    },
+    {
+      "key": "animateFrameSpeedRandom",
+      "section": "[effect_NAME]",
+      "name": "动画帧随机速度",
+      "description": "按此值随机更改动画速度。",
+      "value_type": "time"
+    },
+    {
+      "key": "animateFrameLooping",
+      "section": "[effect_NAME]",
+      "name": "动画帧循环",
+      "description": "默认false。当为false时,效果被移除时，动画结束",
+      "value_type": "bool"
+    },
+    {
+      "key": "onActions",
+      "section": "[animation_NAME]",
+      "name": "动画条件",
+      "description": "动画触发条件：移动、攻击、闲置、在建造中、建造中并将动画拉伸至建造时长、生产中、未知\nmove, attack, idle, underConstruction, underConstructionWithLinkedBuiltTime, queuedUnits、Unknown",
+      "value_type": "string"
+    },
+    {
+      "key": "onActionsQueuedUnitPlayAt",
+      "section": "[animation_NAME]",
+      "name": "在队列中有单位播放",
+      "description": "当使用onAction:queueedUnits时，动画开始之前需要达到值，设置为0-1之间",
+      "value_type": " float"
+    },
+    {
+      "key": "blendIn",
+      "section": "[animation_NAME]",
+      "name": "融入时间",
+      "description": "与上一个动画融合时间。",
+      "value_type": "time"
+    },
+    {
+      "key": "blendOut",
+      "section": "[animation_NAME]",
+      "name": "切换融合",
+      "description": "与下一个动画融合时间。",
+      "value_type": "time"
+    },
+    {
+      "key": "pingPong",
+      "section": "[animation_NAME]",
+      "name": "缩放效果",
+      "description": "结束后反向播放动画，它一般用来做生物的呼吸效果。",
+      "value_type": "bool"
+    },
+    {
+      "key": "KeyframeTimeScale",
+      "section": "[animation_NAME]",
+      "name": "帧时长缩放",
+      "description": "缩放所有关键帧时间，这有助于在不更改所有内容的情况下更快/更慢地制作动画",
+      "value_type": "float"
+    },
+    {
+      "key": "arm#_[time]",
+      "section": "[animation_NAME]",
+      "name": "胳膊关键帧",
+      "description": "添加一个关键帧。用来创建多个动作的动画。",
+      "value_type": "list"
+    },
+    {
+      "key": "leg#_[time]",
+      "section": "[animation_NAME]",
+      "name": "腿关键帧",
+      "description": "添加一个关键帧。用来创建多个动作的动画。",
+      "value_type": "list"
+    },
+    {
+      "key": "body_[time]",
+      "section": "[animation_NAME]",
+      "name": "主体关键帧",
+      "description": "随时为主体添加关键帧。身体仅允许使用frame和scale",
+      "value_type": "list"
+    },
+    {
+      "key": "effect_[time]",
+      "section": "[animation_NAME]",
+      "name": "效果关键帧",
+      "description": "在播放动画时产生效果",
+      "value_type": "list"
+    },
+    {
+      "key": "direction_units",
+      "section": "[animation_NAME]",
+      "name": "多向动画度数",
+      "description": "播放此动画时，覆盖[graphics] animation_direction_units。多向动画度数\t45个代表8个方向，90个代表4个方向的动画。",
+      "value_type": "float"
+    },
+    {
+      "key": "direction_strideX:",
+      "section": "[animation_NAME]",
+      "name": "多向动画x向",
+      "description": "覆盖[graphics] animation_direction_strideX，动画帧取值在方向改变时偏移。一般填0",
+      "value_type": "int"
+    },
+    {
+      "key": "direction_strideY:",
+      "section": "[animation_NAME]",
+      "name": "多向动画y向",
+      "description": "覆盖[graphics] animation_direction_strideY，动画帧在方向改变Y轴偏移偏移。与frame_height一起使用。一般填1",
+      "value_type": "int"
+    },
+    {
+      "key": "direction_starting:",
+      "section": "[animation_NAME]",
+      "name": "多向动画朝向",
+      "description": "覆盖[graphics] animation_direction_starting，第一帧的方向，取决于你的素材。",
+      "value_type": "float"
+    },
+    {
+      "key": "start : int",
+      "section": "[animation_NAME]",
+      "name": "开始",
+      "description": "开始图像框。不推荐使用，用于类似此形式的动画。animation_TYPE_pingPong",
+      "value_type": "int"
+    },
+    {
+      "key": "end : int",
+      "section": "[animation_NAME]",
+      "name": "结束",
+      "description": "结束图像帧。不推荐使用",
+      "value_type": "int"
+    },
+    {
+      "key": "scale_start : float",
+      "section": "[animation_NAME]",
+      "name": "缩放开始",
+      "description": "开始规模。不推荐使用，而是使用主体关键帧。",
+      "value_type": "float"
+    },
+    {
+      "key": "scale_end : float",
+      "section": "[animation_NAME]",
+      "name": "缩放结束",
+      "description": "最终规模。不推荐使用，而是使用主体关键帧。",
+      "value_type": "float"
+    },
+    {
+      "key": "speed : float",
+      "section": "[animation_NAME]",
+      "name": "速度",
+      "description": "速度越小越快。仅效果开始，结束，scale_start，scale_end",
+      "value_type": "float"
+    },
+    {
+      "key": "text",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "文本",
+      "description": "界面中显示的文字",
+      "value_type": "string"
+    },
+    {
+      "key": "textPostFix: ",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "文本动态更改",
+      "description": "显示为后缀的文本，与textAddUnitName一起用于创建文本UI",
+      "value_type": "string"
+    },
+    {
+      "key": "text_{LANG}",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "文字多语言",
+      "description": "界面中显示的文字，多语言",
+      "value_type": "string"
+    },
+    {
+      "key": "description",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "描述",
+      "description": "选中时显示的文本，用于解释其用途。",
+      "value_type": "string"
+    },
+    {
+      "key": "description_{LANG}",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "描述",
+      "description": "描述多语言。",
+      "value_type": "string"
+    },
+    {
+      "key": "displayType",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "显示类型",
+      "description": "行动的显示类型正常模式为none，无(绿色)、集结(白色R)、升级(蓝色U)、单位队列（绿色）、建筑(绿色)、行为(蓝色)、仅信息(灰色)、无框信息\nnone, rally, upgrade, queueUnit, building, action, infoOnly, infoOnlyNoBox",
+      "value_type": "string"
+    },
+    {
+      "key": "displayRemainingStockpile",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "显示剩余库存",
+      "description": "显示剩余库存,显示为根据资源计算可以触发操作的次数。",
+      "value_type": "bool"
+    },
+    {
+      "key": "pos",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "位置",
+      "description": "此动作在用户界面排序。",
+      "value_type": "float"
+    },
+    {
+      "key": "iconImage",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "图标",
+      "description": "使用图像作为此动作图标。",
+      "value_type": "image"
+    },
+    {
+      "key": "iconExtraImage",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "额外图标图像",
+      "description": "使用图像作为此动作图标。和上一个一致,但显示更靠上。绘制在图标图像上方。对升级图标等有用",
+      "value_type": "image"
+    },
+    {
+      "key": "iconExtraColor",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "额外图标颜色",
+      "description": "将图标叠加上额外的颜色。默认为#64FFFFFF",
+      "value_type": "color"
+    },
+    {
+      "key": "iconExtraIsVisible",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "额外图标显示条件",
+      "description": "设置图标什么时候可显示。",
+      "value_type": "logic boolean"
+    },
+    {
+      "key": "unitShownInUI",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "UI中显示的单位",
+      "description": "使用此单位作为动作图标。",
+      "value_type": "UnitType"
+    },
+    {
+      "key": "setBuilt",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "设置完成度",
+      "description": "默认为1。填0-1之间的数字，将指定单位建造完成度。比如填0.5，执行完操作后单位自身建造完成度就成了50%",
+      "value_type": "float"
+    },
+    {
+      "key": "guiBuildUnit",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "界面显示单位",
+      "description": "将action图标和鼠标指针改为指定单位，这就像你用建造者去造建筑，会受地形影响，可为action或路径点提供坐标。",
+      "value_type": "unit"
+    },
+    {
+      "key": "textAddUnitName",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "从单元添加名称",
+      "description": "从指定单位添加名称。",
+      "value_type": "unitRef/unitType"
+    },
+    {
+      "key": "descriptionAddFromUnit",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "从单元添加描述",
+      "description": "从指定单位添加单位描述。",
+      "value_type": "unitRef/unitType"
+    },
+    {
+      "key": "descriptionAddUnitStats:",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "从单元添加属性",
+      "description": "从指定单位添加详细信息描述，比如攻击力，攻击范围。",
+      "value_type": "unitRef/unitType"
+    },
+    {
+      "key": "unitShownInUIWithHpBar",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "单元在UI显示Hp条",
+      "description": "在ui中显示单位血条。默认true,仅当unitShownInUI是unitRef时使用",
+      "value_type": "bool"
+    },
+    {
+      "key": "unitShownInUIWithProgressBar",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "单元在UI显示进度条",
+      "description": "在ui中显示单位进度条。默认true,仅当unitShownInUI是unitRef时使用。如果激活，则替换HP bar",
+      "value_type": "bool"
+    },
+    {
+      "key": "price",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "价格",
+      "description": "此行为需要的价格，可以是多种资源或自定义资源。如果不满足则行为不可用。如果没设定资源类型则默认为资金。如果价格为0，AI可能很少甚至不会使用。",
+      "value_type": "resources"
+    },
+    {
+      "key": "isActive",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "可用",
+      "description": "默认为true。如果为false，则会禁用操作，并在用户界面中以红色显示。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "isVisible",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "可见",
+      "description": "默认为true。如果false则从UI中隐藏并被禁用。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "isLocked",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "锁定",
+      "description": "默认为false。如果true则禁用操作，则会显示一个锁定文本。可用作禁核或者科技树，或是条件限制。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "isLockedMessage",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "锁定消息",
+      "description": "显示锁定的原因。",
+      "value_type": "LocaleString"
+    },
+    {
+      "key": "isLockedAlt",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "更多锁定",
+      "description": "另一个原因被锁定。用于显示不同的消息。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "isLockedAltMessage",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "更多锁定消息",
+      "description": "显示更多锁定的原因。",
+      "value_type": "LocaleString"
+    },
+    {
+      "key": "isLockedAlt2",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "更多锁定2",
+      "description": "另一个原因被锁定。用于显示更多锁定的原因。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "isLockedAlt2Message",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "更多锁定消息2",
+      "description": "显示更多锁定的原因。",
+      "value_type": "LocaleString"
+    },
+    {
+      "key": "allowMultipleInQueue",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "允许多个队列",
+      "description": "允许多次点击此行为形成队列，false时则只能点一次，不能累加。",
+      "value_type": "bool"
+    },
+    {
+      "key": "onlyOneUnitAtATime",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "一次只有一个单位",
+      "description": "填true时选中多个同类单位时，只有一个执行此行为。",
+      "value_type": "bool"
+    },
+    {
+      "key": "isGuiBlinking",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "界面闪烁",
+      "description": "此行为在界面中闪烁。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "alwaysSinglePress",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "总是按一次",
+      "description": "点击就执行，不需要确认。默认false,不需要在手机上确认，使用canPlayerCancel: false和allowMultipleInQueue: false也隐藏队列接口。",
+      "value_type": "bool"
+    },
+    {
+      "key": "isAlsoViewableByAllies",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "显示给盟友",
+      "description": "允许盟友玩家看到这个单位的动作，对显示其他玩家有用(例如导弹数量，收集的物品)",
+      "value_type": "bool"
+    },
+    {
+      "key": "isAlsoViewableByEnemies",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "显示给敌人",
+      "description": "允许敌方玩家看到这个单位的动作，对显示其他玩家有用(例如导弹数量，收集的物品)",
+      "value_type": "bool"
+    },
+    {
+      "key": "ai_isDisabled",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "AI被禁用",
+      "description": "默认为false。使用此操作停止AI使用此动作。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "ai_isHighPriority",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "AI高优先级",
+      "description": "AI将优先执行此动作。",
+      "value_type": "bool"
+    },
+    {
+      "key": "ai_considerSameAsBuilding",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "AI作为建筑",
+      "description": "填建筑。考虑动作的优先级将会跟建筑物建优先级一样。",
+      "value_type": "building"
+    },
+    {
+      "key": "autoTriggerOnEvent",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "自动触发事件",
+      "description": "满足此条件则自动触发。参数表：\n创建，完成且激活，销毁，杀死任何单位，队列中单位完成，队列添加项目，队列项目取消，传送，接触目标成功，玩家指定路径，队伍变更，运输新单位，卸载或移除单位\ncreated, completeAndActive, destroyed, killedAnyUnit, queuedUnitFinished, queueItemAdded, queueItemCancelled, teleported, touchTargetSuccess, newWaypointGivenByPlayer, teamChanged, transportingNewUnit，transportUnloadedOrRemovedUnit，",
+      "value_type": "string"
+    },
+    {
+      "key": "autoTrigger",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "自动触发",
+      "description": "如果为true，则立即触发此操作的效果（忽略价格，isActive，isVisible，buildSpeed等）",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "buildSpeed",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "建造速度",
+      "description": "建造此动作所需要的时间，这个读条过程下面称之为准备以区分建造，机翻或是多个动作称之为队列。完成时的效果称为结果。",
+      "value_type": "time"
+    },
+    {
+      "key": "highPriorityQueue",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "高优先级队列",
+      "description": "默认为false。如果为true，则此操作将跳过队列中的所有其他低优先级操作。适用于fireTurret类动作。",
+      "value_type": "bool"
+    },
+    {
+      "key": "canPlayerCancel",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "玩家可以取消",
+      "description": "玩家可以取消此动作。",
+      "value_type": "bool"
+    },
+    {
+      "key": "whenBuilding_cannotMove",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "建造时无法移动",
+      "description": "执行操作准备时停止单位移动。适用于类似部署类动作。",
+      "value_type": "bool"
+    },
+    {
+      "key": "whenBuilding_playAnimation",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "建造时播放动画",
+      "description": "准备此动作时，播放[animation]中自定义的动画。",
+      "value_type": "animation ref"
+    },
+    {
+      "key": "whenBuilding_rotateTo",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "建造时旋转",
+      "description": "准备此动作时，将单位主体旋转到该方向",
+      "value_type": "float"
+    },
+    {
+      "key": "whenBuilding_rotateTo_orBackwards",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "建造时旋转或反转",
+      "description": "如果为true，则当角度较小时，允许从whenBuilding_rotateTo旋转180度。",
+      "value_type": "bool"
+    },
+    {
+      "key": "whenBuilding_rotateTo_waitTillRotated",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "建造时需等待旋转完成",
+      "description": "暂停准备的行为，直到旋转完成再继续。",
+      "value_type": "bool"
+    },
+    {
+      "key": "whenBuilding_temporarilyConvertTo",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "建造时临时转换为",
+      "description": "准备此操作时临时转换为另一个单位。原始单位的操作将保留。",
+      "value_type": "unit ref"
+    },
+    {
+      "key": "whenBuilding_triggerAction",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "建造时触发动作",
+      "description": "准备时触发另一个动作",
+      "value_type": "action"
+    },
+    {
+      "key": "whenBuilding_rotateTo_aimAtActionTarget",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "建造时转向瞄准目标",
+      "description": "准备时转向瞄准目标,luke:测试版注意:在某些情况下是坏的",
+      "value_type": "bool"
+    },
+    {
+      "key": "whenBuilding_rotateTo_rotateTurretX",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "建造时转向指定炮塔",
+      "description": "准备此操作时转向指定炮塔。",
+      "value_type": "turret ref"
+    },
+    {
+      "key": "spawnEffectsOnQueue",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "队列产生效果",
+      "description": "动作准备开始时产生的效果。",
+      "value_type": "effect ref"
+    },
+    {
+      "key": "playSoundToPlayerOnQueue",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "队列播放声音",
+      "description": "动作准备时播放给玩家的声音。",
+      "value_type": "sound ref"
+    },
+    {
+      "key": "requireConditional",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "需要条件",
+      "description": "如果结果为false，则跳过此操作所有结果。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "convertTo",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "转换成",
+      "description": "将你的单位转换为另一个单位。许多属性被保留。",
+      "value_type": "unit ref"
+    },
+    {
+      "key": "convertTo_keepCurrentTags",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "转换时保留标签",
+      "description": "将单位转换为另一个单位。并且保留拥有的标签。",
+      "value_type": null
+    },
+    {
+      "key": "addEnergy",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "增加能量",
+      "description": "为单位增加能量。需要设置了energyMax，否则不起作用。（与addResources相同：energy = X）",
+      "value_type": "float"
+    },
+    {
+      "key": "addResources",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加资源",
+      "description": "操作完成后，添加这些资源。",
+      "value_type": "resources"
+    },
+    {
+      "key": "addResourcesScaledByAIHandicaps",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "根据AI难度添加资源。",
+      "description": "与addResources类似，但根据AI难度级别增加或减少。比例：最简单40%、简单70%、中等100%、困难140%、很困难180%、不可能370%",
+      "value_type": "bool"
+    },
+    {
+      "key": "deleteSelf",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "删除自身",
+      "description": "删除执行此操作的单位，没有死亡效果，不执行死亡触发。",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "resetCustomTimer",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "重置自定义计时器",
+      "description": "重置自定义计时器，与self.customTimer()",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "setBodyRotation",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "设置身体旋转",
+      "description": "设置单位旋转度数。单位朝右为0度。因为是结果而不是准备过程，所以很突然。",
+      "value_type": "dir"
+    },
+    {
+      "key": "alsoTriggerAction",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "也执行动作",
+      "description": "触发其他动作的结果。忽略行动的要求。",
+      "value_type": "action refs"
+    },
+    {
+      "key": "alsoQueueAction",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "也添加进队列",
+      "description": "将另一个动作添加到序列中。忽略行动的要求",
+      "value_type": "action refs"
+    },
+    {
+      "key": "alsoTriggerOrQueueActionConditional",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "也执行队列或需执行条件",
+      "description": "将此操作添加到序列。如果条件不满足(false)则忽略alsoQueueAction。默认true.",
+      "value_type": "LogicBoolean"
+    },
+    {
+      "key": "playSoundAtUnit",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "播放声音至单位",
+      "description": "动作结束时在当前位置播放声音。",
+      "value_type": "sound ref"
+    },
+    {
+      "key": "playSoundGlobally",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "播放声音至全图",
+      "description": "播放全局声音，所有玩家都能听到。",
+      "value_type": "sound ref"
+    },
+    {
+      "key": "playSoundToPlayer",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "播放声音至玩家",
+      "description": "播放声音，只有自己能听到。",
+      "value_type": "sound ref"
+    },
+    {
+      "key": "fireTurretXAtGround",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "指定攻击地面炮塔",
+      "description": "使用此炮塔攻击玩家所指定的地面。",
+      "value_type": "turret ref"
+    },
+    {
+      "key": "fireTurretXAtGround_withOffset",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "指定攻击地面坐标",
+      "description": "攻击指定坐标所在地面，不需要手动选择，",
+      "value_type": "point"
+    },
+    {
+      "key": "fireTurretXAtGround_withProjectile",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "指定攻击地面抛射体",
+      "description": "设定使用的抛射体，如果不设置则为炮塔默认的抛射体。",
+      "value_type": "projectile ref"
+    },
+    {
+      "key": "fireTurretXAtGround_count",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "指定攻击地面数量",
+      "description": "设置发射的抛射体数量，默认为1",
+      "value_type": "int"
+    },
+    {
+      "key": "fireTurretXAtGround_onlyOverPassableTileOf",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "指定攻击地面类型",
+      "description": "设置手动选择的地面需要满足这种运动方式。列表：无，陆地，建筑，空军，水。两栖，跨悬崖，跨悬崖和度水。\nNONE LAND BUILDING AIR WATER HOVER OVER_CLIFF OVER_CLIFF_WATER ",
+      "value_type": "string"
+    },
+    {
+      "key": "spawnUnits",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "产生单位",
+      "description": "产生指定单位，可用是多种。",
+      "value_type": null
+    },
+    {
+      "key": "spawnEffects",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "产生效果",
+      "description": "产生指定效果",
+      "value_type": "effect ref"
+    },
+    {
+      "key": "produceUnits",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "生产单位",
+      "description": "类似spawnUnits，但是单位像正常生产一样，并获得路径的移动。1.13只对非建筑物刷的单位有效。",
+      "value_type": "units"
+    },
+    {
+      "key": "offsetSelfAbsolute:",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "自身位置偏移",
+      "description": "使用时将修改单位当前位置，以单位为中心的绝对坐标。",
+      "value_type": "int list"
+    },
+    {
+      "key": "addUnitsIntoTransport",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加单位到载具",
+      "description": "将单位添加到运输槽中，在添加之前会检查空间是否够。",
+      "value_type": "unit list"
+    },
+    {
+      "key": "deleteNumUnitsFromTransport",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "从载具中删除单位数",
+      "description": "从载具中删除指定数量单位。",
+      "value_type": "int"
+    },
+    {
+      "key": "deleteNumUnitsFromTransport_onlyWithTags",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "从载具删除带标签单位",
+      "description": "从载具中删除具有此标签的指定数量单位。",
+      "value_type": "string"
+    },
+    {
+      "key": "startUnloadingTransport",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "开始卸载单位",
+      "description": "开始卸载单位",
+      "value_type": "bool"
+    },
+    {
+      "key": "forceUnloadTransportNow",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "强制卸载单位",
+      "description": "立即强制卸载单位",
+      "value_type": "bool"
+    },
+    {
+      "key": "forceUnloadTransportNow_onlyOnSlot",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "强制卸载指定槽位单位",
+      "description": "强制卸载指定槽位单位",
+      "value_type": "int"
+    },
+    {
+      "key": "clearAllWaypoints",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "清除所有路径点",
+      "description": "清除当前所有路径。",
+      "value_type": "bool"
+    },
+    {
+      "key": "clearActiveWaypoint",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "清除当前路径点",
+      "description": "清除当前路径，也就是停止当前动作，执行下一个路径点。",
+      "value_type": "bool"
+    },
+    {
+      "key": "addWaypoint_type",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加路径点动作类型",
+      "description": "添加的路径点类型。值列表：移动，移动攻击，防守，进入载具，主动装载，攻击，回收，维修，靠近目标，建造，跟随，被动。\nmove, attackMove, guard, loadInto, loadUp, attack, reclaim, repair, touchTarget, build, follow，setPassiveTarget",
+      "value_type": "type"
+    },
+    {
+      "key": "addWaypoint_unitType",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加路径点单位类型",
+      "description": "用于让当前单位去建造指定单位。仅用于addWaypoint_type:build",
+      "value_type": "building"
+    },
+    {
+      "key": "addWaypoint_prepend",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加路径点序列位置",
+      "description": "添加到路径点的开头或结尾",
+      "value_type": "bool"
+    },
+    {
+      "key": "addWaypoint_triggerActionIfFailed",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加路径点失败触发",
+      "description": "如果target_nearestUnit找不到匹配项，因此无法添加路径点，则触发此操作",
+      "value_type": "actions"
+    },
+    {
+      "key": "addWaypoint_triggerActionIfMatched",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加路径点匹配触发",
+      "description": "如果操作添加的路径点是有效的，则执行指定操作。",
+      "value_type": "actions"
+    },
+    {
+      "key": "addWaypoint_maxTime",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加路径点检索时间",
+      "description": "如果此路径点这么久还无法执行完成，则取消。",
+      "value_type": "time"
+    },
+    {
+      "key": "addWaypoint_target_nearestUnit_tagged",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加路径点检索标签",
+      "description": "添加的路径点目标为靠近有此标签的单位。",
+      "value_type": "tags"
+    },
+    {
+      "key": "addWaypoint_target_nearestUnit_team",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加路径点靠近队伍",
+      "description": "添加的路径点目标需要的所属方：己方|中立|盟友|敌人|任何，own|neutral|ally|enemy|any",
+      "value_type": "relation"
+    },
+    {
+      "key": "addWaypoint_target_nearestUnit_maxRange",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加路径点检索范围",
+      "description": "添加的路径点靠近某目标时考虑的最大范围。",
+      "value_type": "float"
+    },
+    {
+      "key": "addWaypoint_target_mapMustBeReachable",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加路径点路径可达",
+      "description": "添加的路径点靠近某目标时必须是有可到达路径的。",
+      "value_type": "bool"
+    },
+    {
+      "key": "addWaypoint_position_offsetFromSelf",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加路径点坐标偏移",
+      "description": "添加的路径点相对于自身偏移的坐标。",
+      "value_type": "point"
+    },
+    {
+      "key": "addWaypoint_position_fromAction",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加路径点动作坐标",
+      "description": "将当前动作指定的坐标添加进路径序列中。",
+      "value_type": "bool"
+    },
+    {
+      "key": "addWaypoint_position_randomOffsetFromSelf",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加路径点随机偏移",
+      "description": "添加坐标进路径点时的随机值。",
+      "value_type": "int s"
+    },
+    {
+      "key": "addWaypoint_position_relativeOffsetFromSelf",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加路径点相对偏移",
+      "description": "添加路径点位置相对自身偏移量。",
+      "value_type": "int s"
+    },
+    {
+      "key": "addWaypoint_target_randomUnit_tagged",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加指定标签的随机单位",
+      "description": "添加路径点单位为指定标签的随机单位",
+      "value_type": "unit"
+    },
+    {
+      "key": "addWaypoint_target_randomUnit_team",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加指定队伍的随机单位",
+      "description": "添加路径点单位为指定队伍的随机单位",
+      "value_type": "string"
+    },
+    {
+      "key": "addWaypoint_target_randomUnit_maxRange",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加指定范围的随机单位",
+      "description": "添加路径点单位为指定范围的随机单位",
+      "value_type": "int"
+    },
+    {
+      "key": "addAllActionCooldownsTime",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "增加所有动作冷却时间",
+      "description": "增加所有action的冷却时间。",
+      "value_type": "time"
+    },
+    {
+      "key": "addActionCooldownTime",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "增加动作冷却时间",
+      "description": "增加动作冷却时间，制作先充能再使用的action更加容易了。",
+      "value_type": "time"
+    },
+    {
+      "key": "addActionCooldownApplyToActions",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加指定动作冷却时间",
+      "description": "action id，设置addActionCooldownTime的目标。默认情况下是当前操作本身。",
+      "value_type": "action ids"
+    },
+    {
+      "key": "clearAllActionCooldowns",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "清除所有动作冷却时间",
+      "description": "清除所有动作冷却时间，使其立即可用。",
+      "value_type": "bool"
+    },
+    {
+      "key": "playAnimation",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "播放动画",
+      "description": "播放[animation_xx]类型动画。",
+      "value_type": "animation ref"
+    },
+    {
+      "key": "playAnimationIfNotPlaying",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "播放动画限制",
+      "description": "如果该动画已经在播放，就不再播放动画。",
+      "value_type": "bool"
+    },
+    {
+      "key": "finishPlayingLastAnimation",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "完成最会动画",
+      "description": "完成最后一个动画，包括融合",
+      "value_type": "bool"
+    },
+    {
+      "key": "stopLastAnimation",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "停止最后动画",
+      "description": "停止最后一个动画，跳过融合",
+      "value_type": "bool"
+    },
+    {
+      "key": "switchToNeutralTeam",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "切换至中立队伍",
+      "description": "将队伍更改为中立。该队伍与其他所有队伍结盟。除非使用[core]stayNeutral:true，否则它将被附近的单位捕获。",
+      "value_type": "boolean"
+    },
+    {
+      "key": "switchToAggressiveTeam",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "切换至侵略性队伍",
+      "description": "将此单位队伍更改为侵略性的内置队伍。不能被其它单位捕获。",
+      "value_type": "boolean"
+    },
+    {
+      "key": "takeResources",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "提取资源",
+      "description": "提取资源，至少写一种资源。",
+      "value_type": "customPrice"
+    },
+    {
+      "key": "takeResources_includeUnitsInTransport",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "提取资源包括载具内",
+      "description": "提取资源，包括载具内单位。",
+      "value_type": "bool"
+    },
+    {
+      "key": "takeResources_includeParent",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "提取资源包括父单位或载具",
+      "description": "提取资源，包括父单位和运输载具。",
+      "value_type": "bool"
+    },
+    {
+      "key": "takeResources_includeUnitsWithinRange",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "提取资源范围",
+      "description": "提取资源，在此范围内。",
+      "value_type": "float"
+    },
+    {
+      "key": "takeResources_includeUnitsWithinRange_team",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "提取资源队伍",
+      "description": "提取在此范围内队伍的资源。与“includeUnitsWithinRange”一起使用，默认为own。可以是：\n己方|中立|盟友|任何|除自己外盟友，own|neutral|ally|enemy|any|allyNotOwn",
+      "value_type": "TeamRelation"
+    },
+    {
+      "key": "takeResources_excludeUnitsWithoutTags",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "提取资源标签",
+      "description": "提取资源，但排除没有此标签的单位。",
+      "value_type": "tags"
+    },
+    {
+      "key": "takeResources_excludeUnitsWithTheseResources",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "提取资源排除资源",
+      "description": "提取资源，不包括拥有这些资源的单位。",
+      "value_type": "customPrice"
+    },
+    {
+      "key": "takeResources_excludeUnitsWithoutAllResources",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "提取资源排除不足",
+      "description": "提取资源，排除缺乏资源者。默认为true.",
+      "value_type": "bool"
+    },
+    {
+      "key": "takeResources_triggerActionIfAnyCollected",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "提取资源成功触发",
+      "description": "如果有任何收集，则触发动作。",
+      "value_type": "action refs"
+    },
+    {
+      "key": "takeResources_triggerActionIfNoneCollected",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "提取资源失败触发",
+      "description": "如果没有收集，则触发操作。",
+      "value_type": "action refs"
+    },
+    {
+      "key": "takeResources_discardCollected",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "提取资源删除",
+      "description": "从目标中获取资源，但不向自身添加也就是删除。",
+      "value_type": "bool"
+    },
+    {
+      "key": "takeResources_keepResourcesOnTarget",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "提取资源克隆",
+      "description": "不从目标添加或删除资源。但克隆资源。与takeResources_discardCollected和takeResources_triggerActionIfAnyCollected一起使用以创建资源检测器。",
+      "value_type": "bool"
+    },
+    {
+      "key": "takeResources_maxUnits",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "提取资源目标量",
+      "description": "最多从多少单位提取资源，默认为1。",
+      "value_type": "int"
+    },
+    {
+      "key": "takeResources_directTransferStoppingAtZero",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "提取资源直接转换至零",
+      "description": "提取资源直接转换至0,用于完全转换。如果目标上的资源少于转帐金额，则只有剩余的资源将被转帐。不支持使用其他一些takeResources_*代码",
+      "value_type": "bool"
+    },
+    {
+      "key": "convertResource_from",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "转换资源来源",
+      "description": "将此资源转换资源为别的资源。",
+      "value_type": "customResource"
+    },
+    {
+      "key": "convertResource_to",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "转换资源至",
+      "description": "将资源转后为此资源，要提供的自定义资源的名称",
+      "value_type": "customResource"
+    },
+    {
+      "key": "convertResource_minAmount",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "转换资源至少",
+      "description": "如果来源中资源小于该数量，则跳过。默认为0。在大多数情况下可能不需要。",
+      "value_type": "int"
+    },
+    {
+      "key": "convertResource_maxAmount",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "转换资源至多",
+      "description": "“来源资源”和“转换后资源”之间的最大转化量",
+      "value_type": "int"
+    },
+    {
+      "key": "convertResource_multiplyAmountBy",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "转换资源倍率",
+      "description": "资源转换倍率，不影响提取的数量。默认值为1。",
+      "value_type": "float"
+    },
+    {
+      "key": "resourceAmount",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "资源类型",
+      "description": "自定义资源的名称，使用以下3个键进行设置。所有键都是可选的，可以一起使用。",
+      "value_type": "customResource"
+    },
+    {
+      "key": "resourceAmount_setValue",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "资源类型设置数值",
+      "description": "设置此资源的绝对值，忽略资源的当前值。默认忽略。",
+      "value_type": "float"
+    },
+    {
+      "key": "resourceAmount_addOtherResource",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "资源类型添加至",
+      "description": "添加到其中的另一个自定义资源的名称。可以不使用resourceAmount_setValue，只是添加资源。或者使用resourceAmount_setValue:0复制一个资源值。",
+      "value_type": "customResource"
+    },
+    {
+      "key": "resourceAmount_multiplyBy",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "资源类型乘数",
+      "description": "默认值为1。将当前资源值乘上此值。",
+      "value_type": "float"
+    },
+    {
+      "key": "attachments_addNewUnits",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "附属添加单位",
+      "description": "添加单位作为其子单位，需要定义附属位置。",
+      "value_type": "unit"
+    },
+    {
+      "key": "attachments_deleteNumUnits",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "附属删除单位数",
+      "description": "删除单位数量",
+      "value_type": "int"
+    },
+    {
+      "key": "attachments_onlyOnSlots",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "附属添加于槽位",
+      "description": "只添加于特定槽位",
+      "value_type": "string"
+    },
+    {
+      "key": "disconnectFromParent",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "脱离父单位",
+      "description": "子单位脱离父单位",
+      "value_type": "bool"
+    },
+    {
+      "key": "attachments_unload",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "卸载附属",
+      "description": "卸载所有附属。可以与attachments_onlyonslot一起使用。与运输单位卸载相同",
+      "value_type": "bool"
+    },
+    {
+      "key": "attachments_disconnect",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "附属断开连接",
+      "description": "断开所有现在所在位置的附属。可以与attachments_onlyonslot一起使用。",
+      "value_type": "bool"
+    },
+    {
+      "key": "temporarilyAddTags",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "临时标签添加",
+      "description": "将标签添加到单位，直到转换或重置。",
+      "value_type": "tags"
+    },
+    {
+      "key": "temporarilyRemoveTags",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "临时标签删除",
+      "description": "从单位上删除标签，直到将其转换或重置。",
+      "value_type": "tags"
+    },
+    {
+      "key": "resetToDefaultTags",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "标签重置",
+      "description": "重置为默认标签。",
+      "value_type": "bool"
+    },
+    {
+      "key": "addGlobalTeamTags",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "添加全局标签",
+      "description": "为玩家的团队添加此全局标签。与self.globalTeamTags()一起使用可创建解锁和升级。",
+      "value_type": "tags"
+    },
+    {
+      "key": "removeGlobalTeamTags",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "移除全局标签",
+      "description": "从玩家队伍中删除此全局标签。",
+      "value_type": "tags"
+    },
+    {
+      "key": "showMessageToPlayer",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "发送消息至玩家",
+      "description": "向玩家个人发送信息。自己发给自己。",
+      "value_type": "string"
+    },
+    {
+      "key": "showMessageToPlayer_{LANG}",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "发送消息至玩家",
+      "description": "向玩家个人发送信息。自己发给自己。多语言版。注意:这种格式是支持几乎所有字符串显示给播放器，即使当引用不显示它",
+      "value_type": null
+    },
+    {
+      "key": "showMessageToAllPlayers",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "发送消息至所有",
+      "description": "向所有玩家发送消息。",
+      "value_type": "string"
+    },
+    {
+      "key": "showMessageToAllEnemyPlayers",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "发送消息给所有敌人",
+      "description": "发送消息给所有敌人。",
+      "value_type": "string"
+    },
+    {
+      "key": "showQuickWarLogToPlayer",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "发送战争快报至玩家",
+      "description": "向玩家个人发送战争快报。（在左下角）",
+      "value_type": "string"
+    },
+    {
+      "key": "showQuickWarLogToAllPlayers",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "发送战争快报至所有",
+      "description": "向所有玩家发送战争快报。（在左下角）",
+      "value_type": "string"
+    },
+    {
+      "key": "debugMessage",
+      "section": "[action_NAME] / [hiddenAction_NAME]",
+      "name": "排错信息",
+      "description": "仅在启用调试模式的沙箱中显示。",
+      "value_type": "bool"
+    },
+    {
+      "key": "spawnUnits",
+      "section": "Spawn units line",
+      "name": "产生单位",
+      "description": "用于action刷兵，大多数单位的生成键都支持多个单位且带有参数。注意：与spawnUnit不能混用spawnUnit用于抛射体。",
+      "value_type": "unitlist"
+    },
+    {
+      "key": "neutralTeam",
+      "section": "Spawn units line",
+      "name": "中立",
+      "description": "产生中立团队而不是所属玩家。",
+      "value_type": "bool"
+    },
+    {
+      "key": "setToTeamOfLastAttacker",
+      "section": "Spawn units line",
+      "name": "所属攻击者",
+      "description": "生成单位归属于攻击者。（在[core] unitsSpawnedOnDeath上有用）",
+      "value_type": "bool"
+    },
+    {
+      "key": "spawnChance",
+      "section": "Spawn units line",
+      "name": "产生几率",
+      "description": "有几率产生这个单位。 默认为1。",
+      "value_type": "float"
+    },
+    {
+      "key": "maxSpawnLimit",
+      "section": "Spawn units line",
+      "name": "最大生成数量",
+      "description": "与spawnChance一起使用时，总共可以产生的最大单位数",
+      "value_type": "int"
+    },
+    {
+      "key": "gridAlign",
+      "section": "Spawn units line",
+      "name": "对齐网格",
+      "description": "将生成位置与网格对齐，对建筑物有用",
+      "value_type": "bool"
+    },
+    {
+      "key": "skipIfOverlapping",
+      "section": "Spawn units line",
+      "name": "跳过条件",
+      "description": "如果在无效的位置忽略单位生成。 例如基于LAND的单位不会产生在水中。",
+      "value_type": "bool"
+    },
+    {
+      "key": "offsetX",
+      "section": "Spawn units line",
+      "name": "X偏移",
+      "description": "产生位置X偏移量，单位像素",
+      "value_type": "float"
+    },
+    {
+      "key": "offsetY",
+      "section": "Spawn units line",
+      "name": "Y偏移",
+      "description": "产生位置Y偏移量",
+      "value_type": "float"
+    },
+    {
+      "key": "offsetRandomX",
+      "section": "Spawn units line",
+      "name": "X随机偏移",
+      "description": "产生位置X随机偏移量",
+      "value_type": "float"
+    },
+    {
+      "key": "offsetRandomY",
+      "section": "Spawn units line",
+      "name": "Y随机偏移",
+      "description": "产生位置Y随机偏移量",
+      "value_type": "float"
+    },
+    {
+      "key": "offsetRandomDir",
+      "section": "Spawn units line",
+      "name": "角度随机偏移",
+      "description": "产生时角度随机偏移量",
+      "value_type": "dir"
+    },
+    {
+      "key": "offsetHeight",
+      "section": "Spawn units line",
+      "name": "高度偏移",
+      "description": "产生此单位的高度偏移量。",
+      "value_type": "int"
+    },
+    {
+      "key": "offsetDir",
+      "section": "Spawn units line",
+      "name": "角度偏移",
+      "description": "产生时角度偏移量。单位度。",
+      "value_type": "dir"
+    },
+    {
+      "key": "addResources",
+      "section": "Spawn units line",
+      "name": "增加资源",
+      "description": "给生成单位这些资源，可用于设置触发动作的标志",
+      "value_type": "customResource"
+    },
+    {
+      "key": "transportedUnitsToTransfer",
+      "section": "Spawn units line",
+      "name": "载员至载具",
+      "description": "将指定数量的单元放入刷出的单元的运输位中。",
+      "value_type": "int"
+    },
+    {
+      "key": "alwayStartDirAtZero",
+      "section": "Spawn units line",
+      "name": "朝向总是零度",
+      "description": "刷出的单位朝向总是设置为零度。即朝右。",
+      "value_type": "bool"
+    },
+    {
+      "key": "spawnChance",
+      "section": "Spawn Projectiles line",
+      "name": "产生机会",
+      "description": "抛射体产生几率，默认为1",
+      "value_type": "float"
+    },
+    {
+      "key": "maxSpawnLimit",
+      "section": "Spawn Projectiles line",
+      "name": "最大产生限制",
+      "description": "抛射体的最大产生数量",
+      "value_type": "int"
+    },
+    {
+      "key": "recursionLimit",
+      "section": "Spawn Projectiles line",
+      "name": "递归限制",
+      "description": "用于限制抛射体刷抛射体自身的上限,而不会产生死循环。这对自动生成很有用，因为不会无限生成，有利于链条爆炸",
+      "value_type": "int"
+    },
+    {
+      "key": "offsetX",
+      "section": "Spawn Projectiles line",
+      "name": "偏移量x",
+      "description": "刷出的抛射体的x轴偏移量",
+      "value_type": "float"
+    },
+    {
+      "key": "offsetY",
+      "section": "Spawn Projectiles line",
+      "name": "偏移量y",
+      "description": "刷出的抛射体的y轴偏移量",
+      "value_type": "float"
+    },
+    {
+      "key": "offsetRandomX",
+      "section": "Spawn Projectiles line",
+      "name": "偏移随机X",
+      "description": "刷出的抛射体的x轴的随机偏移量",
+      "value_type": "float"
+    },
+    {
+      "key": "offsetRandomY",
+      "section": "Spawn Projectiles line",
+      "name": "偏移随机Y",
+      "description": "刷出的抛射体的y轴的随机偏移量",
+      "value_type": "float"
+    },
+    {
+      "key": "offsetRandomXY",
+      "section": "Spawn Projectiles line",
+      "name": "偏移随机XY",
+      "description": "刷出的抛射体在两个方向的偏移随机偏移，使真正的在一个区域随机化。",
+      "value_type": "float"
+    },
+    {
+      "key": "offsetHeight",
+      "section": "Spawn Projectiles line",
+      "name": "偏移高度",
+      "description": "刷出的抛射体的z轴也就是高度偏移",
+      "value_type": "float"
+    },
+    {
+      "key": "offsetDir",
+      "section": "Spawn Projectiles line",
+      "name": "偏移角度",
+      "description": "刷出的抛射体的角度偏移",
+      "value_type": "float"
+    },
+    {
+      "key": "offsetRandomDir",
+      "section": "Spawn Projectiles line",
+      "name": "偏移随机角度",
+      "description": "刷出的抛射体的角度随机偏移量",
+      "value_type": "float"
+    },
+    {
+      "key": "xOffsetRelative",
+      "section": "Spawn Projectiles line",
+      "name": "x相对偏移",
+      "description": "刷出的抛射体的x轴的相对偏移量",
+      "value_type": "float"
+    },
+    {
+      "key": "yOffsetRelative",
+      "section": "Spawn Projectiles line",
+      "name": "y相对偏移",
+      "description": "刷出的抛射体的y轴的相对偏移量",
+      "value_type": "float"
+    },
+    {
+      "key": "true ",
+      "section": "Spawn Projectiles line",
+      "name": "是",
+      "description": "满足/是/对/为真/1，不建议使用1或0，不是所有代码都支持。",
+      "value_type": null
+    },
+    {
+      "key": "false ",
+      "section": "Spawn Projectiles line",
+      "name": "非",
+      "description": "不满足/非/错/假/0",
+      "value_type": null
+    },
+    {
+      "key": "if",
+      "section": "Spawn Projectiles line",
+      "name": "如果",
+      "description": "所有逻辑布尔值使用if开始，除非仅使用true/false",
+      "value_type": null
+    },
+    {
+      "key": "and",
+      "section": "Spawn Projectiles line",
+      "name": "和",
+      "description": "需要and两边条件都满足执行。",
+      "value_type": null
+    },
+    {
+      "key": "or",
+      "section": "Spawn Projectiles line",
+      "name": "或者",
+      "description": "or两边条件满足一个即可执行。",
+      "value_type": null
+    },
+    {
+      "key": "not",
+      "section": "Spawn Projectiles line",
+      "name": "非",
+      "description": "将逻辑结果取反。",
+      "value_type": null
+    },
+    {
+      "key": "self.isUnderwater()",
+      "section": "Spawn Projectiles line",
+      "name": "自身在水下",
+      "description": "单位在水下，深水单位如潜艇。",
+      "value_type": null
+    },
+    {
+      "key": "self.isAtGroundHeight()",
+      "section": "Spawn Projectiles line",
+      "name": "自身在地面高度",
+      "description": "单位在地面,触发范围是-1~4，如果你单位高度在不断变化时超过此值的话，此条不一定触发，因为铁锈检测频率默认是1s.\n等同于self.gound()或self.ground()",
+      "value_type": null
+    },
+    {
+      "key": "self.isFlying()",
+      "section": "Spawn Projectiles line",
+      "name": "自身在天上",
+      "description": "如果单位在天上飞行，则执行。",
+      "value_type": null
+    },
+    {
+      "key": "self.isMoving()",
+      "section": "Spawn Projectiles line",
+      "name": "自身在移动",
+      "description": "如果自身在移动则执行。",
+      "value_type": null
+    },
+    {
+      "key": "self.isAtTopSpeed()",
+      "section": "Spawn Projectiles line",
+      "name": "自身到最高速度",
+      "description": "如果到达最高速度则执行。等同self.maxspeed()",
+      "value_type": null
+    },
+    {
+      "key": "self.isInWater()",
+      "section": "Spawn Projectiles line",
+      "name": "自身在水中",
+      "description": "如果自身在水中则执行。等同于self.inwater()。",
+      "value_type": null
+    },
+    {
+      "key": "self.isOverwater()",
+      "section": "Spawn Projectiles line",
+      "name": "自身在水上",
+      "description": "如果自身投影在水面这种地形则执行。",
+      "value_type": null
+    },
+    {
+      "key": "self.isOverLiquid()",
+      "section": "Spawn Projectiles line",
+      "name": "自身在液体上",
+      "description": "如果自身在液体则执行。岩浆算为液体。",
+      "value_type": null
+    },
+    {
+      "key": "self.isOverClift()",
+      "section": "Spawn Projectiles line",
+      "name": "自身在悬崖上",
+      "description": "如果自身在悬崖上则执行。等同self.isOverCliff()",
+      "value_type": null
+    },
+    {
+      "key": "self.isOverPassableTile()",
+      "section": "Spawn Projectiles line",
+      "name": "自身在地块类型上",
+      "description": "如果自身在这类通行地块上则执行，类型：无、陆地、建筑、空中、水面、两栖、跨悬崖、跨水和悬崖\nNONE、LAND、BUILDING、AIR、WATER、HOVER、OVER_CLIFF、OVER_CLIFF_WATER",
+      "value_type": null
+    },
+    {
+      "key": "self.isOverOpenLand()",
+      "section": "Spawn Projectiles line",
+      "name": "自身在开阔地带",
+      "description": "如果自身在开阔地带则执行。self.isOverPassableTile（type ='LAND'）的快捷方式",
+      "value_type": null
+    },
+    {
+      "key": "self.height()",
+      "section": "Spawn Projectiles line",
+      "name": "自身高度",
+      "description": "如果自身在特定高度则执行。(参数:greaterThan,lessThan,equalTo,empty,full)参数，超过，少于，等于，空，满)",
+      "value_type": null
+    },
+    {
+      "key": "self.hasResources()",
+      "section": "Spawn Projectiles line",
+      "name": "自身有资源",
+      "description": "可以检查多种资源（所有价格参数）",
+      "value_type": null
+    },
+    {
+      "key": "self.resource()",
+      "section": "Spawn Projectiles line",
+      "name": "自身资源",
+      "description": "检查单个资源条件。（参数：greaterThan,lessThan,equalTo）参数，超过，少于，等于",
+      "value_type": null
+    },
+    {
+      "key": "self.isResourceLargerThan",
+      "section": "Spawn Projectiles line",
+      "name": "自身资源大于",
+      "description": "比较两个资源，注意，multiplyTargetBy不造成资源改变。(参数：来源，比较目标，超过，乘数 source=x, compareTarget=x, byMoreThan=x, multiplyTargetBy=x)",
+      "value_type": null
+    },
+    {
+      "key": "self.hp()",
+      "section": "Spawn Projectiles line",
+      "name": "自身血量",
+      "description": "自身血量条件。(参数:greaterThan,lessThan,equalTo,empty,full)参数，超过，少于，等于，空，满",
+      "value_type": null
+    },
+    {
+      "key": "self.ammo()",
+      "section": "Spawn Projectiles line",
+      "name": "自身弹药",
+      "description": "自身弹药条件。(参数:greaterThan,lessThan,equalTo,empty,full)参数，超过，少于，等于，空，满",
+      "value_type": null
+    },
+    {
+      "key": "self.isAmmoEmpty()",
+      "section": "Spawn Projectiles line",
+      "name": "自身弹药空",
+      "description": "自身弹药为空。self.ammo(empty=true)的快捷方式",
+      "value_type": null
+    },
+    {
+      "key": "self.ammoIncludingQueued()",
+      "section": "Spawn Projectiles line",
+      "name": "自身弹药包括队列",
+      "description": "自身弹药数量，包括还在队列中的。(参数:greaterThan,lessThan,equalTo,empty,full)参数：大于，小于，等于，空，满",
+      "value_type": null
+    },
+    {
+      "key": "self.energy()",
+      "section": "Spawn Projectiles line",
+      "name": "自身能量",
+      "description": "自身能量数值。(参数:greaterThan,lessThan,equalTo,empty,full)参数，超过，少于，等于，空，满",
+      "value_type": null
+    },
+    {
+      "key": "self.energyIncludingQueued()",
+      "section": "Spawn Projectiles line",
+      "name": "自身能量包括队列",
+      "description": "自身能量数值，包括还在队列中的。(参数:greaterThan,lessThan,equalTo,empty,full)参数：大于，小于，等于，空，满",
+      "value_type": null
+    },
+    {
+      "key": "self.isEnergyFull()",
+      "section": "Spawn Projectiles line",
+      "name": "自身护盾满",
+      "description": "自身能量为满。self.energy(full=true)的快捷方式",
+      "value_type": null
+    },
+    {
+      "key": "self.isEnergyEmpty()",
+      "section": "Spawn Projectiles line",
+      "name": "自身护盾空",
+      "description": "自身能量为空。self.energy(empty=true)的快捷方式。",
+      "value_type": null
+    },
+    {
+      "key": "self.shield()",
+      "section": "Spawn Projectiles line",
+      "name": "自身护盾",
+      "description": "自身护盾数值。(参数:greaterThan,lessThan,equalTo,empty,full)参数：大于，小于，等于，空，满",
+      "value_type": null
+    },
+    {
+      "key": "self.kills() ",
+      "section": "Spawn Projectiles line",
+      "name": "自身杀敌数",
+      "description": "自身杀敌数量。(参数:greaterThan,lessThan,equalTo)（参数：大于，小于，等于）",
+      "value_type": null
+    },
+    {
+      "key": "self.queueSize()",
+      "section": "Spawn Projectiles line",
+      "name": "自身队列量",
+      "description": "自身队列数量。(参数:greaterThan,lessThan,equalTo,empty,full)参数：大于，小于，等于，空，满",
+      "value_type": null
+    },
+    {
+      "key": "game.nukesEnabled()",
+      "section": "Spawn Projectiles line",
+      "name": "游戏核武可用",
+      "description": "游戏核武可用。也就是开局前，高级设置的启用核武选项。",
+      "value_type": null
+    },
+    {
+      "key": "self.hasFlag()",
+      "section": "Spawn Projectiles line",
+      "name": "自身有标志",
+      "description": "自身拥有标志。可用通过增加资源和价格修改。（参数：id = 0-31），使用addResources在action中更改此vaule",
+      "value_type": null
+    },
+    {
+      "key": "self.tags()",
+      "section": "Spawn Projectiles line",
+      "name": "自身有标签",
+      "description": "自身拥有标签。等同self.hasTags()",
+      "value_type": null
+    },
+    {
+      "key": "self.globalTeamTags()",
+      "section": "Spawn Projectiles line",
+      "name": "有全局标签",
+      "description": "有全局标签，(parameters: includes)参数:包括",
+      "value_type": null
+    },
+    {
+      "key": "self.transportingCount()",
+      "section": "Spawn Projectiles line",
+      "name": "自身运输数量",
+      "description": "载具运输单位数量(parameters: greaterThan, lessThan,equalTo,empty)（参数：大于，小于，等于，为空）",
+      "value_type": null
+    },
+    {
+      "key": "self.numberOfAttachedUnits()",
+      "section": "Spawn Projectiles line",
+      "name": "自身有子单位",
+      "description": "自身有子单位数量。（withTag,greaterThan,lessThan,equalTo）参数:标签，大于、小于、等于",
+      "value_type": null
+    },
+    {
+      "key": "self.isAttacking()",
+      "section": "Spawn Projectiles line",
+      "name": "自身在攻击",
+      "description": "单位正在攻击。",
+      "value_type": null
+    },
+    {
+      "key": "self.hasActiveWaypoint()",
+      "section": "Spawn Projectiles line",
+      "name": "自身有活动的路径点",
+      "description": "单位当前活动的路径点为此类型。类型=路径点类型。（[type = WAYPOINT_TYPE]）",
+      "value_type": null
+    },
+    {
+      "key": "self.transportingUnitWithTags()",
+      "section": "Spawn Projectiles line",
+      "name": "自身运输单位有标签",
+      "description": "自身运输单位有标签(parameters: includes)参数:包括",
+      "value_type": null
+    },
+    {
+      "key": "self.hasParent()",
+      "section": "Spawn Projectiles line",
+      "name": "自身有父单位",
+      "description": "用于子单位和载员逻辑。有父单位时执行。可选参数:需要标签。withTag =\"unit\"",
+      "value_type": null
+    },
+    {
+      "key": "self.hasTakenDamage()",
+      "section": "Spawn Projectiles line",
+      "name": "受到伤害",
+      "description": "单位受到伤害。参数：几秒内，几秒后。(parameters:withinSeconds=X,laterThanSeconds=X)",
+      "value_type": null
+    },
+    {
+      "key": "self.timeAlive()",
+      "section": "Spawn Projectiles line",
+      "name": "存活时间",
+      "description": "单位存活时间。参数：几秒内，几秒后。(parameters:withinSeconds=X,laterThanSeconds=X)",
+      "value_type": null
+    },
+    {
+      "key": "self.lastConverted()",
+      "section": "Spawn Projectiles line",
+      "name": "最后转换时间",
+      "description": "单位最后转换时间。参数：几秒内，几秒后。(parameters:withinSeconds=X,laterThanSeconds=X)",
+      "value_type": null
+    },
+    {
+      "key": "self.customTimer()",
+      "section": "Spawn Projectiles line",
+      "name": "自身自定义计时器",
+      "description": "自身自定义计时器。参数：几秒内，几秒后。(parameters:withinSeconds=X,laterThanSeconds=X)",
+      "value_type": null
+    },
+    {
+      "key": "self.isOnNeutralTeam()",
+      "section": "Spawn Projectiles line",
+      "name": "自身在中立队伍",
+      "description": "自身在中立队伍。",
+      "value_type": null
+    },
+    {
+      "key": "numberOfUnitsInTeam()",
+      "section": "Spawn Projectiles line",
+      "name": "队伍中此单位数量",
+      "description": "玩家自身拥有此单位数量。(参数:withTag,greaterThan,lessThan,withinRange,incompleteBuildings,factoryQueue)\n参数：标签，超过，少于，范围，建造中，队列中",
+      "value_type": null
+    },
+    {
+      "key": "self.numberOfUnitsInAllyNotOwnTeam()",
+      "section": "Spawn Projectiles line",
+      "name": "盟友有此单位数量",
+      "description": "盟友拥有此单位的数量。(参数:withTag,greaterThan,lessThan,withinRange,incompleteBuildings,factoryQueue)",
+      "value_type": null
+    },
+    {
+      "key": "numberOfUnitsInEnemyTeam()",
+      "section": "Spawn Projectiles line",
+      "name": "敌人有此单位数量",
+      "description": "敌人拥有此单位的数量。(参数:withTag,greaterThan,lessThan,withinRange,incompleteBuildings,factoryQueue)",
+      "value_type": null
+    },
+    {
+      "key": "numberOfUnitsInNeutralTeam()",
+      "section": "Spawn Projectiles line",
+      "name": "中立有此单位数量",
+      "description": "中立队伍拥有此单位数量。(参数:withTag,greaterThan,lessThan,withinRange,incompleteBuildings,factoryQueue)",
+      "value_type": null
+    },
+    {
+      "key": "numberOfUnitsInAggressiveTeam()",
+      "section": "Spawn Projectiles line",
+      "name": "敌对中立拥有此单位数量",
+      "description": "特殊的“对所有人都有侵略性”的队伍,这与numberOfUnitsInEnemyTeam不同.(参数:withTag, greaterThan, lessThan, withinRange, incompleteBuildings, factoryQueue",
+      "value_type": null
+    },
+    {
+      "key": "self.hasUnitInTeam()",
+      "section": "Spawn Projectiles line",
+      "name": "自身队伍有单位",
+      "description": "自身队伍拥有此单位数量。(参数:withTag，intraRange，incompleteBuildings，factoryQueue)numberOfUnitsInTeam的别名",
+      "value_type": null
+    },
+    {
+      "key": "self.noUnitInTeam()",
+      "section": "Spawn Projectiles line",
+      "name": "自身队伍无单位",
+      "description": "自身队伍单位数量不满足。(参数:withTag，intraRange，incompleteBuildings，factoryQueue)numberOfUnitsInTeam的别名",
+      "value_type": null
+    },
+    {
+      "key": "self.isControlledByAI()",
+      "section": "Spawn Projectiles line",
+      "name": "自身属于AI控制",
+      "description": "单位归属于AI所属方控制。",
+      "value_type": null
+    },
+    {
+      "key": "anyRuleInGroup:",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "放置规则组",
+      "description": "放置规则组名。（仅需要通过此组规则中的1条，而不是全部通过。在其他放置规则中可使用相同的组名称来创建组。）",
+      "value_type": "string"
+    },
+    {
+      "key": "searchTags",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "检索标签",
+      "description": "搜索至少包含这些标签之一的任何单位",
+      "value_type": "tag list"
+    },
+    {
+      "key": "searchTeam:",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "检索队伍",
+      "description": "要搜索的团队可以是：自身|中立|盟友非自身|盟友|敌人|任何。  own|neutral|allyNotOwn|ally|enemy|any",
+      "value_type": "relation"
+    },
+    {
+      "key": "searchOffsetX:",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "检索偏移",
+      "description": "检索偏移，默认为0",
+      "value_type": "float"
+    },
+    {
+      "key": "searchOffsetY:",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "检索偏移",
+      "description": "检索偏移，默认为0",
+      "value_type": "float"
+    },
+    {
+      "key": "searchDistance:",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "搜索距离",
+      "description": "搜索距离",
+      "value_type": "float"
+    },
+    {
+      "key": "excludeIncompleteBuildings:",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "排除不完整建筑",
+      "description": "排除不完整的建筑",
+      "value_type": "bool"
+    },
+    {
+      "key": "excludeNonBuildings:",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "排除非建筑",
+      "description": "排除非建筑",
+      "value_type": "bool"
+    },
+    {
+      "key": "minCount:",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "最小数量",
+      "description": "设定需要在搜索中找到的单位的最小数量。(如需要靠近某物)。默认值为0",
+      "value_type": "int"
+    },
+    {
+      "key": "maxCount:",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "最大数量",
+      "description": "在匹配失败前设置最大单位数量(例如不能接近某个值)。默认为无限的",
+      "value_type": "int"
+    },
+    {
+      "key": "blocksPlacement:",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "禁止放置",
+      "description": "禁止放置。默认为true。",
+      "value_type": "bool"
+    },
+    {
+      "key": "cannotPlaceMessage:",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "失败信息",
+      "description": "如果此放置规则失败，则会向玩家显示消息（将成为mergedRuleGroup中的第一个失败规则）",
+      "value_type": "LocaleString"
+    },
+    {
+      "key": "checkEachTile:",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "检查每个地块",
+      "description": "[true / false]默认为true（仅对测试单元中心设置为false，true会检查显示在放置网格上的单元下方的每个图块）",
+      "value_type": "bool"
+    },
+    {
+      "key": "credits",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "资金",
+      "description": "铁锈中默认用于全局的资金。",
+      "value_type": "Resources"
+    },
+    {
+      "key": "energy",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "能量",
+      "description": "单位使用的能量，如可用于开火限制。",
+      "value_type": "Resources"
+    },
+    {
+      "key": "hp",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "血量",
+      "description": "单位血量，一般血量归零时就会销毁单位。",
+      "value_type": "Resources"
+    },
+    {
+      "key": "shield",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "护盾",
+      "description": "单位护盾，一般用于抵挡敌人攻击。",
+      "value_type": "Resources"
+    },
+    {
+      "key": "ammo",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "弹药",
+      "description": "弹药，每个单位的隐藏值，供mod使用。",
+      "value_type": "int"
+    },
+    {
+      "key": "setFlag",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "设置标志",
+      "description": "设置标志，范围0-31。标志存储在每个单元中，与addResources，resourceUsage或price等一起使用。",
+      "value_type": "int"
+    },
+    {
+      "key": "unsetFlag",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "取消标志",
+      "description": "取消已经设置的标志",
+      "value_type": "int"
+    },
+    {
+      "key": "hasFlag",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "拥有标志",
+      "description": "拥有标志。",
+      "value_type": "int"
+    },
+    {
+      "key": "hasMissingFlag",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "没有标志",
+      "description": "没有标志。",
+      "value_type": "int"
+    },
+    {
+      "key": "X",
+      "section": "[placementRule_NAME]允许创建要求建筑物的规则",
+      "name": "X",
+      "description": "[global_resource_x]或[resource_x]节中定义的任何资源。",
+      "value_type": "Resources"
+    },
+    {
+      "key": "displayName",
+      "section": "[global_resource_NAME]",
+      "name": "显示名称",
+      "description": "用户界面中此资源的名称",
+      "value_type": "string"
+    },
+    {
+      "key": "displayNameShort",
+      "section": "[global_resource_NAME]",
+      "name": "显示短名称",
+      "description": "在较小的UI上显示的文本（如action的悬浮文本）默认为displayName",
+      "value_type": "string"
+    },
+    {
+      "key": "hidden",
+      "section": "[global_resource_NAME]",
+      "name": "隐藏",
+      "description": "向玩家隐藏此资源",
+      "value_type": "bool"
+    },
+    {
+      "key": "priority",
+      "section": "[global_resource_NAME]",
+      "name": "优先级",
+      "description": "如果多个mod单元中定义了同名的资源，则使用具有最高优先级的displayName/displayColor",
+      "value_type": "float"
+    },
+    {
+      "key": "displayColor",
+      "section": "[global_resource_NAME]",
+      "name": "显示颜色",
+      "description": "颜色，可以是十六进制，带有可选的alpha",
+      "value_type": "color"
+    },
+    {
+      "key": "displayRoundedDown",
+      "section": "[global_resource_NAME]",
+      "name": "显示为整数",
+      "description": "对资源进行舍入显示为整数。",
+      "value_type": "bool"
+    },
+    {
+      "key": "displayWhenZero",
+      "section": "[global_resource_NAME]",
+      "name": "为零时显示",
+      "description": "资源为零时也显示。",
+      "value_type": "bool"
+    },
+    {
+      "key": "displayName",
+      "section": "[resource_NAME]",
+      "name": "显示名称",
+      "description": "UI中此资源的名称(如悬停在单元信息上)",
+      "value_type": "string"
+    },
+    {
+      "key": "displayNameShort",
+      "section": "[resource_NAME]",
+      "name": "显示短名称",
+      "description": "在较小的UI上显示的文本（如action的悬浮文本）默认为displayName",
+      "value_type": "string"
+    },
+    {
+      "key": "hidden",
+      "section": "[resource_NAME]",
+      "name": "隐藏",
+      "description": "对玩家隐藏这个资源",
+      "value_type": "bool"
+    },
+    {
+      "key": "equivalentGlobalResourceForAI",
+      "section": "[resource_NAME]",
+      "name": "作为AI的全局资源",
+      "description": "用于向AI提示具有本地资源的资源节点可用于获取不同的全局资源。例如，当一台收割机卸载资源",
+      "value_type": "bool"
+    },
+    {
+      "key": "displayRoundedDown",
+      "section": "[resource_NAME]",
+      "name": "显示为整数",
+      "description": "对资源进行舍入显示为整数。",
+      "value_type": "bool"
+    },
+    {
+      "key": "@copyFromSection",
+      "section": "[template_NAME]",
+      "name": "复制节",
+      "description": "在任何节中使用，以引用节或模板的代码。如@copyFromSection template_name/action_name/projectile_name",
+      "value_type": null
+    },
+    {
+      "key": "@copyFrom_skipThisSection",
+      "section": "[template_NAME]",
+      "name": "复制但跳过节",
+      "description": "在任何节中使用，例如，在引用时候不复制某个action.",
+      "value_type": null
+    },
+    {
+      "key": "@define X",
+      "section": "[template_NAME]",
+      "name": "局部变量",
+      "description": "在一个节中定义一个局部变量(最好在模板外部)",
+      "value_type": null
+    },
+    {
+      "key": "@global X",
+      "section": "[template_NAME]",
+      "name": "全局变量",
+      "description": "定义在所有节中使用的全局变量。注意：局部变量具有更高的优先级",
+      "value_type": null
+    },
+    {
+      "key": "${X}",
+      "section": "[template_NAME]",
+      "name": "变量引用",
+      "description": "${X}可以用来引用变量(也可以在模板外部完成)",
+      "value_type": null
+    },
+    {
+      "key": "${section.key} ",
+      "section": "[template_NAME]",
+      "name": "值引用",
+      "description": "${section.key}可以用来引用键（也可以在模板外部完成）。",
+      "value_type": null
+    },
+    {
+      "key": "techLevel",
+      "section": "[comment_NAME]",
+      "name": null,
+      "description": "“techLevel”单位生成参数,主要用于内置的单元和设置damagingBorder大小。计算方式是数值X地块5格。最小值为0，圈不可见。如填1则半径为5格。",
+      "value_type": null
+    },
+    {
+      "key": "damagingBorder",
+      "section": "[comment_NAME]",
+      "name": "伤害边框",
+      "description": "此内部单位会生成一个圆形的安全区域，所有区域外的单位会不断收到伤害直到死亡。",
+      "value_type": null
+    },
+    {
+      "key": "zonemarker",
+      "section": "[comment_NAME]",
+      "name": "区域标记",
+      "description": "此单位用于指示伤害边框移动到何处，是放大还是缩小，可使用“techLevel”控制大小。",
+      "value_type": null
+    }
+  ]
+}
