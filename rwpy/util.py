@@ -25,7 +25,13 @@ def CodeList(object):
     
     
     @property
-    def namecheck() -> List[Tuple[str,str]]:
+    def src(self) -> dict:
+        '''源'''
+        return self.__src
+    
+    
+    @property
+    def namecheck(self) -> List[Tuple[str,str]]:
         '''
         包含若干校验元素的校验名表，每个校验元素为2长度的元组，
         0位置为代码名，1位置为段落名
@@ -60,6 +66,6 @@ def load_codelist(filename='codelist.json') -> dict:
     try:
         with open(filename,'r') as f:
             codelist = json.loads(f.read())
-    except IOException:
+    except IOError:
         return None
     return CodeList(codelist)

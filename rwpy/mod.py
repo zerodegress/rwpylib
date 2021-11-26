@@ -86,22 +86,28 @@ class Mod(object):
         file = self.getfile(inifile)
         if not file is None:
             text = ''
-            with open(file,'r') as fs:
-                text = fs.read()
+            try:
+                with open(file,'r') as fs:
+                    text = fs.read()
+            except UnicodeDecodeError:
+                return None
             return create_ini(text,os.path.basename(inifile))
             
     
-    def getinis(self,dir: str) -> List[Ini]:
+    def getinis(self,dir: Optional[str]=None) -> List[Ini]:
         '''构建mod下某一文件夹下全部ini'''
         files = self.getfiles(dir)
         inifiles = filterl(lambda x: not x.split('.')[-1] in not_ini_list,files)
         inis = []
         for inifile in inifiles:
             text = ''
-            with open(inifile,'r') as fs:
-                text = fs.read()
-            inis.append(create_ini(text,inifile))
-        return inis
+            try:
+                with open(inifile,'r') as fs:
+                    text = fs.read()
+                inis.append(create_ini(text,inifile))
+            except UnicodeDecodeError:
+                pass
+        return filterl(lambda x: not x is None,inis)
 
 
 def mkmod(name: str,namespace: str='default') -> Mod:

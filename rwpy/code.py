@@ -78,8 +78,7 @@ class Section(object):
     def __getitem__(self,item) -> Optional[Attribute]:
         '''获取指定键的属性'''
         check(item,str)
-        attributes = filterl(lambda x: isinstance(x,Attribute),self.elements)
-        finds = filterl(lambda x: x.key == item,attributes)
+        finds = filterl(lambda x: x.key == item,self.getattrs())
         if len(finds) == 0:
             return None
         else:
@@ -125,6 +124,11 @@ class Ini(object):
         '''代码文件的文件路径'''
         return self.__filename
         
+        
+    @property
+    def attributes(self) -> List[Attribute]:
+        return filterl(lambda x: isinstance(x,Attribute),self.elements)
+        
     
     def __getitem__(self,item) -> Optional[Attribute]:
         '''获取一个指定键的属性'''
@@ -139,6 +143,9 @@ class Ini(object):
     
     def __getattr__(self,attr) -> Optional[Section]:
         '''获取一个指定名称的段落'''
+        if self.sections is None:
+            return self.sections
+        print(self.sections)
         for sec in self.sections.reverse():
             if attr == sec.name:
                 return sec
@@ -294,11 +301,11 @@ def create_ini(text: str,filename: str='untitled.ini') -> Ini:
     while len(lines) > 0:
         line = lines.pop(0)
         linenum += 1
-        if not re.match(r'^[.*]$',line.strip()) is None:
+        if not re.match(r'\s*\[.+\]',line.strip()) is None:
             if isinstance(ptr,SectionBuilder):
                 inib.append_sec(ptr.build())
             ptr = SectionBuilder().setname(line.strip()[1:-1])
-        elif not re.match(r'^.*:.*$',line) is None:
+        elif not re.match(r'\s*.+:.+',line) is None:
             key,value = line.split(':',1)[0], line.split(':',1)[1]
             clinenum = linenum
             if value.lstrip().startswith('\"\"\"'):
