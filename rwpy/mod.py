@@ -3,7 +3,7 @@ from typing import List,Tuple,Callable,NewType,Optional,Union,NoReturn
 
 import rwpy.errors as errors
 from rwpy.code import Ini,Section,Element,Attribute,create_ini
-from rwpy.util import filterl
+from rwpy.util import filterl,check
 
 
 MOD_INFO_DEFAULT: str = '''
@@ -34,15 +34,15 @@ class Mod(object):
         '''抛出ModNorExistedError'''
         if not os.path.exists(dir):
             raise errors.ModNotExistsError('指定Mod不存在->' + dir)
-        self.__dir = dir
-        self.__modinfo = None
+        self.__dir: str = dir
+        self.__modinfo: Optional[Ini] = None
         for root,dirs,files in os.walk(dir,topdown=True):
             if 'mod-info.txt' in files:
                 if self.__modinfo is None:
                     with open(os.path.join(root,'mod-info.txt'),'r') as f:
                         self.__modinfo = create_ini(f.read())
                 else:
-                    raise errors.RepeatedModInfoError('多余的mod-info.txt -> ' + os.path.join(root,file))
+                    raise errors.RepeatedModInfoError('多余的mod-info.txt -> ' + os.path.join(root,'mod-info.txt'))
 
 
     @property
@@ -52,14 +52,14 @@ class Mod(object):
         
         
     @property
-    def modinfo(self) -> str:
+    def modinfo(self) -> Optional[Ini]:
         '''mod-info.txt的内容'''
         return self.__modinfo
     
     
-    def getfile(self,file: str) -> str:
+    def getfile(self,path: str) -> Optional[str]:
         '''获取相对于mod路径下指定文件'''
-        check(file,str)
+        check(path,str)
         for root,dirs,files in os.walk(self.__dir):
             for file in files:
                 if os.path.relpath(self.__dir,os.path.join(root,file)) == path:
@@ -80,7 +80,7 @@ class Mod(object):
         return r_files
                 
     
-    def getini(self,inifile: str) -> Ini:
+    def getini(self,inifile: str) -> Optional[Ini]:
         '''构建mod中的指定ini'''
         check(inifile,str)
         file = self.getfile(inifile)

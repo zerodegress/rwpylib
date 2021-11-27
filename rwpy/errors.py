@@ -1,4 +1,4 @@
-
+from rwpy.util import check
 
 class RWPYError(Exception):
     '''RWPY库的基础错误'''

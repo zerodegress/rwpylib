@@ -32,7 +32,6 @@ class Element(object):
     
     def __str__(self) -> str:
         return self.__content
-    __repr__ = __str__
     
     
     @property
@@ -69,7 +68,7 @@ class Section(object):
         self.linenum = linenum
         
     
-    def append(self,ele: Element) -> NoReturn:
+    def append(self,ele: Element):
         '''向段落中追加元素'''
         check(ele,Element)
         self.elements.append(ele)
@@ -89,7 +88,6 @@ class Section(object):
         '''对应的文本'''
         text = '[{0}]\n'.format(self.__name) + connect_strs(self.elements)
         return text
-    __repr__ = __str__
     
     
     @property
@@ -116,7 +114,6 @@ class Ini(object):
         text += connect_strs(self.elements) + '\n'
         text += connect_strs(self.sections)
         return text
-    __repr__ = __str__
     
     
     @property
@@ -134,7 +131,7 @@ class Ini(object):
         '''获取一个指定键的属性'''
         check(item,str)
         attributes = filterl(lambda x: isinstance(x,Attribute),self.elements)
-        finds = filter(lambda x: x.key == item,attributes)
+        finds: List[Attribute] = filterl(lambda x: x.key == item,attributes)
         if len(finds) == 0:
             return None
         else:
@@ -146,7 +143,7 @@ class Ini(object):
         if self.sections is None:
             return self.sections
         print(self.sections)
-        for sec in self.sections.reverse():
+        for sec in self.sections:
             if attr == sec.name:
                 return sec
             return None
@@ -161,7 +158,7 @@ class Ini(object):
             return finds[-1]
                 
     
-    def write(self) -> NoReturn:
+    def write(self):
         '''
         输出ini内容到文件
         抛出IOError异常
@@ -170,7 +167,7 @@ class Ini(object):
             f.write(str(self))
 
 
-    def merge(self,ini) -> NoReturn:
+    def merge(self,ini):
         '''
         合并指定ini到本ini
         '''
@@ -183,7 +180,9 @@ class Ini(object):
                     continue
             if not sec.name in map(lambda x: x.name,self.sections):
                 self.sections.append(Section(sec.name))
-            this_sec = self.getsection(sec.name)
+            this_sec: Optional[Section] = self.getsection(sec.name)
+            if this_sec is None:
+                continue
             for attr in sec.getattrs():
                 if not attr.key in map(lambda x: x.key,this_sec.getattrs()) and not attr.key in not_copied_keys[1]:
                     this_sec.append(Attribute(attr.key,attr.value))
@@ -277,7 +276,7 @@ class IniBuilder(Builder):
         return self
         
     
-    def build(self) -> Section:
+    def build(self) -> Ini:
         '''构建ini'''
         ini = Ini(self.__filename)
         ini.elements = self.__elements[:]
