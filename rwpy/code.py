@@ -291,33 +291,56 @@ def create_ini(text: str,filename: str='untitled.ini') -> Ini:
     '''
     check(text,str)
     check(filename,str)
+    
     if text.isspace() or text == '':
         return Ini()
+        
     inib = IniBuilder().setfilename(filename)
     ptr = inib
     lines = text.split('\n')
     linenum = 0
+    alinenum = 0
+    
     while len(lines) > 0:
         line = lines.pop(0)
         linenum += 1
+        
         if not re.match(r'\s*\[.+\]',line.strip()) is None:
+        
             if isinstance(ptr,SectionBuilder):
-                inib.append_sec(ptr.build())
+                ptrs: Section = ptr.build()
+                ptrs.linenum = alinenum
+                inib.append_sec(ptrs)
+                
             ptr = SectionBuilder().setname(line.strip()[1:-1])
+            alinenum = linenum
+            
         elif not re.match(r'\s*.+:.+',line) is None:
             key,value = line.split(':',1)[0], line.split(':',1)[1]
             clinenum = linenum
+            
             if value.lstrip().startswith('\"\"\"'):
+            
                 while True:
+                
                     if len(lines) == 0:
                         raise IniSyntaxError('行号:{0}|意外终止的多行文本'.format(linenum))
+                        
                     value += '\n' + lines.pop(0)
                     linenum += 1
+                    
                     if value.rstrip().endswith('\"\"\"'):
                         break
+                        
             ptr.append_attr(key.strip(),value.strip(),clinenum)
+            
         else:
             ptr.append_ele(line,linenum)
+            
     if isinstance(ptr,SectionBuilder):
-        inib.append_sec(ptr.build())
-    return inib.build()
+        ptrs: Section = ptr.build()
+        ptrs.linenum = alinenum
+        inib.append_sec(ptrs)
+        
+    ini: Ini = inib.build()
+    return ini

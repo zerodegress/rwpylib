@@ -2,10 +2,10 @@ import os
 import json
 
 from rwpy.errors import VisitAbstractMemberError
-from typing import List,Tuple
+from typing import List,Tuple,Callable,Any
 
 
-def filterl(func,lst) -> list:
+def filterl(func: Callable[[Any],bool],lst: list) -> list:
     '''filter，但返回list'''
     return list(filter(func,lst))
 
@@ -62,10 +62,9 @@ class Builder(object):
 
 def load_codelist(filename='codelist.json') -> dict:
     '''加载代码表(json格式),开发中'''
-    codelist = {}
-    try:
-        with open(filename,'r') as f:
-            codelist = json.loads(f.read())
-    except IOError:
-        return None
-    return CodeList(codelist)
+    codelist: dict = {}
+    #try:
+    with open(filename,'r') as f:
+        codelist = json.loads(f.read())
+    #except IOError:
+    return codelist

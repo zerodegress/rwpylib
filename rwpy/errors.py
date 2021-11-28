@@ -1,10 +1,10 @@
-from rwpy.util import check
 
 class RWPYError(Exception):
     '''RWPY库的基础错误'''
     def __init__(self,message: str):
-        check(message,str)
-        self.__message = message
+        if not isinstance(message,str):
+            raise TypeError()
+        self.__message: str = message
         
     
     @property
@@ -14,7 +14,6 @@ class RWPYError(Exception):
         
     def __str__(self) -> str:
         return '{0}:{1}'.format(self.__class__.__name__,self.__message)
-    __repr = __str__
 
 
 class IniSyntaxError(RWPYError):
