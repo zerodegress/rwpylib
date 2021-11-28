@@ -1,0 +1,3442 @@
+{
+  "author": "冰点启航",
+  "version": "pt1",
+  "sections": [
+    {
+      "name": "core",
+      "attributes": [
+        {
+          "key": "name",
+          "value_type": "string"
+        },
+        {
+          "key": "altNames",
+          "value_type": "string(s)"
+        },
+        {
+          "key": "class",
+          "value_type": "string"
+        },
+        {
+          "key": "strictLevel",
+          "value_type": "float"
+        },
+        {
+          "key": "price",
+          "value_type": "int"
+        },
+        {
+          "key": "mass",
+          "value_type": "int"
+        },
+        {
+          "key": "techLevel",
+          "value_type": "int"
+        },
+        {
+          "key": "buildSpeed",
+          "value_type": "float / s"
+        },
+        {
+          "key": "radius",
+          "value_type": "int"
+        },
+        {
+          "key": "isBio",
+          "value_type": "bool"
+        },
+        {
+          "key": "isBug",
+          "value_type": "bool"
+        },
+        {
+          "key": "isBuilder",
+          "value_type": "bool"
+        },
+        {
+          "key": "maxHp",
+          "value_type": "int"
+        },
+        {
+          "key": "selfRegenRate",
+          "value_type": "float"
+        },
+        {
+          "key": "maxShield",
+          "value_type": "int"
+        },
+        {
+          "key": "startShieldAtZero",
+          "value_type": "bool"
+        },
+        {
+          "key": "shieldRegen",
+          "value_type": "float"
+        },
+        {
+          "key": "energyMax",
+          "value_type": "float"
+        },
+        {
+          "key": "energyRegen",
+          "value_type": "float"
+        },
+        {
+          "key": "energyRegenWhenRecharging",
+          "value_type": "float"
+        },
+        {
+          "key": "energyStartingPercentage",
+          "value_type": "float"
+        },
+        {
+          "key": "energyNeedsToRechargeToFull",
+          "value_type": "float"
+        },
+        {
+          "key": "armour",
+          "value_type": "int"
+        },
+        {
+          "key": "armourMinDamageToKeep",
+          "value_type": "int"
+        },
+        {
+          "key": "borrowResourcesWhileAlive",
+          "value_type": "price"
+        },
+        {
+          "key": "generation_resources",
+          "value_type": "price"
+        },
+        {
+          "key": "generation_active",
+          "value_type": "logicBoolean"
+        },
+        {
+          "key": "generation_credits",
+          "value_type": "int"
+        },
+        {
+          "key": "generation_delay",
+          "value_type": "int"
+        },
+        {
+          "key": "showInEditor",
+          "value_type": "bool"
+        },
+        {
+          "key": "displayText",
+          "value_type": "LocaleString"
+        },
+        {
+          "key": "displayText_{LANG}",
+          "value_type": "string"
+        },
+        {
+          "key": "displayDescription",
+          "value_type": "LocaleString"
+        },
+        {
+          "key": "displayDescription_{LANG}",
+          "value_type": "string"
+        },
+        {
+          "key": "displayLocaleKey",
+          "value_type": "string"
+        },
+        {
+          "key": "displayRadius",
+          "value_type": "int"
+        },
+        {
+          "key": "uiTargetRadius",
+          "value_type": "int"
+        },
+        {
+          "key": "shieldRenderRadius",
+          "value_type": "int"
+        },
+        {
+          "key": "shieldDisplayOnlyDeflection",
+          "value_type": "bool"
+        },
+        {
+          "key": "shieldDeflectionDisplayRate",
+          "value_type": "float"
+        },
+        {
+          "key": "showOnMinimap",
+          "value_type": "bool"
+        },
+        {
+          "key": "showOnMinimapToEnemies",
+          "value_type": "bool"
+        },
+        {
+          "key": "showActionsWithMixedSelectionIfOtherUnitsHaveTag",
+          "value_type": "tags"
+        },
+        {
+          "key": "isBuilding",
+          "value_type": "bool"
+        },
+        {
+          "key": "footprint",
+          "value_type": "ints"
+        },
+        {
+          "key": "constructionFootprint",
+          "value_type": "ints"
+        },
+        {
+          "key": "displayFootprint",
+          "value_type": "ints"
+        },
+        {
+          "key": "buildingSelectionOffset",
+          "value_type": "int"
+        },
+        {
+          "key": "buildingToFootprintOffsetX",
+          "value_type": "float"
+        },
+        {
+          "key": "buildingToFootprintOffsetY",
+          "value_type": "float"
+        },
+        {
+          "key": "placeOnlyOnResPool",
+          "value_type": "bool"
+        },
+        {
+          "key": "selfBuildRate",
+          "value_type": "float"
+        },
+        {
+          "key": "ignoreInUnitCapCalculation",
+          "value_type": "bool"
+        },
+        {
+          "key": "copyFrom",
+          "value_type": "file(s) (ini)"
+        },
+        {
+          "key": "dont_load",
+          "value_type": "bool"
+        },
+        {
+          "key": "overrideAndReplace",
+          "value_type": "string(s)"
+        },
+        {
+          "key": "onNewMapSpawn",
+          "value_type": "string"
+        },
+        {
+          "key": "globalScale",
+          "value_type": "float"
+        },
+        {
+          "key": "isLocked",
+          "value_type": "bool"
+        },
+        {
+          "key": "isLockedIfGameModeNoNuke",
+          "value_type": "bool"
+        },
+        {
+          "key": "experimental",
+          "value_type": "bool"
+        },
+        {
+          "key": "stayNeutral",
+          "value_type": "bool"
+        },
+        {
+          "key": "createNeutral",
+          "value_type": "bool"
+        },
+        {
+          "key": "createOnAggressiveTeam",
+          "value_type": "bool"
+        },
+        {
+          "key": "tags",
+          "value_type": "string(s)"
+        },
+        {
+          "key": "fogOfWarSightRange",
+          "value_type": "int"
+        },
+        {
+          "key": "fogOfWarSightRangeWhileNotBuilt",
+          "value_type": "int"
+        },
+        {
+          "key": "softCollisionOnAll",
+          "value_type": "int"
+        },
+        {
+          "key": "disableAllUnitCollisions",
+          "value_type": "bool"
+        },
+        {
+          "key": "isUnrepairableUnit",
+          "value_type": "bool"
+        },
+        {
+          "key": "isUnselectable",
+          "value_type": "bool"
+        },
+        {
+          "key": "isUnselectableAsTarget",
+          "value_type": "bool"
+        },
+        {
+          "key": "isPickableStartingUnit",
+          "value_type": "bool"
+        },
+        {
+          "key": "startFallingWhenStartingUnit",
+          "value_type": "bool"
+        },
+        {
+          "key": "soundOnAttackOrder",
+          "value_type": "sound(s)"
+        },
+        {
+          "key": "soundOnMoveOrder",
+          "value_type": "sound(s)"
+        },
+        {
+          "key": "soundOnNewSelection",
+          "value_type": "sound(s)"
+        },
+        {
+          "key": "canNotBeDirectlyAttacked",
+          "value_type": "bool"
+        },
+        {
+          "key": "canNotBeDamaged",
+          "value_type": "bool"
+        },
+        {
+          "key": "canNotBeGivenOrdersByPlayer",
+          "value_type": "bool"
+        },
+        {
+          "key": "canOnlyBeAttackedByUnitsWithTags",
+          "value_type": "strings(s)"
+        },
+        {
+          "key": "transportSlotsNeeded",
+          "value_type": "int"
+        },
+        {
+          "key": "maxTransportingUnits",
+          "value_type": "int"
+        },
+        {
+          "key": "transportUnitsRequireTag",
+          "value_type": "string(s)"
+        },
+        {
+          "key": "transportUnitsRequireMovementType",
+          "value_type": "movementTypes"
+        },
+        {
+          "key": "transportUnitsBlockAirAndWaterUnits",
+          "value_type": "bool"
+        },
+        {
+          "key": "transportUnitsKeepBuiltUnits",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "transportUnitsCanUnloadUnits",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "transportUnitsAddUnloadOption",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "transportUnitsUnloadDelayBetweenEachUnit",
+          "value_type": "float"
+        },
+        {
+          "key": "transportUnitsKillOnDeath",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "transportUnitsHealBy",
+          "value_type": "float"
+        },
+        {
+          "key": "transportUnitsBlockOtherTransports",
+          "value_type": "bool"
+        },
+        {
+          "key": "whileNeutralTransportAnyTeam",
+          "value_type": "bool"
+        },
+        {
+          "key": "whileNeutralConvertToTransportedTeam",
+          "value_type": "bool"
+        },
+        {
+          "key": "convertToNeutralIfNotTransporting",
+          "value_type": "bool"
+        },
+        {
+          "key": "transportUnitsOnTeamChangeKeepCurrentTeam",
+          "value_type": "bool"
+        },
+        {
+          "key": "transportUnitsEachUnitAlwaysUsesSingleSlot",
+          "value_type": "bool"
+        },
+        {
+          "key": "resourceRate",
+          "value_type": "float"
+        },
+        {
+          "key": "similarResourcesHaveTag",
+          "value_type": "string(s)"
+        },
+        {
+          "key": "resourceMaxConcurrentReclaimingThis",
+          "value_type": "int"
+        },
+        {
+          "key": "reclaimPrice",
+          "value_type": "int"
+        },
+        {
+          "key": "canReclaimResources",
+          "value_type": "bool"
+        },
+        {
+          "key": "canReclaimResourcesNextSearchRange",
+          "value_type": "int"
+        },
+        {
+          "key": "canReclaimResourcesOnlyWithTags",
+          "value_type": "string(s)"
+        },
+        {
+          "key": "canRepairBuildings",
+          "value_type": "bool"
+        },
+        {
+          "key": "canRepairUnits",
+          "value_type": "bool"
+        },
+        {
+          "key": "autoRepair",
+          "value_type": "bool"
+        },
+        {
+          "key": "canReclaimUnitsOnlyWithTags",
+          "value_type": "tags"
+        },
+        {
+          "key": "canRepairUnitsOnlyWithTags",
+          "value_type": "tags"
+        },
+        {
+          "key": "nanoRange",
+          "value_type": "int"
+        },
+        {
+          "key": "nanoRepairSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "nanoBuildSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "nanoRangeForRepairIsMelee",
+          "value_type": "bool"
+        },
+        {
+          "key": "nanoRangeForReclaimIsMelee",
+          "value_type": "bool"
+        },
+        {
+          "key": "nanoRangeForRepair",
+          "value_type": "int"
+        },
+        {
+          "key": "nanoRangeForReclaim",
+          "value_type": "int"
+        },
+        {
+          "key": "nanoFactorySpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "extraBuildRangeWhenBuildingThis",
+          "value_type": "int"
+        },
+        {
+          "key": "builtFrom_\\d+_name",
+          "value_type": "string(s)"
+        },
+        {
+          "key": "builtFrom_\\d+_pos",
+          "value_type": "float"
+        },
+        {
+          "key": "builtFrom_\\d+_forceNano",
+          "value_type": "bool"
+        },
+        {
+          "key": "builtFrom_\\d+_isLocked",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "builtFrom_\\d+_isLockedMessage",
+          "value_type": "LocaleString"
+        },
+        {
+          "key": "exit_x",
+          "value_type": "float"
+        },
+        {
+          "key": "exit_y",
+          "value_type": "float"
+        },
+        {
+          "key": "exit_dirOffset",
+          "value_type": "float"
+        },
+        {
+          "key": "exit_heightOffset",
+          "value_type": "float"
+        },
+        {
+          "key": "exit_moveAwayAmount",
+          "value_type": "float"
+        },
+        {
+          "key": "exitHeightIgnoreParent",
+          "value_type": "bool"
+        },
+        {
+          "key": "dieOnConstruct",
+          "value_type": "bool"
+        },
+        {
+          "key": "dieOnZeroEnergy",
+          "value_type": "bool"
+        },
+        {
+          "key": "numBitsOnDeath",
+          "value_type": "int"
+        },
+        {
+          "key": "nukeOnDeath",
+          "value_type": "bool"
+        },
+        {
+          "key": "nukeOnDeathRange",
+          "value_type": "float"
+        },
+        {
+          "key": "nukeOnDeathDamage",
+          "value_type": "float"
+        },
+        {
+          "key": "nukeOnDeathDisableWhenNoNuke",
+          "value_type": "bool"
+        },
+        {
+          "key": "fireTurretXAtSelfOnDeath",
+          "value_type": "turret ref"
+        },
+        {
+          "key": "explodeOnDeath",
+          "value_type": "bool"
+        },
+        {
+          "key": "explodeOnDeathGroundCollision",
+          "value_type": "boolean"
+        },
+        {
+          "key": "effectOnDeath",
+          "value_type": "effect(s) ref"
+        },
+        {
+          "key": "effectOnDeathGroundCollision",
+          "value_type": "effect(s) ref"
+        },
+        {
+          "key": "unitsSpawnedOnDeath",
+          "value_type": "string(s)"
+        },
+        {
+          "key": "unitsSpawnedOnDeath_setToTeamOfLastAttacker",
+          "value_type": "bool"
+        },
+        {
+          "key": "hideScorchMark",
+          "value_type": "bool"
+        },
+        {
+          "key": "soundOnDeath",
+          "value_type": "string(s)"
+        },
+        {
+          "key": "explodeTypeOnDeath",
+          "value_type": "preset effects"
+        },
+        {
+          "key": "effectOnDeathIfUnbuilt",
+          "value_type": "effect(s) ref"
+        },
+        {
+          "key": "disableDeathOnZeroHp",
+          "value_type": "bool"
+        },
+        {
+          "key": "autoTriggerCooldownTime",
+          "value_type": "time (seconds)"
+        },
+        {
+          "key": "autoTriggerCooldownTime_allowDangerousHighCPU",
+          "value_type": "bool"
+        },
+        {
+          "key": "action_\\d+_convertTo",
+          "value_type": "string"
+        },
+        {
+          "key": "action_\\d+_pos",
+          "value_type": "float"
+        },
+        {
+          "key": "action_\\d+_price",
+          "value_type": "int"
+        },
+        {
+          "key": "action_\\d+_text",
+          "value_type": "string"
+        },
+        {
+          "key": "action_\\d+_description",
+          "value_type": "string"
+        },
+        {
+          "key": "action_\\d+_addEnergy",
+          "value_type": "float"
+        },
+        {
+          "key": "action_\\d+_whenBuilding_cannotMove",
+          "value_type": "bool"
+        },
+        {
+          "key": "canBuild_\\d+_name/pos/isLocked",
+          "value_type": "string"
+        }
+      ]
+    },
+    {
+      "name": "canBuild_.+",
+      "attributes": [
+        {
+          "key": "name",
+          "value_type": "string(s)"
+        },
+        {
+          "key": "pos",
+          "value_type": "float"
+        },
+        {
+          "key": "tech",
+          "value_type": "int"
+        },
+        {
+          "key": "forceNano",
+          "value_type": "bool"
+        },
+        {
+          "key": "isVisible",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "isLocked",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "isLockedMessage",
+          "value_type": "string"
+        },
+        {
+          "key": "isLockedMessage_{LANG}",
+          "value_type": "string"
+        },
+        {
+          "key": "isLockedAlt",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "isLockedAltMessage",
+          "value_type": "string"
+        },
+        {
+          "key": "isLockedAlt2",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "isLockedAlt2Message",
+          "value_type": "string"
+        },
+        {
+          "key": "addResources",
+          "value_type": "price(s)"
+        },
+        {
+          "key": "price",
+          "value_type": "price(s)"
+        },
+        {
+          "key": "isGuiBlinking",
+          "value_type": "LogicBoolean"
+        }
+      ]
+    },
+    {
+      "name": "graphics",
+      "attributes": [
+        {
+          "key": "image",
+          "value_type": "file (image)"
+        },
+        {
+          "key": "image_back",
+          "value_type": "file (image)"
+        },
+        {
+          "key": "image_wreak",
+          "value_type": "file (image)"
+        },
+        {
+          "key": "image_shield",
+          "value_type": "file (image)"
+        },
+        {
+          "key": "image_offsetX",
+          "value_type": "int"
+        },
+        {
+          "key": "image_offsetY",
+          "value_type": "int"
+        },
+        {
+          "key": "isVisible",
+          "value_type": "logic"
+        },
+        {
+          "key": "isVisibleToEnemies",
+          "value_type": "logic"
+        },
+        {
+          "key": "teamColorsUseHue",
+          "value_type": "bool"
+        },
+        {
+          "key": "teamColoringMode",
+          "value_type": "string"
+        },
+        {
+          "key": "scaleImagesTo",
+          "value_type": "float"
+        },
+        {
+          "key": "imageScale",
+          "value_type": "float"
+        },
+        {
+          "key": "drawLayer",
+          "value_type": "string"
+        },
+        {
+          "key": "whenBeingBuiltMakeTransparentTill",
+          "value_type": "float"
+        },
+        {
+          "key": "icon_zoomed_out",
+          "value_type": "file (image)"
+        },
+        {
+          "key": "icon_zoomed_out_neverShow",
+          "value_type": "bool"
+        },
+        {
+          "key": "image_turret",
+          "value_type": "file (image)"
+        },
+        {
+          "key": "teamColorsOnTurret",
+          "value_type": "bool"
+        },
+        {
+          "key": "scaleTurretImagesTo",
+          "value_type": "float"
+        },
+        {
+          "key": "lock_body_rotation_with_main_turret",
+          "value_type": "bool"
+        },
+        {
+          "key": "lock_leg_rotation_with_main_turret",
+          "value_type": "bool"
+        },
+        {
+          "key": "image_shadow",
+          "value_type": "file (image)"
+        },
+        {
+          "key": "shadowOffsetX",
+          "value_type": "float"
+        },
+        {
+          "key": "shadowOffsetY",
+          "value_type": "float"
+        },
+        {
+          "key": "image_shadow_frames",
+          "value_type": "bool"
+        },
+        {
+          "key": "lock_shadow_rotation_with_main_turret",
+          "value_type": "bool"
+        },
+        {
+          "key": "total_frames",
+          "value_type": "int"
+        },
+        {
+          "key": "frame_width",
+          "value_type": "int"
+        },
+        {
+          "key": "frame_height",
+          "value_type": "int"
+        },
+        {
+          "key": "splastEffect",
+          "value_type": "bool"
+        },
+        {
+          "key": "dustEffect",
+          "value_type": "bool"
+        },
+        {
+          "key": "splastEffectReverse",
+          "value_type": "bool"
+        },
+        {
+          "key": "dustEffectReverse",
+          "value_type": "bool"
+        },
+        {
+          "key": "movementEffect",
+          "value_type": "effect"
+        },
+        {
+          "key": "movementEffectReverse",
+          "value_type": "effect"
+        },
+        {
+          "key": "movementEffectRate",
+          "value_type": "float"
+        },
+        {
+          "key": "movementEffectReverseFlipEffects",
+          "value_type": "bool"
+        },
+        {
+          "key": "repairEffect",
+          "value_type": "effect"
+        },
+        {
+          "key": "repairEffectAtTarget",
+          "value_type": "effect"
+        },
+        {
+          "key": "repairEffectRate",
+          "value_type": "float"
+        },
+        {
+          "key": "reclaimEffect",
+          "value_type": "effect"
+        },
+        {
+          "key": "reclaimEffectAtTarget",
+          "value_type": "effect"
+        },
+        {
+          "key": "reclaimEffectRate",
+          "value_type": "float"
+        },
+        {
+          "key": "rotate_with_direction",
+          "value_type": "bool"
+        },
+        {
+          "key": "animation_direction_units",
+          "value_type": "float"
+        },
+        {
+          "key": "animation_direction_strideX",
+          "value_type": "int"
+        },
+        {
+          "key": "animation_direction_strideY",
+          "value_type": "int"
+        },
+        {
+          "key": "animation_direction_starting",
+          "value_type": "float"
+        },
+        {
+          "key": "disableLowHpFire",
+          "value_type": "bool"
+        },
+        {
+          "key": "disableLowHpSmoke",
+          "value_type": "bool"
+        },
+        {
+          "key": "showTransportBar",
+          "value_type": "bool"
+        },
+        {
+          "key": "showHealthBar",
+          "value_type": "bool"
+        },
+        {
+          "key": "showEnergyBar",
+          "value_type": "bool"
+        },
+        {
+          "key": "showShieldBar",
+          "value_type": "bool"
+        },
+        {
+          "key": "showQueueBar",
+          "value_type": "bool"
+        },
+        {
+          "key": "animation_TYPE_start",
+          "value_type": "int"
+        },
+        {
+          "key": "animation_TYPE_end",
+          "value_type": "int"
+        },
+        {
+          "key": "animation_TYPE_scale_start",
+          "value_type": "float"
+        },
+        {
+          "key": "animation_TYPE_scale_end",
+          "value_type": "float"
+        },
+        {
+          "key": "animation_TYPE_speed",
+          "value_type": "float"
+        },
+        {
+          "key": "animation_TYPE_pingPong",
+          "value_type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "attack",
+      "attributes": [
+        {
+          "key": "maxAttackRange",
+          "value_type": "float"
+        },
+        {
+          "key": "canAttack",
+          "value_type": "bool"
+        },
+        {
+          "key": "canAttackFlyingUnits",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "canAttackLandUnits",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "canAttackUnderwaterUnits",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "canAttackNotTouchingWaterUnits",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "canOnlyAttackUnitsWithTags",
+          "value_type": "tags"
+        },
+        {
+          "key": "canOnlyAttackUnitsWithoutTags",
+          "value_type": "tags"
+        },
+        {
+          "key": "turretMultiTargeting",
+          "value_type": "bool"
+        },
+        {
+          "key": "isMelee",
+          "value_type": "bool"
+        },
+        {
+          "key": "meleeEngangementDistance",
+          "value_type": "int"
+        },
+        {
+          "key": "turretRotateWithBody",
+          "value_type": "bool"
+        },
+        {
+          "key": "attackMovement",
+          "value_type": "string"
+        },
+        {
+          "key": "dieOnAttack",
+          "value_type": "bool"
+        },
+        {
+          "key": "isFixedFiring",
+          "value_type": "bool"
+        },
+        {
+          "key": "aimOffsetSpread",
+          "value_type": "bool"
+        },
+        {
+          "key": "stopTargetingAfterFiring",
+          "value_type": "bool"
+        },
+        {
+          "key": "disablePassiveTargeting",
+          "value_type": "bool"
+        },
+        {
+          "key": "showRangeUIGuide",
+          "value_type": "bool"
+        },
+        {
+          "key": "turretSize",
+          "value_type": "float"
+        },
+        {
+          "key": "turretTurnSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "shootDelay",
+          "value_type": "float"
+        },
+        {
+          "key": "x",
+          "value_type": "float"
+        },
+        {
+          "key": "y",
+          "value_type": "float"
+        },
+        {
+          "key": "copyFrom",
+          "value_type": "turret ref"
+        },
+        {
+          "key": "projectile",
+          "value_type": "projectile ref"
+        },
+        {
+          "key": "altProjectile",
+          "value_type": "projectile ref"
+        },
+        {
+          "key": "altProjectileCondition",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "barrelX",
+          "value_type": "float"
+        },
+        {
+          "key": "barrelY",
+          "value_type": "float"
+        },
+        {
+          "key": "barrelHeight",
+          "value_type": "float"
+        },
+        {
+          "key": "size",
+          "value_type": "float"
+        },
+        {
+          "key": "turnSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "turnSpeedAcceleration",
+          "value_type": "float"
+        },
+        {
+          "key": "turnSpeedDeceleration",
+          "value_type": "float"
+        },
+        {
+          "key": "idleDir",
+          "value_type": "float"
+        },
+        {
+          "key": "idleDirReversing",
+          "value_type": "float"
+        },
+        {
+          "key": "shouldResetTurret",
+          "value_type": "bool"
+        },
+        {
+          "key": "idleSweepAngle",
+          "value_type": "int"
+        },
+        {
+          "key": "idleSweepDelay",
+          "value_type": "float"
+        },
+        {
+          "key": "idleSweepSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "idleSweepCondition",
+          "value_type": "logic boolean"
+        },
+        {
+          "key": "idleSweepAddRandomDelay",
+          "value_type": "float"
+        },
+        {
+          "key": "idleSweepAddRandomAngle",
+          "value_type": "int"
+        },
+        {
+          "key": "attachedTo",
+          "value_type": "turret ref"
+        },
+        {
+          "key": "slave",
+          "value_type": "bool"
+        },
+        {
+          "key": "isMainNanoTurret",
+          "value_type": "bool"
+        },
+        {
+          "key": "energyUsage",
+          "value_type": "float"
+        },
+        {
+          "key": "resourceUsage",
+          "value_type": "price"
+        },
+        {
+          "key": "delay",
+          "value_type": "float"
+        },
+        {
+          "key": "linkDelayWithTurret",
+          "value_type": "turret ref"
+        },
+        {
+          "key": "warmup",
+          "value_type": "float"
+        },
+        {
+          "key": "warmupCallDownRate",
+          "value_type": "float"
+        },
+        {
+          "key": "warmupNoReset",
+          "value_type": "bool"
+        },
+        {
+          "key": "warmupShootDelayTransfer",
+          "value_type": "float"
+        },
+        {
+          "key": "onShoot_freezeBodyMovementFor",
+          "value_type": "bool"
+        },
+        {
+          "key": "canShoot",
+          "value_type": "bool"
+        },
+        {
+          "key": "canAttackFlyingUnits",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "canAttackLandUnits",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "canAttackUnderwaterUnits",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "canAttackNotTouchingWaterUnits",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "canOnlyAttackUnitsWithTags",
+          "value_type": "tags"
+        },
+        {
+          "key": "canOnlyAttackUnitsWithoutTags",
+          "value_type": "tags"
+        },
+        {
+          "key": "canAttackCondition",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "clearTurretTargetAfterFiring",
+          "value_type": "bool"
+        },
+        {
+          "key": "limitingRange",
+          "value_type": "float"
+        },
+        {
+          "key": "limitingAngle",
+          "value_type": "float"
+        },
+        {
+          "key": "limitingMinRange",
+          "value_type": "float"
+        },
+        {
+          "key": "canAttackMaxAngle",
+          "value_type": "float"
+        },
+        {
+          "key": "interceptProjectiles_withTags",
+          "value_type": "string"
+        },
+        {
+          "key": "interceptProjectiles_andTargetingGroundUnderDistance",
+          "value_type": "int"
+        },
+        {
+          "key": "interceptProjectiles_andUnderDistance",
+          "value_type": "int"
+        },
+        {
+          "key": "interceptProjectiles_andOverHeight",
+          "value_type": "int"
+        },
+        {
+          "key": "interceptProjectile_removeTargetLifeOnly",
+          "value_type": "bool"
+        },
+        {
+          "key": "laserDefenceEnergyUse",
+          "value_type": "float"
+        },
+        {
+          "key": "aimOffsetSpread",
+          "value_type": "bool"
+        },
+        {
+          "key": "invisible",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "image",
+          "value_type": "file (image)"
+        },
+        {
+          "key": "image_applyTeamColors",
+          "value_type": "bool"
+        },
+        {
+          "key": "image_drawOffsetX",
+          "value_type": "float"
+        },
+        {
+          "key": "image_drawOffsetY",
+          "value_type": "float"
+        },
+        {
+          "key": "chargeEffectImage:\n",
+          "value_type": "file (image)"
+        },
+        {
+          "key": "warmupStartEffect",
+          "value_type": "effects"
+        },
+        {
+          "key": "shoot_sound",
+          "value_type": "string"
+        },
+        {
+          "key": "shoot_sound_vol",
+          "value_type": "float"
+        },
+        {
+          "key": "shoot_flame",
+          "value_type": "effects"
+        },
+        {
+          "key": "shoot_light",
+          "value_type": "color"
+        },
+        {
+          "key": "idleSpin",
+          "value_type": "float"
+        },
+        {
+          "key": "onShoot_playAnimation",
+          "value_type": "animation ref"
+        },
+        {
+          "key": "onShoot_freezeBodyMovementFor",
+          "value_type": "bool"
+        },
+        {
+          "key": "onShoot_triggerActions",
+          "value_type": "action refs"
+        },
+        {
+          "key": "recoilOffset",
+          "value_type": "float"
+        },
+        {
+          "key": "recoilOutTime",
+          "value_type": "float"
+        },
+        {
+          "key": "recoilReturnTime",
+          "value_type": "float"
+        },
+        {
+          "key": "showRangeUIGuide",
+          "value_type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "projectile_.+",
+      "attributes": [
+        {
+          "key": "life",
+          "value_type": "int"
+        },
+        {
+          "key": "deflectionPower",
+          "value_type": "float"
+        },
+        {
+          "key": "explodeOnEndOfLife",
+          "value_type": "bool"
+        },
+        {
+          "key": "autoTargetingOnDeadTarget",
+          "value_type": "bool"
+        },
+        {
+          "key": "autoTargetingOnDeadTargetRange",
+          "value_type": "int"
+        },
+        {
+          "key": "autoTargetingOnDeadTargetLead",
+          "value_type": "float"
+        },
+        {
+          "key": "unloadUpToXUnitsFromSource",
+          "value_type": "int"
+        },
+        {
+          "key": "teleportSource",
+          "value_type": "bool"
+        },
+        {
+          "key": "spawnUnit",
+          "value_type": "unit types"
+        },
+        {
+          "key": "convertHitToSourceTeam",
+          "value_type": "bool"
+        },
+        {
+          "key": "tags",
+          "value_type": "tags"
+        },
+        {
+          "key": "flameWeapon",
+          "value_type": "bool"
+        },
+        {
+          "key": "spawnProjectilesOnEndOfLife",
+          "value_type": "projectile ref"
+        },
+        {
+          "key": "spawnProjectilesOnExplode",
+          "value_type": "projectile ref"
+        },
+        {
+          "key": "spawnProjectilesOnCreate",
+          "value_type": "projectile ref"
+        },
+        {
+          "key": "directDamage",
+          "value_type": "int"
+        },
+        {
+          "key": "areaDamage",
+          "value_type": "int"
+        },
+        {
+          "key": "areaRadius",
+          "value_type": "float"
+        },
+        {
+          "key": "areaDamageNoFalloff",
+          "value_type": "bool"
+        },
+        {
+          "key": "areaRadiusFromEdge",
+          "value_type": "bool"
+        },
+        {
+          "key": "areaExpandTime",
+          "value_type": "float"
+        },
+        {
+          "key": "areaHitAirAndLandAtSameTime",
+          "value_type": "bool"
+        },
+        {
+          "key": "areaHitUnderwaterAlways",
+          "value_type": "bool"
+        },
+        {
+          "key": "areaIgnoreUnitsCloserThan",
+          "value_type": "int"
+        },
+        {
+          "key": "buildingDamageMultiplier",
+          "value_type": "float"
+        },
+        {
+          "key": "shieldDamageMultiplier",
+          "value_type": "float"
+        },
+        {
+          "key": "shieldDefectionMultiplier",
+          "value_type": "float"
+        },
+        {
+          "key": "hullDamageMultiplier",
+          "value_type": "float"
+        },
+        {
+          "key": "armourIgnoreAmount",
+          "value_type": "int"
+        },
+        {
+          "key": "friendlyFire",
+          "value_type": "bool/string"
+        },
+        {
+          "key": "mutatorX_ifUnitWithTags",
+          "value_type": "float"
+        },
+        {
+          "key": "mutatorX_ifUnitWithoutTags",
+          "value_type": "float"
+        },
+        {
+          "key": "mutatorX_directDamageMultiplier",
+          "value_type": "float"
+        },
+        {
+          "key": "mutatorX_areaDamageMultiplier",
+          "value_type": "float"
+        },
+        {
+          "key": "mutatorX_changedExplodeEffect",
+          "value_type": "effect"
+        },
+        {
+          "key": "mutatorX_addResourcesDirectHit",
+          "value_type": "resource"
+        },
+        {
+          "key": "mutatorX_addResourcesAreaHit",
+          "value_type": "resource"
+        },
+        {
+          "key": "targetGround",
+          "value_type": "bool"
+        },
+        {
+          "key": "targetGround_includeTargetHeight",
+          "value_type": "float"
+        },
+        {
+          "key": "targetGroundHeightOffset",
+          "value_type": "float"
+        },
+        {
+          "key": "speed",
+          "value_type": "float"
+        },
+        {
+          "key": "targetSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "targetSpeedAcceleration",
+          "value_type": "float"
+        },
+        {
+          "key": "ballistic",
+          "value_type": "bool"
+        },
+        {
+          "key": "ballistic_delaymove_height",
+          "value_type": "float"
+        },
+        {
+          "key": "ballistic_height",
+          "value_type": "float"
+        },
+        {
+          "key": "targetGroundSpread",
+          "value_type": "float"
+        },
+        {
+          "key": "speedSpread",
+          "value_type": "float"
+        },
+        {
+          "key": "instant",
+          "value_type": "bool"
+        },
+        {
+          "key": "instantReuseLast",
+          "value_type": "bool"
+        },
+        {
+          "key": "instantReuseLast_alsoChangeTurretAim",
+          "value_type": "bool"
+        },
+        {
+          "key": "instantReuseLast_keepAreaDamageList",
+          "value_type": "bool"
+        },
+        {
+          "key": "disableLeadTargeting",
+          "value_type": "bool"
+        },
+        {
+          "key": "leadTargetingSpeedCalculation",
+          "value_type": "float"
+        },
+        {
+          "key": "initialUnguidedSpeedHeight",
+          "value_type": "float"
+        },
+        {
+          "key": "initialUnguidedSpeedX",
+          "value_type": "float"
+        },
+        {
+          "key": "initialUnguidedSpeedY",
+          "value_type": "float"
+        },
+        {
+          "key": "gravity",
+          "value_type": "float"
+        },
+        {
+          "key": "turnSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "turnSpeedWhenNear",
+          "value_type": "bool"
+        },
+        {
+          "key": "wobbleAmplitude",
+          "value_type": "float"
+        },
+        {
+          "key": "wobbleFrequency",
+          "value_type": "float"
+        },
+        {
+          "key": "pushForce",
+          "value_type": "float"
+        },
+        {
+          "key": "pushVelocity",
+          "value_type": "float"
+        },
+        {
+          "key": "moveWithParent",
+          "value_type": "bool"
+        },
+        {
+          "key": "sweepOffset",
+          "value_type": "float"
+        },
+        {
+          "key": "sweepSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "sweepOffsetFromTargetRadius",
+          "value_type": "float"
+        },
+        {
+          "key": "retargetingInFlight",
+          "value_type": "bool"
+        },
+        {
+          "key": "retargetingInFlightSearchDelay",
+          "value_type": "float/time"
+        },
+        {
+          "key": "retargetingInFlightSearchRange",
+          "value_type": "int"
+        },
+        {
+          "key": "retargetingInFlightSearchLead",
+          "value_type": "float"
+        },
+        {
+          "key": "retargetingInFlightSearchOnlyTags",
+          "value_type": "tag ref"
+        },
+        {
+          "key": "color",
+          "value_type": "color"
+        },
+        {
+          "key": "teamColorRatio",
+          "value_type": "float"
+        },
+        {
+          "key": "teamColorRatio_sourceRatio",
+          "value_type": "float"
+        },
+        {
+          "key": "invisible",
+          "value_type": "bool"
+        },
+        {
+          "key": "image",
+          "value_type": "file (image)"
+        },
+        {
+          "key": "shadowImage",
+          "value_type": "file (image)"
+        },
+        {
+          "key": "drawType",
+          "value_type": "int"
+        },
+        {
+          "key": "drawSize",
+          "value_type": "float"
+        },
+        {
+          "key": "frame",
+          "value_type": "int"
+        },
+        {
+          "key": "hitSound",
+          "value_type": "bool"
+        },
+        {
+          "key": "explodeEffect",
+          "value_type": "effect ref list"
+        },
+        {
+          "key": "explodeEffectOnShield",
+          "value_type": "effect ref list"
+        },
+        {
+          "key": "drawUnderUnits",
+          "value_type": "bool"
+        },
+        {
+          "key": "effectOnCreate",
+          "value_type": "effect ref list"
+        },
+        {
+          "key": "shouldRevealFog",
+          "value_type": "bool"
+        },
+        {
+          "key": "alwaysVisibleInFog",
+          "value_type": "bool"
+        },
+        {
+          "key": "nukeWeapon",
+          "value_type": "bool"
+        },
+        {
+          "key": "trailEffect",
+          "value_type": "bool/effect"
+        },
+        {
+          "key": "trailEffectRate",
+          "value_type": "float"
+        },
+        {
+          "key": "lightSize",
+          "value_type": "float"
+        },
+        {
+          "key": "lightColor",
+          "value_type": "color"
+        },
+        {
+          "key": "lightCastOnGround",
+          "value_type": "bool"
+        },
+        {
+          "key": "largeHitEffect",
+          "value_type": "bool"
+        },
+        {
+          "key": "lightingEffect",
+          "value_type": "bool"
+        },
+        {
+          "key": "laserEffect",
+          "value_type": "bool"
+        },
+        {
+          "key": "delayedStartTimer",
+          "value_type": "time"
+        },
+        {
+          "key": "beamImage",
+          "value_type": "file (image)"
+        },
+        {
+          "key": "beamImageOffsetRate",
+          "value_type": "float"
+        },
+        {
+          "key": "beamImageStart",
+          "value_type": "file (image)"
+        },
+        {
+          "key": "beamImageEnd",
+          "value_type": "file (image)"
+        },
+        {
+          "key": "beamImageStartRotated",
+          "value_type": "bool"
+        },
+        {
+          "key": "beamImageEndRotated",
+          "value_type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "movement",
+      "attributes": [
+        {
+          "key": "movementType",
+          "value_type": "string"
+        },
+        {
+          "key": "moveSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "moveAccelerationSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "moveDecelerationSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "reverseSpeedPercentage",
+          "value_type": "float"
+        },
+        {
+          "key": "landOnGround",
+          "value_type": "bool"
+        },
+        {
+          "key": "targetHeight",
+          "value_type": "float"
+        },
+        {
+          "key": "targetHeightDrift",
+          "value_type": "float"
+        },
+        {
+          "key": "startingHeightOffset",
+          "value_type": "float"
+        },
+        {
+          "key": "maxTurnSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "turnAcceleration",
+          "value_type": "float"
+        },
+        {
+          "key": "moveSlidingMode",
+          "value_type": "bool"
+        },
+        {
+          "key": "moveIgnoringBody",
+          "value_type": "bool"
+        },
+        {
+          "key": "moveSlidingDir",
+          "value_type": "int"
+        },
+        {
+          "key": "joinsGroupFormations",
+          "value_type": "bool"
+        },
+        {
+          "key": "slowDeathFall",
+          "value_type": "bool"
+        },
+        {
+          "key": "heightChangeRate",
+          "value_type": "float"
+        },
+        {
+          "key": "fallingAcceleration",
+          "value_type": "float"
+        },
+        {
+          "key": "fallingAccelerationDead",
+          "value_type": "float"
+        },
+        {
+          "key": "useAsBuilder",
+          "value_type": "bool"
+        },
+        {
+          "key": "useAsTransport",
+          "value_type": "bool"
+        },
+        {
+          "key": "useAsAttacker",
+          "value_type": "bool"
+        },
+        {
+          "key": "useAsHarvester",
+          "value_type": "bool"
+        },
+        {
+          "key": "disableUse",
+          "value_type": "bool"
+        },
+        {
+          "key": "ai_upgradePriority",
+          "value_type": "float"
+        },
+        {
+          "key": "buildPriority",
+          "value_type": "float"
+        },
+        {
+          "key": "noneInBaseExtraPriority",
+          "value_type": "float"
+        },
+        {
+          "key": "noneGlobalExtraPriority",
+          "value_type": "float"
+        },
+        {
+          "key": "recommendedInEachBaseNum",
+          "value_type": "int"
+        },
+        {
+          "key": "recommendedInEachBasePriorityIfUnmet",
+          "value_type": "float"
+        },
+        {
+          "key": "upgradedFrom",
+          "value_type": "string"
+        },
+        {
+          "key": "maxGlobal",
+          "value_type": "int"
+        },
+        {
+          "key": "maxEachBase",
+          "value_type": "int"
+        },
+        {
+          "key": "notPassivelyTargetedByOtherUnits",
+          "value_type": "bool"
+        },
+        {
+          "key": "lowPriorityTargetForOtherUnits",
+          "value_type": "bool"
+        },
+        {
+          "key": "whenUsingAsHarvester_recommendedInEachBase",
+          "value_type": "int"
+        },
+        {
+          "key": "whenUsingAsHarvester_recommendedGlobal",
+          "value_type": "int"
+        },
+        {
+          "key": "whenUsingAsHarvester_includeOtherHarvesterCounts",
+          "value_type": "bool"
+        },
+        {
+          "key": "onlyUseAsHarvester_ifBaseHasUnitTagged",
+          "value_type": "string"
+        }
+      ]
+    },
+    {
+      "name": "leg_#|arm_#",
+      "attributes": [
+        {
+          "key": "x",
+          "value_type": "float"
+        },
+        {
+          "key": "y",
+          "value_type": "float"
+        },
+        {
+          "key": "copyFrom",
+          "value_type": "int"
+        },
+        {
+          "key": "attach_x",
+          "value_type": "float"
+        },
+        {
+          "key": "attach_y",
+          "value_type": "float"
+        },
+        {
+          "key": "rotateSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "endDirOffset",
+          "value_type": "int"
+        },
+        {
+          "key": "lockMovement",
+          "value_type": "bool"
+        },
+        {
+          "key": "heightSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "moveSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "moveWarmUp",
+          "value_type": "float"
+        },
+        {
+          "key": "holdDisMin",
+          "value_type": "float"
+        },
+        {
+          "key": "holdDisMax",
+          "value_type": "float"
+        },
+        {
+          "key": "holdDisMin_maxMovingLegs",
+          "value_type": "int"
+        },
+        {
+          "key": "hold_moveOnlyIfFurthest",
+          "value_type": "bool"
+        },
+        {
+          "key": "holdDisMin_checkNeighbours",
+          "value_type": "bool"
+        },
+        {
+          "key": "hardLimit",
+          "value_type": "float"
+        },
+        {
+          "key": "estimatingPositionMultiplier",
+          "value_type": "float"
+        },
+        {
+          "key": "hidden",
+          "value_type": "logic boolean"
+        },
+        {
+          "key": "image_end",
+          "value_type": "image"
+        },
+        {
+          "key": "image_end_shadow",
+          "value_type": "image"
+        },
+        {
+          "key": "image_end_teamColors",
+          "value_type": "bool"
+        },
+        {
+          "key": "image_foot",
+          "value_type": "image"
+        },
+        {
+          "key": "image_foot_shadow",
+          "value_type": "image"
+        },
+        {
+          "key": "image_middle",
+          "value_type": "image"
+        },
+        {
+          "key": "image_leg",
+          "value_type": "image"
+        },
+        {
+          "key": "draw_foot_on_top",
+          "value_type": "bool"
+        },
+        {
+          "key": "drawOverBody",
+          "value_type": "bool"
+        },
+        {
+          "key": "drawUnderAllUnits",
+          "value_type": "bool"
+        },
+        {
+          "key": "drawDirOffset",
+          "value_type": "float"
+        },
+        {
+          "key": "dust_effect",
+          "value_type": "bool"
+        },
+        {
+          "key": "spinRate",
+          "value_type": "float"
+        },
+        {
+          "key": "favourOppositeSideNeighbours",
+          "value_type": "bool"
+        },
+        {
+          "key": "drawLegWhenZoomedOut",
+          "value_type": "bool"
+        },
+        {
+          "key": "drawFootWhenZoomedOut",
+          "value_type": "bool"
+        },
+        {
+          "key": "resetAngle",
+          "value_type": "float"
+        }
+      ]
+    },
+    {
+      "name": "attachment_.+",
+      "attributes": [
+        {
+          "key": "x",
+          "value_type": "float"
+        },
+        {
+          "key": "y",
+          "value_type": "float"
+        },
+        {
+          "key": "height",
+          "value_type": "float"
+        },
+        {
+          "key": "idleDir",
+          "value_type": "int"
+        },
+        {
+          "key": "idleDirReversing",
+          "value_type": "float"
+        },
+        {
+          "key": "isVisible",
+          "value_type": "bool"
+        },
+        {
+          "key": "onCreateSpawnUnitOf",
+          "value_type": "units"
+        },
+        {
+          "key": "canBeAttackedAndDamaged",
+          "value_type": "bool"
+        },
+        {
+          "key": "isUnselectable",
+          "value_type": "bool"
+        },
+        {
+          "key": "lockLegMovement",
+          "value_type": "bool"
+        },
+        {
+          "key": "keepAliveWhenParentDies",
+          "value_type": "bool"
+        },
+        {
+          "key": "setDrawLayerOnTop",
+          "value_type": "bool"
+        },
+        {
+          "key": "setDrawLayerOnBottom",
+          "value_type": "bool"
+        },
+        {
+          "key": "addTransportedUnits",
+          "value_type": "bool"
+        },
+        {
+          "key": "lockRotation",
+          "value_type": "bool"
+        },
+        {
+          "key": "rotateWithParent",
+          "value_type": "bool"
+        },
+        {
+          "key": "resetRotationWhenNotAttacking",
+          "value_type": "bool"
+        },
+        {
+          "key": "deattachIfWantingToMove",
+          "value_type": "bool"
+        },
+        {
+          "key": "prioritizeParentsMainTarget",
+          "value_type": "bool"
+        },
+        {
+          "key": "alwaysAllowedToAttackParentsMainTarget",
+          "value_type": "bool"
+        },
+        {
+          "key": "canAttack",
+          "value_type": "bool"
+        },
+        {
+          "key": "onParentTeamChangeKeepCurrentTeam",
+          "value_type": "bool"
+        },
+        {
+          "key": "smoothlyBlendPositionWhenExistingUnitAdded",
+          "value_type": "bool"
+        },
+        {
+          "key": "keepWaypointsNeedingMovement",
+          "value_type": "bool"
+        },
+        {
+          "key": "showAllActionsFrom",
+          "value_type": "logic boolean"
+        },
+        {
+          "key": "createIncompleteIfParentIs",
+          "value_type": "bool"
+        },
+        {
+          "key": "redirectDamageToParent",
+          "value_type": "bool"
+        },
+        {
+          "key": "redirectDamageToParent_shieldOnly",
+          "value_type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "effect_.+",
+      "attributes": [
+        {
+          "key": "life",
+          "value_type": "float"
+        },
+        {
+          "key": "lifeRandom",
+          "value_type": "float"
+        },
+        {
+          "key": "alsoEmitEffectsOnDeath",
+          "value_type": "effect ref"
+        },
+        {
+          "key": "alsoEmitEffects",
+          "value_type": "effect ref"
+        },
+        {
+          "key": "ifSpawnFailsEmitEffects",
+          "value_type": "effect ref"
+        },
+        {
+          "key": "alsoPlaySound",
+          "value_type": "sound ref"
+        },
+        {
+          "key": "createWhenOffscreen",
+          "value_type": "bool"
+        },
+        {
+          "key": "createWhenZoomedOut",
+          "value_type": "bool"
+        },
+        {
+          "key": "createWhenOverLiquid",
+          "value_type": "bool"
+        },
+        {
+          "key": "createWhenOverLand",
+          "value_type": "bool"
+        },
+        {
+          "key": "spawnChance",
+          "value_type": "float"
+        },
+        {
+          "key": "showInFog",
+          "value_type": "boolean"
+        },
+        {
+          "key": "delayedStartTimer",
+          "value_type": "float"
+        },
+        {
+          "key": "delayedStartTimerRandom",
+          "value_type": "float"
+        },
+        {
+          "key": "liveAfterAttachedDies",
+          "value_type": "bool"
+        },
+        {
+          "key": "priority",
+          "value_type": "string"
+        },
+        {
+          "key": "attachedToUnit",
+          "value_type": "bool"
+        },
+        {
+          "key": "alwayStartDirAtZero",
+          "value_type": "bool"
+        },
+        {
+          "key": "atmospheric",
+          "value_type": "bool"
+        },
+        {
+          "key": "physics",
+          "value_type": "bool"
+        },
+        {
+          "key": "physicsGravity",
+          "value_type": "float"
+        },
+        {
+          "key": "xOffsetRelative",
+          "value_type": "float"
+        },
+        {
+          "key": "yOffsetRelative",
+          "value_type": "float"
+        },
+        {
+          "key": "xOffsetRelativeRandom",
+          "value_type": "float"
+        },
+        {
+          "key": "yOffsetRelativeRandom",
+          "value_type": "float"
+        },
+        {
+          "key": "xOffsetAbsolute",
+          "value_type": "float"
+        },
+        {
+          "key": "yOffsetAbsolute",
+          "value_type": "float"
+        },
+        {
+          "key": "xOffsetAbsoluteRandom",
+          "value_type": "float"
+        },
+        {
+          "key": "yOffsetAbsoluteRandom",
+          "value_type": "float"
+        },
+        {
+          "key": "xSpeedRelative",
+          "value_type": "float"
+        },
+        {
+          "key": "ySpeedRelative",
+          "value_type": "float"
+        },
+        {
+          "key": "xSpeedRelativeRandom",
+          "value_type": "float"
+        },
+        {
+          "key": "ySpeedRelativeRandom",
+          "value_type": "float"
+        },
+        {
+          "key": "xSpeedAbsolute",
+          "value_type": "float"
+        },
+        {
+          "key": "ySpeedAbsolute",
+          "value_type": "float"
+        },
+        {
+          "key": "xSpeedAbsoluteRandom",
+          "value_type": "float"
+        },
+        {
+          "key": "ySpeedAbsoluteRandom",
+          "value_type": "float"
+        },
+        {
+          "key": "hOffset",
+          "value_type": "float"
+        },
+        {
+          "key": "hOffsetRandom",
+          "value_type": "float"
+        },
+        {
+          "key": "hSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "hSpeedRandom",
+          "value_type": "float"
+        },
+        {
+          "key": "dirOffset",
+          "value_type": "float"
+        },
+        {
+          "key": "dirOffsetRandom",
+          "value_type": "float"
+        },
+        {
+          "key": "dirSpeed",
+          "value_type": "float"
+        },
+        {
+          "key": "dirSpeedRandom",
+          "value_type": "float"
+        },
+        {
+          "key": "frameIndex",
+          "value_type": "int"
+        },
+        {
+          "key": "frameIndexRandom",
+          "value_type": "int"
+        },
+        {
+          "key": "stripIndex",
+          "value_type": "int/string"
+        },
+        {
+          "key": "Image",
+          "value_type": "image"
+        },
+        {
+          "key": "imageShadow",
+          "value_type": "image"
+        },
+        {
+          "key": "scaleTo",
+          "value_type": "float"
+        },
+        {
+          "key": "scaleFrom",
+          "value_type": "float"
+        },
+        {
+          "key": "color",
+          "value_type": "color"
+        },
+        {
+          "key": "teamColorRatio",
+          "value_type": "float"
+        },
+        {
+          "key": "drawUnderUnits",
+          "value_type": "bool"
+        },
+        {
+          "key": "fadeInTime",
+          "value_type": "float"
+        },
+        {
+          "key": "fadeOut",
+          "value_type": "bool"
+        },
+        {
+          "key": "alpha",
+          "value_type": "float"
+        },
+        {
+          "key": "shadow",
+          "value_type": "bool"
+        },
+        {
+          "key": "total_frames",
+          "value_type": "int"
+        },
+        {
+          "key": "animateFrameStart",
+          "value_type": "int"
+        },
+        {
+          "key": "animateFrameEnd",
+          "value_type": "int"
+        },
+        {
+          "key": "animateFramePingPong",
+          "value_type": "int"
+        },
+        {
+          "key": "animateFrameSpeed",
+          "value_type": "time"
+        },
+        {
+          "key": "animateFrameSpeedRandom",
+          "value_type": "time"
+        },
+        {
+          "key": "animateFrameLooping",
+          "value_type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "animation_.+",
+      "attributes": [
+        {
+          "key": "onActions",
+          "value_type": "string"
+        },
+        {
+          "key": "onActionsQueuedUnitPlayAt",
+          "value_type": " float"
+        },
+        {
+          "key": "blendIn",
+          "value_type": "time"
+        },
+        {
+          "key": "blendOut",
+          "value_type": "time"
+        },
+        {
+          "key": "pingPong",
+          "value_type": "bool"
+        },
+        {
+          "key": "KeyframeTimeScale",
+          "value_type": "float"
+        },
+        {
+          "key": "arm\\d+_[time]",
+          "value_type": "list"
+        },
+        {
+          "key": "leg\\d+_[time]",
+          "value_type": "list"
+        },
+        {
+          "key": "body_[time]",
+          "value_type": "list"
+        },
+        {
+          "key": "effect_[time]",
+          "value_type": "list"
+        },
+        {
+          "key": "direction_units",
+          "value_type": "float"
+        },
+        {
+          "key": "direction_strideX",
+          "value_type": "int"
+        },
+        {
+          "key": "direction_strideY",
+          "value_type": "int"
+        },
+        {
+          "key": "direction_starting",
+          "value_type": "float"
+        },
+        {
+          "key": "start : int",
+          "value_type": "int"
+        },
+        {
+          "key": "end : int",
+          "value_type": "int"
+        },
+        {
+          "key": "scale_start : float",
+          "value_type": "float"
+        },
+        {
+          "key": "scale_end : float",
+          "value_type": "float"
+        },
+        {
+          "key": "speed : float",
+          "value_type": "float"
+        }
+      ]
+    },
+    {
+      "name": "action_.+|hiddenAction_.+",
+      "attributes": [
+        {
+          "key": "text",
+          "value_type": "string"
+        },
+        {
+          "key": "textPostFix: ",
+          "value_type": "string"
+        },
+        {
+          "key": "text_{LANG}",
+          "value_type": "string"
+        },
+        {
+          "key": "description",
+          "value_type": "string"
+        },
+        {
+          "key": "description_{LANG}",
+          "value_type": "string"
+        },
+        {
+          "key": "displayType",
+          "value_type": "string"
+        },
+        {
+          "key": "displayRemainingStockpile",
+          "value_type": "bool"
+        },
+        {
+          "key": "pos",
+          "value_type": "float"
+        },
+        {
+          "key": "iconImage",
+          "value_type": "image"
+        },
+        {
+          "key": "iconExtraImage",
+          "value_type": "image"
+        },
+        {
+          "key": "iconExtraColor",
+          "value_type": "color"
+        },
+        {
+          "key": "iconExtraIsVisible",
+          "value_type": "logic boolean"
+        },
+        {
+          "key": "unitShownInUI",
+          "value_type": "UnitType"
+        },
+        {
+          "key": "setBuilt",
+          "value_type": "float"
+        },
+        {
+          "key": "guiBuildUnit",
+          "value_type": "unit"
+        },
+        {
+          "key": "textAddUnitName",
+          "value_type": "unitRef/unitType"
+        },
+        {
+          "key": "descriptionAddFromUnit",
+          "value_type": "unitRef/unitType"
+        },
+        {
+          "key": "descriptionAddUnitStats",
+          "value_type": "unitRef/unitType"
+        },
+        {
+          "key": "unitShownInUIWithHpBar",
+          "value_type": "bool"
+        },
+        {
+          "key": "unitShownInUIWithProgressBar",
+          "value_type": "bool"
+        },
+        {
+          "key": "price",
+          "value_type": "resources"
+        },
+        {
+          "key": "isActive",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "isVisible",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "isLocked",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "isLockedMessage",
+          "value_type": "LocaleString"
+        },
+        {
+          "key": "isLockedAlt",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "isLockedAltMessage",
+          "value_type": "LocaleString"
+        },
+        {
+          "key": "isLockedAlt2",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "isLockedAlt2Message",
+          "value_type": "LocaleString"
+        },
+        {
+          "key": "allowMultipleInQueue",
+          "value_type": "bool"
+        },
+        {
+          "key": "onlyOneUnitAtATime",
+          "value_type": "bool"
+        },
+        {
+          "key": "isGuiBlinking",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "alwaysSinglePress",
+          "value_type": "bool"
+        },
+        {
+          "key": "isAlsoViewableByAllies",
+          "value_type": "bool"
+        },
+        {
+          "key": "isAlsoViewableByEnemies",
+          "value_type": "bool"
+        },
+        {
+          "key": "ai_isDisabled",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "ai_isHighPriority",
+          "value_type": "bool"
+        },
+        {
+          "key": "ai_considerSameAsBuilding",
+          "value_type": "building"
+        },
+        {
+          "key": "autoTriggerOnEvent",
+          "value_type": "string"
+        },
+        {
+          "key": "autoTrigger",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "buildSpeed",
+          "value_type": "time"
+        },
+        {
+          "key": "highPriorityQueue",
+          "value_type": "bool"
+        },
+        {
+          "key": "canPlayerCancel",
+          "value_type": "bool"
+        },
+        {
+          "key": "whenBuilding_cannotMove",
+          "value_type": "bool"
+        },
+        {
+          "key": "whenBuilding_playAnimation",
+          "value_type": "animation ref"
+        },
+        {
+          "key": "whenBuilding_rotateTo",
+          "value_type": "float"
+        },
+        {
+          "key": "whenBuilding_rotateTo_orBackwards",
+          "value_type": "bool"
+        },
+        {
+          "key": "whenBuilding_rotateTo_waitTillRotated",
+          "value_type": "bool"
+        },
+        {
+          "key": "whenBuilding_temporarilyConvertTo",
+          "value_type": "unit ref"
+        },
+        {
+          "key": "whenBuilding_triggerAction",
+          "value_type": "action"
+        },
+        {
+          "key": "whenBuilding_rotateTo_aimAtActionTarget",
+          "value_type": "bool"
+        },
+        {
+          "key": "whenBuilding_rotateTo_rotateTurretX",
+          "value_type": "turret ref"
+        },
+        {
+          "key": "spawnEffectsOnQueue",
+          "value_type": "effect ref"
+        },
+        {
+          "key": "playSoundToPlayerOnQueue",
+          "value_type": "sound ref"
+        },
+        {
+          "key": "requireConditional",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "convertTo",
+          "value_type": "unit ref"
+        },
+        {
+          "key": "addEnergy",
+          "value_type": "float"
+        },
+        {
+          "key": "addResources",
+          "value_type": "resources"
+        },
+        {
+          "key": "addResourcesScaledByAIHandicaps",
+          "value_type": "bool"
+        },
+        {
+          "key": "deleteSelf",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "resetCustomTimer",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "setBodyRotation",
+          "value_type": "dir"
+        },
+        {
+          "key": "alsoTriggerAction",
+          "value_type": "action refs"
+        },
+        {
+          "key": "alsoQueueAction",
+          "value_type": "action refs"
+        },
+        {
+          "key": "alsoTriggerOrQueueActionConditional",
+          "value_type": "LogicBoolean"
+        },
+        {
+          "key": "playSoundAtUnit",
+          "value_type": "sound ref"
+        },
+        {
+          "key": "playSoundGlobally",
+          "value_type": "sound ref"
+        },
+        {
+          "key": "playSoundToPlayer",
+          "value_type": "sound ref"
+        },
+        {
+          "key": "fireTurretXAtGround",
+          "value_type": "turret ref"
+        },
+        {
+          "key": "fireTurretXAtGround_withOffset",
+          "value_type": "point"
+        },
+        {
+          "key": "fireTurretXAtGround_withProjectile",
+          "value_type": "projectile ref"
+        },
+        {
+          "key": "fireTurretXAtGround_count",
+          "value_type": "int"
+        },
+        {
+          "key": "fireTurretXAtGround_onlyOverPassableTileOf",
+          "value_type": "string"
+        },
+        {
+          "key": "spawnEffects",
+          "value_type": "effect ref"
+        },
+        {
+          "key": "produceUnits",
+          "value_type": "units"
+        },
+        {
+          "key": "offsetSelfAbsolute",
+          "value_type": "int list"
+        },
+        {
+          "key": "addUnitsIntoTransport",
+          "value_type": "unit list"
+        },
+        {
+          "key": "deleteNumUnitsFromTransport",
+          "value_type": "int"
+        },
+        {
+          "key": "deleteNumUnitsFromTransport_onlyWithTags",
+          "value_type": "string"
+        },
+        {
+          "key": "startUnloadingTransport",
+          "value_type": "bool"
+        },
+        {
+          "key": "forceUnloadTransportNow",
+          "value_type": "bool"
+        },
+        {
+          "key": "forceUnloadTransportNow_onlyOnSlot",
+          "value_type": "int"
+        },
+        {
+          "key": "clearAllWaypoints",
+          "value_type": "bool"
+        },
+        {
+          "key": "clearActiveWaypoint",
+          "value_type": "bool"
+        },
+        {
+          "key": "addWaypoint_type",
+          "value_type": "type"
+        },
+        {
+          "key": "addWaypoint_unitType",
+          "value_type": "building"
+        },
+        {
+          "key": "addWaypoint_prepend",
+          "value_type": "bool"
+        },
+        {
+          "key": "addWaypoint_triggerActionIfFailed",
+          "value_type": "actions"
+        },
+        {
+          "key": "addWaypoint_triggerActionIfMatched",
+          "value_type": "actions"
+        },
+        {
+          "key": "addWaypoint_maxTime",
+          "value_type": "time"
+        },
+        {
+          "key": "addWaypoint_target_nearestUnit_tagged",
+          "value_type": "tags"
+        },
+        {
+          "key": "addWaypoint_target_nearestUnit_team",
+          "value_type": "relation"
+        },
+        {
+          "key": "addWaypoint_target_nearestUnit_maxRange",
+          "value_type": "float"
+        },
+        {
+          "key": "addWaypoint_target_mapMustBeReachable",
+          "value_type": "bool"
+        },
+        {
+          "key": "addWaypoint_position_offsetFromSelf",
+          "value_type": "point"
+        },
+        {
+          "key": "addWaypoint_position_fromAction",
+          "value_type": "bool"
+        },
+        {
+          "key": "addWaypoint_position_randomOffsetFromSelf",
+          "value_type": "int s"
+        },
+        {
+          "key": "addWaypoint_position_relativeOffsetFromSelf",
+          "value_type": "int s"
+        },
+        {
+          "key": "addWaypoint_target_randomUnit_tagged",
+          "value_type": "unit"
+        },
+        {
+          "key": "addWaypoint_target_randomUnit_team",
+          "value_type": "string"
+        },
+        {
+          "key": "addWaypoint_target_randomUnit_maxRange",
+          "value_type": "int"
+        },
+        {
+          "key": "addAllActionCooldownsTime",
+          "value_type": "time"
+        },
+        {
+          "key": "addActionCooldownTime",
+          "value_type": "time"
+        },
+        {
+          "key": "addActionCooldownApplyToActions",
+          "value_type": "action ids"
+        },
+        {
+          "key": "clearAllActionCooldowns",
+          "value_type": "bool"
+        },
+        {
+          "key": "playAnimation",
+          "value_type": "animation ref"
+        },
+        {
+          "key": "playAnimationIfNotPlaying",
+          "value_type": "bool"
+        },
+        {
+          "key": "finishPlayingLastAnimation",
+          "value_type": "bool"
+        },
+        {
+          "key": "stopLastAnimation",
+          "value_type": "bool"
+        },
+        {
+          "key": "switchToNeutralTeam",
+          "value_type": "boolean"
+        },
+        {
+          "key": "switchToAggressiveTeam",
+          "value_type": "boolean"
+        },
+        {
+          "key": "takeResources",
+          "value_type": "customPrice"
+        },
+        {
+          "key": "takeResources_includeUnitsInTransport",
+          "value_type": "bool"
+        },
+        {
+          "key": "takeResources_includeParent",
+          "value_type": "bool"
+        },
+        {
+          "key": "takeResources_includeUnitsWithinRange",
+          "value_type": "float"
+        },
+        {
+          "key": "takeResources_includeUnitsWithinRange_team",
+          "value_type": "TeamRelation"
+        },
+        {
+          "key": "takeResources_excludeUnitsWithoutTags",
+          "value_type": "tags"
+        },
+        {
+          "key": "takeResources_excludeUnitsWithTheseResources",
+          "value_type": "customPrice"
+        },
+        {
+          "key": "takeResources_excludeUnitsWithoutAllResources",
+          "value_type": "bool"
+        },
+        {
+          "key": "takeResources_triggerActionIfAnyCollected",
+          "value_type": "action refs"
+        },
+        {
+          "key": "takeResources_triggerActionIfNoneCollected",
+          "value_type": "action refs"
+        },
+        {
+          "key": "takeResources_discardCollected",
+          "value_type": "bool"
+        },
+        {
+          "key": "takeResources_keepResourcesOnTarget",
+          "value_type": "bool"
+        },
+        {
+          "key": "takeResources_maxUnits",
+          "value_type": "int"
+        },
+        {
+          "key": "takeResources_directTransferStoppingAtZero",
+          "value_type": "bool"
+        },
+        {
+          "key": "convertResource_from",
+          "value_type": "customResource"
+        },
+        {
+          "key": "convertResource_to",
+          "value_type": "customResource"
+        },
+        {
+          "key": "convertResource_minAmount",
+          "value_type": "int"
+        },
+        {
+          "key": "convertResource_maxAmount",
+          "value_type": "int"
+        },
+        {
+          "key": "convertResource_multiplyAmountBy",
+          "value_type": "float"
+        },
+        {
+          "key": "resourceAmount",
+          "value_type": "customResource"
+        },
+        {
+          "key": "resourceAmount_setValue",
+          "value_type": "float"
+        },
+        {
+          "key": "resourceAmount_addOtherResource",
+          "value_type": "customResource"
+        },
+        {
+          "key": "resourceAmount_multiplyBy",
+          "value_type": "float"
+        },
+        {
+          "key": "attachments_addNewUnits",
+          "value_type": "unit"
+        },
+        {
+          "key": "attachments_deleteNumUnits",
+          "value_type": "int"
+        },
+        {
+          "key": "attachments_onlyOnSlots",
+          "value_type": "string"
+        },
+        {
+          "key": "disconnectFromParent",
+          "value_type": "bool"
+        },
+        {
+          "key": "attachments_unload",
+          "value_type": "bool"
+        },
+        {
+          "key": "attachments_disconnect",
+          "value_type": "bool"
+        },
+        {
+          "key": "temporarilyAddTags",
+          "value_type": "tags"
+        },
+        {
+          "key": "temporarilyRemoveTags",
+          "value_type": "tags"
+        },
+        {
+          "key": "resetToDefaultTags",
+          "value_type": "bool"
+        },
+        {
+          "key": "addGlobalTeamTags",
+          "value_type": "tags"
+        },
+        {
+          "key": "removeGlobalTeamTags",
+          "value_type": "tags"
+        },
+        {
+          "key": "showMessageToPlayer",
+          "value_type": "string"
+        },
+        {
+          "key": "showMessageToAllPlayers",
+          "value_type": "string"
+        },
+        {
+          "key": "showMessageToAllEnemyPlayers",
+          "value_type": "string"
+        },
+        {
+          "key": "showQuickWarLogToPlayer",
+          "value_type": "string"
+        },
+        {
+          "key": "showQuickWarLogToAllPlayers",
+          "value_type": "string"
+        },
+        {
+          "key": "debugMessage",
+          "value_type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "Spawn units line",
+      "attributes": [
+        {
+          "key": "spawnUnits",
+          "value_type": "unitlist"
+        },
+        {
+          "key": "neutralTeam",
+          "value_type": "bool"
+        },
+        {
+          "key": "setToTeamOfLastAttacker",
+          "value_type": "bool"
+        },
+        {
+          "key": "spawnChance",
+          "value_type": "float"
+        },
+        {
+          "key": "maxSpawnLimit",
+          "value_type": "int"
+        },
+        {
+          "key": "gridAlign",
+          "value_type": "bool"
+        },
+        {
+          "key": "skipIfOverlapping",
+          "value_type": "bool"
+        },
+        {
+          "key": "offsetX",
+          "value_type": "float"
+        },
+        {
+          "key": "offsetY",
+          "value_type": "float"
+        },
+        {
+          "key": "offsetRandomX",
+          "value_type": "float"
+        },
+        {
+          "key": "offsetRandomY",
+          "value_type": "float"
+        },
+        {
+          "key": "offsetRandomDir",
+          "value_type": "dir"
+        },
+        {
+          "key": "offsetHeight",
+          "value_type": "int"
+        },
+        {
+          "key": "offsetDir",
+          "value_type": "dir"
+        },
+        {
+          "key": "addResources",
+          "value_type": "customResource"
+        },
+        {
+          "key": "transportedUnitsToTransfer",
+          "value_type": "int"
+        },
+        {
+          "key": "alwayStartDirAtZero",
+          "value_type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "Spawn Projectiles line",
+      "attributes": [
+        {
+          "key": "spawnChance",
+          "value_type": "float"
+        },
+        {
+          "key": "maxSpawnLimit",
+          "value_type": "int"
+        },
+        {
+          "key": "recursionLimit",
+          "value_type": "int"
+        },
+        {
+          "key": "offsetX",
+          "value_type": "float"
+        },
+        {
+          "key": "offsetY",
+          "value_type": "float"
+        },
+        {
+          "key": "offsetRandomX",
+          "value_type": "float"
+        },
+        {
+          "key": "offsetRandomY",
+          "value_type": "float"
+        },
+        {
+          "key": "offsetRandomXY",
+          "value_type": "float"
+        },
+        {
+          "key": "offsetHeight",
+          "value_type": "float"
+        },
+        {
+          "key": "offsetDir",
+          "value_type": "float"
+        },
+        {
+          "key": "offsetRandomDir",
+          "value_type": "float"
+        },
+        {
+          "key": "xOffsetRelative",
+          "value_type": "float"
+        },
+        {
+          "key": "yOffsetRelative",
+          "value_type": "float"
+        }
+      ]
+    },
+    {
+      "name": "placementRule_.+]允许创建要求建筑物的规则",
+      "attributes": [
+        {
+          "key": "anyRuleInGroup",
+          "value_type": "string"
+        },
+        {
+          "key": "searchTags",
+          "value_type": "tag list"
+        },
+        {
+          "key": "searchTeam",
+          "value_type": "relation"
+        },
+        {
+          "key": "searchOffsetX",
+          "value_type": "float"
+        },
+        {
+          "key": "searchOffsetY",
+          "value_type": "float"
+        },
+        {
+          "key": "searchDistance",
+          "value_type": "float"
+        },
+        {
+          "key": "excludeIncompleteBuildings",
+          "value_type": "bool"
+        },
+        {
+          "key": "excludeNonBuildings",
+          "value_type": "bool"
+        },
+        {
+          "key": "minCount",
+          "value_type": "int"
+        },
+        {
+          "key": "maxCount",
+          "value_type": "int"
+        },
+        {
+          "key": "blocksPlacement",
+          "value_type": "bool"
+        },
+        {
+          "key": "cannotPlaceMessage",
+          "value_type": "LocaleString"
+        },
+        {
+          "key": "checkEachTile",
+          "value_type": "bool"
+        },
+        {
+          "key": "credits",
+          "value_type": "Resources"
+        },
+        {
+          "key": "energy",
+          "value_type": "Resources"
+        },
+        {
+          "key": "hp",
+          "value_type": "Resources"
+        },
+        {
+          "key": "shield",
+          "value_type": "Resources"
+        },
+        {
+          "key": "ammo",
+          "value_type": "int"
+        },
+        {
+          "key": "setFlag",
+          "value_type": "int"
+        },
+        {
+          "key": "unsetFlag",
+          "value_type": "int"
+        },
+        {
+          "key": "hasFlag",
+          "value_type": "int"
+        },
+        {
+          "key": "hasMissingFlag",
+          "value_type": "int"
+        },
+        {
+          "key": "X",
+          "value_type": "Resources"
+        }
+      ]
+    },
+    {
+      "name": "global_resource_.+",
+      "attributes": [
+        {
+          "key": "displayName",
+          "value_type": "string"
+        },
+        {
+          "key": "displayNameShort",
+          "value_type": "string"
+        },
+        {
+          "key": "hidden",
+          "value_type": "bool"
+        },
+        {
+          "key": "priority",
+          "value_type": "float"
+        },
+        {
+          "key": "displayColor",
+          "value_type": "color"
+        },
+        {
+          "key": "displayRoundedDown",
+          "value_type": "bool"
+        },
+        {
+          "key": "displayWhenZero",
+          "value_type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "resource_.+",
+      "attributes": [
+        {
+          "key": "displayName",
+          "value_type": "string"
+        },
+        {
+          "key": "displayNameShort",
+          "value_type": "string"
+        },
+        {
+          "key": "hidden",
+          "value_type": "bool"
+        },
+        {
+          "key": "equivalentGlobalResourceForAI",
+          "value_type": "bool"
+        },
+        {
+          "key": "displayRoundedDown",
+          "value_type": "bool"
+        }
+      ]
+    }
+  ]
+}

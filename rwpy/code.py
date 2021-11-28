@@ -315,7 +315,7 @@ def create_ini(text: str,filename: str='untitled.ini') -> Ini:
             ptr = SectionBuilder().setname(line.strip()[1:-1])
             alinenum = linenum
             
-        elif not re.match(r'\s*.+:.+',line) is None:
+        elif not re.match(r'\s*[^#].*:.+',line) is None:
             key,value = line.split(':',1)[0], line.split(':',1)[1]
             clinenum = linenum
             
