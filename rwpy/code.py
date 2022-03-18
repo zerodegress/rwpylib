@@ -1,7 +1,7 @@
 import os
 from functools import reduce
 from enum import Enum
-from typing import List,Tuple,Callable,NewType,Optional,Union,NoReturn
+from typing import List,Tuple,Dict,Callable,NewType,Optional,Union,NoReturn
 import re
 
 from rwpy.util import filterl,Builder,check
@@ -85,25 +85,29 @@ class Attribute(Element):
 class Section(object):
     '''段落，代码的组织单位'''
     def __init__(self,name: str,linenum: int=-1):
-        self.__name = name
-        self.elements = []
-        self.linenum = linenum
+        self.__name: str = name
+        self.__elements: List[Element] = []
+        self.linenum: int = linenum
+        self.__attributes: Dict[str,Attribute] = {}
         
     
     def append(self,ele: Element):
         '''向段落中追加元素'''
         check(ele,Element)
         self.elements.append(ele)
+        index = len(self.elements) - 1
+        if isinstance(ele,Attribute):
+            self.__attributes[ele.key] = ele
+        
         
     
-    def __getitem__(self,item) -> Optional[Attribute]:
+    def __getitem__(self,item: str) -> Optional[Attribute]:
         '''获取指定键的属性'''
         check(item,str)
-        finds = filterl(lambda x: x.key == item,self.getattrs())
-        if len(finds) == 0:
-            return None
+        if item in self.__attributes:
+            return self.__attributes['item']
         else:
-            return finds[-1]
+            return None
         
         
     def __str__(self) -> str:
@@ -115,6 +119,20 @@ class Section(object):
     @property
     def name(self) -> str:
         return self.__name
+        
+    
+    @property
+    def elements(self) -> List[Element]:
+        return self.__elements[:]
+        
+    
+    def get_attribute(self,key: str) -> Attribute:
+        '''
+        获取指定键的属性。如果不存在，则追加该属性
+        '''
+        if not key in self.__attributes:
+            self.append(Attribute(key,''))
+        return self.__attributes[key]
         
     
     def getattrs(self) -> List[Attribute]:
@@ -150,7 +168,10 @@ class Ini(object):
         
     
     def __getitem__(self,item) -> Optional[Attribute]:
-        '''获取一个指定键的属性'''
+        '''
+        获取一个指定键的属性
+        现已弃用
+        '''
         check(item,str)
         attributes = filterl(lambda x: isinstance(x,Attribute),self.elements)
         finds: List[Attribute] = filterl(lambda x: x.key == item,attributes)
@@ -171,13 +192,18 @@ class Ini(object):
             return None
             
             
-    def getsection(self,name: str) -> Optional[Section]:
+    def get_section(self,name: str) -> Section:
         '''获取一个指定名称的段落'''
         finds = filterl(lambda x: x.name == name,self.sections)
         if len(finds) == 0:
-            return None
+            sec = Section(name)
+            return sec
         else:
             return finds[-1]
+    getsection = get_section
+            
+            
+    #def insert_section(self)
                 
     
     def write(self):
@@ -250,7 +276,8 @@ class SectionBuilder(Builder):
     def build(self) -> Section:
         '''构建段落'''
         sec = Section(self.__name)
-        sec.elements = self.__elements[:]
+        for ele in self.__elements:
+            sec.append(ele)
         return sec
         
         
