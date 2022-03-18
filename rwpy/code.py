@@ -23,6 +23,16 @@ def connect_strs(strs: List[str],sep: str='\n') -> str:
     return reduce(lambda x,y: x + '\n' + y,map(lambda x: str(x),strs))
 
 
+def to_mutiline(text: str) -> str:
+    '''将字符串转换为多行文本'''
+    return '\"\"\"{0}\"\"\"'.format(text)
+    
+    
+def read_multiline(multiline: str) -> str:
+    '''将多行文本转换为一般字符串'''
+    return multiline.strip('\"\"\"')
+
+
 class Element(object):
     '''元素，代码的基本单位'''
     def __init__(self,content: str,linenum: int=-1):
@@ -53,11 +63,23 @@ class Attribute(Element):
         '''属性的键'''
         return self.__key
         
+    
+    @key.setter
+    def key(self,key: str):
+        check(key,str)
+        self.__key = key
+        
         
     @property
     def value(self) -> str:
         '''属性的值'''
         return self.__value
+        
+    
+    @value.setter
+    def value(self,value: str):
+        check(value,str)
+        self.__value = value
 
 
 class Section(object):
