@@ -105,17 +105,26 @@ class Section(object):
         check(insert_ele,Element)
         if isinstance(insert_after, int):
             self.__elements.insert(insert_after,insert_ele)
-        elif isinstance(insert_after，str):
+        elif isinstance(insert_after, str):
             for i in range(0,len(self.__elements)):
                 ele = self.__elements[i]
                 if isinstance(ele,Attribute):
                     if ele.key == insert_after:
                         self.__elements.insert(i+1,insert_ele)
+                        if isinstance(insert_ele,Attribute):
+                            self.__attributes[insert_ele.key] = insert_ele
         else:
             raise TypeError()
                     
                         
-                    
+    def remove_attribute(self,key: str) -> NoReturn:
+        '''删除指定键的属性'''
+        check(key,str)
+        for i in range(0,len(self.__elements)):
+            if isinstance(self.__elements[i],Attribute):
+                if self.__elements[i].key == key:
+                    self.__elements.pop(i)
+                    self.__attributes.pop(key)
         
         
     
@@ -123,7 +132,7 @@ class Section(object):
         '''获取指定键的属性'''
         check(item,str)
         if item in self.__attributes:
-            return self.__attributes['item']
+            return self.__attributes[item]
         else:
             return None
         
@@ -138,10 +147,22 @@ class Section(object):
     def name(self) -> str:
         return self.__name
         
+        
+    @name.setter
+    def name(self,name: str) -> NoReturn:
+        check(name,str)
+        self.__name = name
+        
     
     @property
     def elements(self) -> List[Element]:
-        return self.__elements[:]
+        return self.__elements
+        
+    
+    @elements.setter
+    def elements(self,elements: List[Element]) -> NoReturn:
+        check(elements,list)
+        self.__elements = elements
         
     
     def get_attribute(self,key: str) -> Attribute:
@@ -197,7 +218,7 @@ class Ini(object):
             return finds[-1]
         
     
-    def __getattr__(self,attr) -> Optional[Section]:
+    def __getattr__(self,attr: Optional[str]=None) -> Optional[Section]:
         '''获取一个指定名称的段落'''
         if self.sections is None:
             return self.sections
@@ -205,7 +226,6 @@ class Ini(object):
         for sec in self.sections:
             if attr == sec.name:
                 return sec
-            return None
             
             
     def get_section(self,name: str) -> Section:
@@ -217,6 +237,20 @@ class Ini(object):
         else:
             return finds[-1]
     getsection = get_section
+    
+    
+    def append(self,sec: Section) -> NoReturn:
+        '''追加段落'''
+        check(sec,Section)
+        self.sections.append(sec)
+        
+        
+    def remove(self,name: str) -> NoReturn:
+        '''删除指定名称的段落'''
+        check(name,str)
+        for i in range(0,len(self.sections)):
+            if self.sections[i].name == name:
+                self.sections.pop(i)
             
             
     #def insert_section(self)
