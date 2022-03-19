@@ -36,8 +36,8 @@ def read_multiline(multiline: str) -> str:
 class Element(object):
     '''元素，代码的基本单位'''
     def __init__(self,content: str,linenum: int=-1):
-        self.__content = content
-        self.__linenum = linenum
+        self.__content: str = content
+        self.__linenum: int = linenum
         
     
     def __str__(self) -> str:
@@ -65,9 +65,10 @@ class Attribute(Element):
         
     
     @key.setter
-    def key(self,key: str):
+    def key(self,key: str): 
         check(key,str)
         self.__key = key
+        self._Element__content = self.__key + ': ' + self.__value
         
         
     @property
@@ -80,6 +81,7 @@ class Attribute(Element):
     def value(self,value: str):
         check(value,str)
         self.__value = value
+        self._Element__content = self.__key + ': ' + self.__value
 
 
 class Section(object):
