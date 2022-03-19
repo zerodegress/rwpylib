@@ -1,7 +1,7 @@
 import os
 from functools import reduce
 from enum import Enum
-from typing import List,Tuple,Callable,NewType,Optional,Union,NoReturn
+from typing import List,Tuple,Dict,Callable,NewType,Optional,Union,NoReturn
 import re
 
 from rwpy.util import filterl,Builder,check
@@ -36,8 +36,8 @@ def read_multiline(multiline: str) -> str:
 class Element(object):
     '''元素，代码的基本单位'''
     def __init__(self,content: str,linenum: int=-1):
-        self.__content = content
-        self.__linenum = linenum
+        self.__content: str = content
+        self.__linenum: int = linenum
         
     
     def __str__(self) -> str:
@@ -65,9 +65,10 @@ class Attribute(Element):
         
     
     @key.setter
-    def key(self,key: str):
+    def key(self,key: str): 
         check(key,str)
         self.__key = key
+        self._Element__content = self.__key + ': ' + self.__value
         
         
     @property
@@ -80,30 +81,62 @@ class Attribute(Element):
     def value(self,value: str):
         check(value,str)
         self.__value = value
+        self._Element__content = self.__key + ': ' + self.__value
 
 
 class Section(object):
     '''段落，代码的组织单位'''
     def __init__(self,name: str,linenum: int=-1):
-        self.__name = name
-        self.elements = []
-        self.linenum = linenum
+        self.__name: str = name
+        self.__elements: List[Element] = []
+        self.linenum: int = linenum
+        self.__attributes: Dict[str,Attribute] = {}
         
     
     def append(self,ele: Element):
         '''向段落中追加元素'''
         check(ele,Element)
         self.elements.append(ele)
+        index = len(self.elements) - 1
+        if isinstance(ele,Attribute):
+            self.__attributes[ele.key] = ele
+    
+    
+    def insert_attribute(self,insert_after: Union[str,int],insert_ele: Element) -> NoReturn:
+        '''在段落中指定位置插入元素，或向指定属性后插入元素'''
+        check(insert_ele,Element)
+        if isinstance(insert_after, int):
+            self.__elements.insert(insert_after,insert_ele)
+        elif isinstance(insert_after, str):
+            for i in range(0,len(self.__elements)):
+                ele = self.__elements[i]
+                if isinstance(ele,Attribute):
+                    if ele.key == insert_after:
+                        self.__elements.insert(i+1,insert_ele)
+                        if isinstance(insert_ele,Attribute):
+                            self.__attributes[insert_ele.key] = insert_ele
+        else:
+            raise TypeError()
+                    
+                        
+    def remove_attribute(self,key: str) -> NoReturn:
+        '''删除指定键的属性'''
+        check(key,str)
+        for i in range(0,len(self.__elements)):
+            if isinstance(self.__elements[i],Attribute):
+                if self.__elements[i].key == key:
+                    self.__elements.pop(i)
+                    self.__attributes.pop(key)
+        
         
     
-    def __getitem__(self,item) -> Optional[Attribute]:
+    def __getitem__(self,item: str) -> Optional[Attribute]:
         '''获取指定键的属性'''
         check(item,str)
-        finds = filterl(lambda x: x.key == item,self.getattrs())
-        if len(finds) == 0:
-            return None
+        if item in self.__attributes:
+            return self.__attributes[item]
         else:
-            return finds[-1]
+            return None
         
         
     def __str__(self) -> str:
@@ -115,6 +148,30 @@ class Section(object):
     @property
     def name(self) -> str:
         return self.__name
+        
+        
+    @name.setter
+    def name(self,name: str) -> NoReturn:
+        check(name,str)
+        self.__name = name
+        
+    
+    @property
+    def elements(self) -> List[Element]:
+        return self.__elements
+        
+    
+    @elements.setter
+    def elements(self,elements: List[Element]) -> NoReturn:
+        check(elements,list)
+        self.__elements = elements
+        
+    
+    def get_attribute(self,key: str) -> Attribute:
+        '''获取指定键的属性。如果不存在，则追加该属性'''
+        if not key in self.__attributes:
+            self.append(Attribute(key,''))
+        return self.__attributes[key]
         
     
     def getattrs(self) -> List[Attribute]:
@@ -150,7 +207,10 @@ class Ini(object):
         
     
     def __getitem__(self,item) -> Optional[Attribute]:
-        '''获取一个指定键的属性'''
+        '''
+        获取一个指定键的属性
+        现已弃用
+        '''
         check(item,str)
         attributes = filterl(lambda x: isinstance(x,Attribute),self.elements)
         finds: List[Attribute] = filterl(lambda x: x.key == item,attributes)
@@ -160,7 +220,7 @@ class Ini(object):
             return finds[-1]
         
     
-    def __getattr__(self,attr) -> Optional[Section]:
+    def __getattr__(self,attr: Optional[str]=None) -> Optional[Section]:
         '''获取一个指定名称的段落'''
         if self.sections is None:
             return self.sections
@@ -168,16 +228,34 @@ class Ini(object):
         for sec in self.sections:
             if attr == sec.name:
                 return sec
-            return None
             
             
-    def getsection(self,name: str) -> Optional[Section]:
+    def get_section(self,name: str) -> Section:
         '''获取一个指定名称的段落'''
         finds = filterl(lambda x: x.name == name,self.sections)
         if len(finds) == 0:
-            return None
+            sec = Section(name)
+            return sec
         else:
             return finds[-1]
+    getsection = get_section
+    
+    
+    def append(self,sec: Section) -> NoReturn:
+        '''追加段落'''
+        check(sec,Section)
+        self.sections.append(sec)
+        
+        
+    def remove(self,name: str) -> NoReturn:
+        '''删除指定名称的段落'''
+        check(name,str)
+        for i in range(0,len(self.sections)):
+            if self.sections[i].name == name:
+                self.sections.pop(i)
+            
+            
+    #def insert_section(self)
                 
     
     def write(self):
@@ -250,7 +328,8 @@ class SectionBuilder(Builder):
     def build(self) -> Section:
         '''构建段落'''
         sec = Section(self.__name)
-        sec.elements = self.__elements[:]
+        for ele in self.__elements:
+            sec.append(ele)
         return sec
         
         
