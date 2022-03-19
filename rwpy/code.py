@@ -98,6 +98,24 @@ class Section(object):
         index = len(self.elements) - 1
         if isinstance(ele,Attribute):
             self.__attributes[ele.key] = ele
+    
+    
+    def insert_attribute(self,insert_after: Union[str,int],insert_ele: Element) -> NoReturn:
+        '''在段落中指定位置插入元素，或向指定属性后插入元素'''
+        check(insert_ele,Element)
+        if isinstance(insert_after, int):
+            self.__elements.insert(insert_after,insert_ele)
+        elif isinstance(insert_after，str):
+            for i in range(0,len(self.__elements)):
+                ele = self.__elements[i]
+                if isinstance(ele,Attribute):
+                    if ele.key == insert_after:
+                        self.__elements.insert(i+1,insert_ele)
+        else:
+            raise TypeError()
+                    
+                        
+                    
         
         
     
@@ -127,9 +145,7 @@ class Section(object):
         
     
     def get_attribute(self,key: str) -> Attribute:
-        '''
-        获取指定键的属性。如果不存在，则追加该属性
-        '''
+        '''获取指定键的属性。如果不存在，则追加该属性'''
         if not key in self.__attributes:
             self.append(Attribute(key,''))
         return self.__attributes[key]
