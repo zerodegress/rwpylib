@@ -23,7 +23,7 @@ def connect_strs(strs: List[str],sep: str='\n') -> str:
     return reduce(lambda x,y: x + '\n' + y,map(lambda x: str(x),strs))
 
 
-def to_mutiline(text: str) -> str:
+def to_multiline(text: str) -> str:
     '''将字符串转换为多行文本'''
     return '\"\"\"{0}\"\"\"'.format(text)
     
@@ -235,6 +235,7 @@ class Ini(object):
         finds = filterl(lambda x: x.name == name,self.sections)
         if len(finds) == 0:
             sec = Section(name)
+            self.sections.append(sec)
             return sec
         else:
             return finds[-1]
