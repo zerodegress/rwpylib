@@ -224,7 +224,6 @@ class Ini(object):
         '''获取一个指定名称的段落'''
         if self.sections is None:
             return self.sections
-        print(self.sections)
         for sec in self.sections:
             if attr == sec.name:
                 return sec
@@ -264,7 +263,7 @@ class Ini(object):
         输出ini内容到文件
         抛出IOError异常
         '''
-        with open(self.__filename,'w') as f:
+        with open(self.__filename,'w',encoding='utf-8') as f:
             f.write(str(self))
 
 
