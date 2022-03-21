@@ -23,7 +23,7 @@ def connect_strs(strs: List[str],sep: str='\n') -> str:
     return reduce(lambda x,y: x + '\n' + y,map(lambda x: str(x),strs))
 
 
-def to_mutiline(text: str) -> str:
+def to_multiline(text: str) -> str:
     '''将字符串转换为多行文本'''
     return '\"\"\"{0}\"\"\"'.format(text)
     
@@ -224,7 +224,6 @@ class Ini(object):
         '''获取一个指定名称的段落'''
         if self.sections is None:
             return self.sections
-        print(self.sections)
         for sec in self.sections:
             if attr == sec.name:
                 return sec
@@ -235,6 +234,7 @@ class Ini(object):
         finds = filterl(lambda x: x.name == name,self.sections)
         if len(finds) == 0:
             sec = Section(name)
+            self.sections.append(sec)
             return sec
         else:
             return finds[-1]
@@ -263,7 +263,7 @@ class Ini(object):
         输出ini内容到文件
         抛出IOError异常
         '''
-        with open(self.__filename,'w') as f:
+        with open(self.__filename,'w',encoding='utf-8') as f:
             f.write(str(self))
 
 
