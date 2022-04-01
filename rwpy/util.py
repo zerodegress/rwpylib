@@ -2,7 +2,7 @@ import os
 import json
 
 from rwpy.errors import VisitAbstractMemberError
-from typing import List,Tuple,Callable,Any
+from typing import List,Tuple,Callable,Any,Type
 
 
 def filterl(func: Callable[[Any],bool],lst: list) -> list:
@@ -10,10 +10,12 @@ def filterl(func: Callable[[Any],bool],lst: list) -> list:
     return list(filter(func,lst))
 
 
-def check(obj,type,message: str='参数类型错误'):
+def check(obj: object,type: Type,message: str = '参数类型错误'):
     '''快速检查参数类型错误'''
     if not isinstance(obj,type):
         raise TypeError(message)
+
+
 
 
 def CodeList(object):
@@ -39,7 +41,7 @@ def CodeList(object):
         return self.__namecheck[:]
     
     
-    def getcodes(self,sec_name: str=None):
+    def getcodes(self,sec_name: str = None):
         '''返回段落下所有代码。不填参数默认为返回所有代码'''
         if sec_name is None:
             return self.__src['attributes'][:]
@@ -60,9 +62,9 @@ class Builder(object):
         raise VisitAbstractMemberError()
         
 
-def load_codelist(filename='codelist.json') -> dict:
+def load_codelist(filename: str = 'codelist.json') -> dict:
     '''加载代码表(json格式),开发中'''
-    codelist: dict = {}
+    codelist:dict = {}
     #try:
     with open(filename,'r') as f:
         codelist = json.loads(f.read())

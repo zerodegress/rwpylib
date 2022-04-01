@@ -16,7 +16,7 @@ not_copied_keys =[
 ]
 
 
-def connect_strs(strs: List[str],sep: str='\n') -> str:
+def connect_strs(strs: List[str],sep: str = '\n') -> str:
     '''链接一个list中的所有对象作为一个字符串'''
     if len(strs) == 0:
         return ''
@@ -35,7 +35,7 @@ def read_multiline(multiline: str) -> str:
 
 class Element(object):
     '''元素，代码的基本单位'''
-    def __init__(self,content: str,linenum: int=-1):
+    def __init__(self,content: str,linenum: int = -1):
         self.__content: str = content
         self.__linenum: int = linenum
         
@@ -52,7 +52,7 @@ class Element(object):
 
 class Attribute(Element):
     '''属性，代码的主要内容'''
-    def __init__(self,key: str,value: str,linenum: int=-1):
+    def __init__(self,key: str,value: str,linenum: int = -1):
         self.__key = key
         self.__value = value
         Element.__init__(self,key + ': ' + value,linenum)
@@ -181,7 +181,7 @@ class Section(object):
 
 class Ini(object):
     '''代码文件'''
-    def __init__(self,filename='untitled.ini'):
+    def __init__(self,filename: str = 'untitled.ini'):
         self.elements = []
         self.sections = []
         self.__filename = filename
@@ -220,7 +220,7 @@ class Ini(object):
             return finds[-1]
         
     
-    def __getattr__(self,attr: Optional[str]=None) -> Optional[Section]:
+    def __getattr__(self,attr: Optional[str] = None) -> Optional[Section]:
         '''获取一个指定名称的段落'''
         if self.sections is None:
             return self.sections
@@ -268,9 +268,7 @@ class Ini(object):
 
 
     def merge(self,ini):
-        '''
-        合并指定ini到本ini
-        '''
+        '''合并指定ini到本ini'''
         if not type(ini) == type(self):
             raise TypeError()
         for sec in ini.sections:
@@ -291,7 +289,7 @@ class Ini(object):
 
 class SectionBuilder(Builder):
     '''段落构造器，用于快速生成段落'''
-    def __init__(self,template=None):
+    def __init__(self,template = None):
         Builder.__init__(self,template)
         if template is None:
             self.__elements = []
@@ -310,7 +308,7 @@ class SectionBuilder(Builder):
         return self
     
     
-    def append_attr(self,key: str,value: str,linenum: int=-1):
+    def append_attr(self,key: str,value: str,linenum: int = -1):
         '''追加属性'''
         check(key,str)
         check(value,str)
@@ -318,7 +316,7 @@ class SectionBuilder(Builder):
         return self
         
     
-    def append_ele(self,content: str,linenum: int=-1):
+    def append_ele(self,content: str,linenum: int = -1):
         '''追加元素'''
         check(content,str)
         self.__elements.append(Element(content,linenum))
@@ -335,7 +333,7 @@ class SectionBuilder(Builder):
         
 class IniBuilder(Builder):
     '''代码文件构造器，用于快速生成代码文件'''
-    def __init__(self,template=None):
+    def __init__(self,template = None):
         if template is None:
             self.__elements = []
             self.__sections = []
@@ -363,7 +361,7 @@ class IniBuilder(Builder):
         return self
         
     
-    def append_ele(self,content: str,linenum: int=-1):
+    def append_ele(self,content: str,linenum: int = -1):
         '''向生成ini头部追加元素'''
         check(content,str)
         self.__elements.append(Element(content,linenum))
@@ -385,7 +383,7 @@ class IniBuilder(Builder):
         return ini
     
     
-def create_ini(text: str,filename: str='untitled.ini') -> Ini:
+def create_ini(text: str,filename: str = 'untitled.ini') -> Ini:
     '''
     从字符串创建ini，第二版
     抛出IniSyntaxError
@@ -405,6 +403,9 @@ def create_ini(text: str,filename: str='untitled.ini') -> Ini:
     while len(lines) > 0:
         line = lines.pop(0)
         linenum += 1
+
+        if line.lstrip().startswith('#'):
+            ptr.append_ele(line)
         
         if not re.match(r'\s*\[.+\]',line.strip()) is None:
         
