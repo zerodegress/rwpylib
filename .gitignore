@@ -1,2 +1,11 @@
 #Python
 *.pyc
+setup.py
+#Rwmod
+*.ini
+*.template
+mod-info.txt
+*.png
+*.ogg
+*.wav
+*.tmx
