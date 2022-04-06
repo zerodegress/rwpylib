@@ -4,7 +4,7 @@ from typing import List,Optional
 from zipfile import ZipFile
 
 import rwpy.errors as errors
-from rwpy.code import Ini,Section,Element,Attribute,create_ini
+from rwpy.code import Ini,Section,Element,Attribute
 from rwpy.util import filterl,check
 
 
@@ -76,7 +76,7 @@ class Mod(IMod):
                 if self.__modinfo is None:
                 
                     with open(os.path.join(root,'mod-info.txt'),'r') as f:
-                        self.__modinfo = create_ini(f.read())
+                        self.__modinfo = Ini.create_ini(f.read())
                         
                 else:
                     raise errors.RepeatedModInfoError('多余的mod-info.txt -> ' + os.path.join(root,'mod-info.txt'))
@@ -139,7 +139,7 @@ class Mod(IMod):
             except UnicodeDecodeError:
                 return None
                 
-            return create_ini(text,os.path.basename(inifile))
+            return Ini.create_ini(text,os.path.basename(inifile))
             
     
     def getinis(self,dir: Optional[str] = None) -> List[Ini]:
@@ -155,7 +155,7 @@ class Mod(IMod):
             try:
                 with open(inifile,'r') as fs:
                     text = fs.read()
-                inis.append(create_ini(text,inifile))
+                inis.append(Ini.create_ini(text,inifile))
                 
             except UnicodeDecodeError:
                 pass

@@ -1,6 +1,6 @@
 import unittest
 
-from rwpy.code import create_ini,Ini,Section,Attribute,Element,IniBuilder,SectionBuilder
+from rwpy.code import Ini,Section,Attribute,Element
 from rwpy.mod import IMod,Mod
 
 class Test(unittest.TestCase):
@@ -8,8 +8,8 @@ class Test(unittest.TestCase):
     def test_create_ini(self):
 
         ex: str = "#abc\n[core]\n #hf:jskfj\nabc:456\ndef:\"\"\"\naz\n\"\"\""
-        ini: Ini = create_ini(ex)
-        sam: Ini = IniBuilder().append_ele('#abc').append_sec(SectionBuilder().setname('core').append_ele('#hf:jskfj').append_attr('abc','456').append_attr('def','\"\"\"\naz\n\"\"\"').build()).build()
+        ini: Ini = Ini.create_ini(ex)
+        sam: Ini = Ini.IniBuilder().append_ele('#abc').append_sec(Section.SectionBuilder().setname('core').append_ele('#hf:jskfj').append_attr('abc','456').append_attr('def','\"\"\"\naz\n\"\"\"').build()).build()
 
         for i in range(0,len(sam.elements)):
 

@@ -2,7 +2,7 @@ from typing import List,Dict,Optional,Union,NoReturn
 import re
 from abc import ABC, abstractmethod
 
-from rwpy.util import filterl,Builder,check
+from rwpy.util import filterl,IBuilder,check
 from rwpy.errors import IniSyntaxError
 from rwpy.util import connect_strs
 
@@ -262,6 +262,57 @@ class Section(ISection):
     def getattrs(self) -> List[Attribute]:
         '''获取段落中全部属性'''
         return filterl(lambda x: isinstance(x,Attribute),self.elements)
+    
+
+    class SectionBuilder(IBuilder):
+        '''段落构造器，用于快速生成段落'''
+        def __init__(self,template = None):
+
+            super().__init__()
+
+            if template is None:
+
+                self.__elements = []
+                self.__name = 'section'
+
+            elif isinstance(template,ISection):
+
+                self.__elements = template.elements[:]
+                self.__name = template.name
+
+            else:
+
+                raise TypeError()
+        
+    
+        def setname(self,name: str):
+            '''设置生成段落名'''
+            check(name,str)
+            self.__name = name
+            return self
+        
+        
+        def append_attr(self,key: str,value: str,linenum: int = -1):
+            '''追加属性'''
+            check(key,str)
+            check(value,str)
+            self.__elements.append(Attribute(key,value,linenum))
+            return self
+            
+        
+        def append_ele(self,content: str,linenum: int = -1):
+            '''追加元素'''
+            check(content,str)
+            self.__elements.append(Element(content,linenum))
+            return self
+            
+        
+        def build(self) -> ISection:
+            '''构建段落'''
+            sec = Section(self.__name)
+            for ele in self.__elements:
+                sec.append(ele)
+            return sec
 
 
 class IIni(ABC):
@@ -442,174 +493,131 @@ class Ini(IIni):
             for attr in sec.getattrs():
                 if not attr.key in map(lambda x: x.key,this_sec.getattrs()) and not attr.key in not_copied_keys[1]:
                     this_sec.append(Attribute(attr.key,attr.value))
+    
+
+    class IniBuilder(IBuilder):
+        '''代码文件构造器，用于快速生成代码文件'''
+        def __init__(self,template = None):
+            if template is None:
+                self.__elements = []
+                self.__sections = []
+                self.__filename = 'untitled.ini'
+            elif isinstance(template,Ini):
+                self.__elements = template.elements[:]
+                self.__sections = template.sections[:]
+                self.__filename = template.filename
+            else:
+                raise TypeError()
+        
+        
+        def setfilename(self,filename: str):
+            '''设置生成ini文件名'''
+            check(filename,str)
+            self.__filename = filename
+            return self
+        
+        
+        def append_attr(self,key: str,value: str,linenum: int=-1):
+            '''向生成ini头部追加属性'''
+            check(key,str)
+            check(value,str)
+            self.__elements.append(Attribute(key,value,linenum))
+            return self
             
-
-
-class SectionBuilder(Builder):
-    '''段落构造器，用于快速生成段落'''
-    def __init__(self,template = None):
-
-        super().__init__()
-
-        if template is None:
-
-            self.__elements = []
-            self.__name = 'section'
-
-        elif isinstance(template,ISection):
-
-            self.__elements = template.elements[:]
-            self.__name = template.name
-
-        else:
-
-            raise TypeError()
-    
-   
-    def setname(self,name: str):
-        '''设置生成段落名'''
-        check(name,str)
-        self.__name = name
-        return self
-    
-    
-    def append_attr(self,key: str,value: str,linenum: int = -1):
-        '''追加属性'''
-        check(key,str)
-        check(value,str)
-        self.__elements.append(Attribute(key,value,linenum))
-        return self
         
-    
-    def append_ele(self,content: str,linenum: int = -1):
-        '''追加元素'''
-        check(content,str)
-        self.__elements.append(Element(content,linenum))
-        return self
+        def append_ele(self,content: str,linenum: int = -1):
+            '''向生成ini头部追加元素'''
+            check(content,str)
+            self.__elements.append(Element(content,linenum))
+            return self
+            
         
-    
-    def build(self) -> Section:
-        '''构建段落'''
-        sec = Section(self.__name)
-        for ele in self.__elements:
-            sec.append(ele)
-        return sec
+        def append_sec(self,section: Section):
+            '''向生成ini追加段落'''
+            check(section,Section)
+            self.__sections.append(section)
+            return self
+            
         
-        
-class IniBuilder(Builder):
-    '''代码文件构造器，用于快速生成代码文件'''
-    def __init__(self,template = None):
-        if template is None:
-            self.__elements = []
-            self.__sections = []
-            self.__filename = 'untitled.ini'
-        elif isinstance(template,Ini):
-            self.__elements = template.elements[:]
-            self.__sections = template.sections[:]
-            self.__filename = template.filename
-        else:
-            raise TypeError()
-    
-    
-    def setfilename(self,filename: str):
-        '''设置生成ini文件名'''
+        def build(self) -> IIni:
+            '''构建ini'''
+            ini = Ini(self.__filename)
+            ini.elements = self.__elements[:]
+            ini.sections = self.__sections[:]
+            return ini
+
+
+    def create_ini(text: str,filename: str = 'untitled.ini') -> IIni:
+        '''
+        从字符串创建ini，第二版
+        抛出IniSyntaxError
+        '''
+        check(text,str)
         check(filename,str)
-        self.__filename = filename
-        return self
-    
-    
-    def append_attr(self,key: str,value: str,linenum: int=-1):
-        '''向生成ini头部追加属性'''
-        check(key,str)
-        check(value,str)
-        self.__elements.append(Attribute(key,value,linenum))
-        return self
         
-    
-    def append_ele(self,content: str,linenum: int = -1):
-        '''向生成ini头部追加元素'''
-        check(content,str)
-        self.__elements.append(Element(content,linenum))
-        return self
+        if text.isspace() or text == '':
+            return Ini()
+            
+        inib: Ini.IniBuilder = Ini.IniBuilder().setfilename(filename)
+        ptr: IBuilder = inib
+        lines: List[str] = text.split('\n')
+        linenum: int = 0
+        alinenum: int = 0
         
-    
-    def append_sec(self,section: Section):
-        '''向生成ini追加段落'''
-        check(section,Section)
-        self.__sections.append(section)
-        return self
-        
-    
-    def build(self) -> Ini:
-        '''构建ini'''
-        ini = Ini(self.__filename)
-        ini.elements = self.__elements[:]
-        ini.sections = self.__sections[:]
-        return ini
-    
-    
-def create_ini(text: str,filename: str = 'untitled.ini') -> Ini:
-    '''
-    从字符串创建ini，第二版
-    抛出IniSyntaxError
-    '''
-    check(text,str)
-    check(filename,str)
-    
-    if text.isspace() or text == '':
-        return Ini()
-        
-    inib: IniBuilder = IniBuilder().setfilename(filename)
-    ptr: Builder = inib
-    lines: List[str] = text.split('\n')
-    linenum: int = 0
-    alinenum: int = 0
-    
-    while len(lines) > 0:
-        line = lines.pop(0)
-        linenum += 1
+        while len(lines) > 0:
+            line = lines.pop(0)
+            linenum += 1
 
-        if line.lstrip().startswith('#'):
-            ptr.append_ele(line)
-        
-        if not re.match(r'\s*\[.+\]',line.strip()) is None:
-        
-            if isinstance(ptr,SectionBuilder):
-                ptrs: Section = ptr.build()
-                ptrs.linenum = alinenum
-                inib.append_sec(ptrs)
-                
-            ptr = SectionBuilder().setname(line.strip()[1:-1])
-            alinenum = linenum
+            if line.lstrip().startswith('#'):
+                ptr.append_ele(line)
             
-        elif not re.match(r'\s*[^#].*:.+',line) is None:
-            key,value = line.split(':',1)[0], line.split(':',1)[1]
-            clinenum = linenum
+            if not re.match(r'\s*\[.+\]',line.strip()) is None:
             
-            if value.lstrip().startswith('\"\"\"'):
-            
-                while True:
-                
-                    if len(lines) == 0:
-                        raise IniSyntaxError('行号:{0}|意外终止的多行文本'.format(linenum))
-                        
-                    value += '\n' + lines.pop(0)
-                    linenum += 1
+                if isinstance(ptr,Section.SectionBuilder):
+                    ptrs: Section = ptr.build()
+                    ptrs.linenum = alinenum
+                    inib.append_sec(ptrs)
                     
-                    if value.rstrip().endswith('\"\"\"'):
-                        break
+                ptr = Section.SectionBuilder().setname(line.strip()[1:-1])
+                alinenum = linenum
+                
+            elif not re.match(r'\s*[^#].*:.+',line) is None:
+                key,value = line.split(':',1)[0], line.split(':',1)[1]
+                clinenum = linenum
+                
+                if value.lstrip().startswith('\"\"\"'):
+                
+                    while True:
+                    
+                        if len(lines) == 0:
+                            raise IniSyntaxError('行号:{0}|意外终止的多行文本'.format(linenum))
+                            
+                        value += '\n' + lines.pop(0)
+                        linenum += 1
                         
-            ptr.append_attr(key.strip(),value.strip(),clinenum)
-            
-        else:
+                        if value.rstrip().endswith('\"\"\"'):
+                            break
+                            
+                ptr.append_attr(key.strip(),value.strip(),clinenum)
+                
+            else:
 
-            ptr.append_ele(line,linenum)
-            
-    if isinstance(ptr,SectionBuilder):
+                ptr.append_ele(line,linenum)
+                
+        if isinstance(ptr,Section.SectionBuilder):
 
-        ptrs: Section = ptr.build()
-        ptrs.linenum = alinenum
-        inib.append_sec(ptrs)
+            ptrs: Section = ptr.build()
+            ptrs.linenum = alinenum
+            inib.append_sec(ptrs)
+            
+        ini: Ini = inib.build()
+        return ini
+            
+
+
+
         
-    ini: Ini = inib.build()
-    return ini
+        
+
+    
+    

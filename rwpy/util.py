@@ -56,8 +56,8 @@ def CodeList(object):
 
 
 
-class Builder(ABC):
-    '''抽象类'''
+class IBuilder(ABC):
+    '''接口'''
     @abstractmethod
     def build(self):
         '''构建，抽象函数'''
