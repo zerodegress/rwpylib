@@ -1,9 +1,14 @@
-import os
 import json
-
+from functools import reduce
 from typing import List,Tuple,Callable,Any,Type
 from abc import ABC, abstractmethod
 
+
+def connect_strs(strs: List[str],sep: str = '\n') -> str:
+    '''链接一个list中的所有对象作为一个字符串'''
+    if len(strs) == 0:
+        return ''
+    return reduce(lambda x,y: x + '\n' + y,map(lambda x: str(x),strs))
 
 def filterl(func: Callable[[Any],bool],lst: list) -> list:
     '''filter，但返回list'''
@@ -57,7 +62,7 @@ class Builder(ABC):
     def build(self):
         '''构建，抽象函数'''
         pass
-        
+
 
 def load_codelist(filename: str = 'codelist.json') -> dict:
     '''加载代码表(json格式),开发中'''

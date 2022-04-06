@@ -1,11 +1,10 @@
-import os
-from functools import reduce
-from enum import Enum
-from typing import List,Tuple,Dict,Callable,NewType,Optional,Union,NoReturn
+from typing import List,Dict,Optional,Union,NoReturn
 import re
+from abc import ABC
 
 from rwpy.util import filterl,Builder,check
 from rwpy.errors import IniSyntaxError
+from rwpy.util import connect_strs
 
 
 not_copied_keys =[
@@ -14,13 +13,6 @@ not_copied_keys =[
 ('core','dont_load'),
 ('#','@copyFrom_skipThisSection')
 ]
-
-
-def connect_strs(strs: List[str],sep: str = '\n') -> str:
-    '''链接一个list中的所有对象作为一个字符串'''
-    if len(strs) == 0:
-        return ''
-    return reduce(lambda x,y: x + '\n' + y,map(lambda x: str(x),strs))
 
 
 def to_multiline(text: str) -> str:
@@ -42,7 +34,7 @@ class Element(object):
         
     
     def __str__(self) -> str:
-        
+
         return self.__content
     
     
@@ -50,6 +42,39 @@ class Element(object):
     def linenum(self) -> int:
         '''特殊属性，标识元素的行号'''
         return self.__linenum
+
+
+
+class ElementContainer(ABC):
+    '''容纳E'''
+    
+    def __init__(self,name: str):
+
+        self.__name: str = name
+        self.__elements: List[Element] = []
+        self.__attributes: Dict[str,Attribute] = {}
+       
+    
+    @property
+    def elements(self) -> List[Element]:
+        return self.__elements
+        
+    
+    @elements.setter
+    def elements(self,elements: List[Element]) -> NoReturn:
+        check(elements,list)
+        self.__elements = elements
+
+        
+    @property
+    def name(self) -> str:
+        return self.__name
+        
+        
+    @name.setter
+    def name(self,name: str) -> NoReturn:
+        check(name,str)
+        self.__name = name
         
 
 class Attribute(Element):
@@ -89,15 +114,12 @@ class Attribute(Element):
         self._Element__content = self.__key + ': ' + self.__value
 
 
-class Section(object):
+class Section(ElementContainer):
     '''段落，代码的组织单位'''
-    def __init__(self,name: str,linenum: int=-1):
-
-        self.__name: str = name
-        self.__elements: List[Element] = []
+    def __init__(self,name: str,linenum: int = -1):
+        super().__init__(name)
         self.linenum: int = linenum
         self.__attributes: Dict[str,Attribute] = {}
-        
     
     def append(self,ele: Element):
         '''向段落中追加元素'''
@@ -168,28 +190,6 @@ class Section(object):
         '''对应的文本'''
         text = '[{0}]\n'.format(self.__name) + connect_strs(self.elements)
         return text
-    
-    
-    @property
-    def name(self) -> str:
-        return self.__name
-        
-        
-    @name.setter
-    def name(self,name: str) -> NoReturn:
-        check(name,str)
-        self.__name = name
-        
-    
-    @property
-    def elements(self) -> List[Element]:
-        return self.__elements
-        
-    
-    @elements.setter
-    def elements(self,elements: List[Element]) -> NoReturn:
-        check(elements,list)
-        self.__elements = elements
         
     
     def get_attribute(self,key: str) -> Attribute:
@@ -339,14 +339,21 @@ class Ini(object):
 class SectionBuilder(Builder):
     '''段落构造器，用于快速生成段落'''
     def __init__(self,template = None):
-        Builder.__init__(self,template)
+
+        super().__init__()
+
         if template is None:
+
             self.__elements = []
             self.__name = 'section'
-        elif isinstance(template,Section):
+
+        elif isinstance(template,ElementContainer):
+
             self.__elements = template.elements[:]
             self.__name = template.name
+
         else:
+
             raise TypeError()
     
    
