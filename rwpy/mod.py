@@ -1,5 +1,7 @@
+from abc import ABC, abstractclassmethod, abstractmethod
 import os
 from typing import List,Optional
+from zipfile import ZipFile
 
 import rwpy.errors as errors
 from rwpy.code import Ini,Section,Element,Attribute,create_ini
@@ -28,7 +30,34 @@ class Unit(object):
     '''由ini及其他文件构造出的单位'''
     pass
 
-class Mod(object):
+class IMod(ABC):
+
+    @abstractmethod
+    def __init__(self,dir: str):
+        pass
+
+    @abstractmethod
+    def getfile(self,path: str) -> Optional[str]:
+        pass
+
+    @abstractmethod
+    def getfiles(self,dir: Optional[str]=None) -> List[str]:
+        pass
+
+    @abstractmethod
+    def getini(self,inifile: str) -> Optional[Ini]:
+        pass
+
+    @abstractmethod
+    def getinis(self,dir: Optional[str] = None) -> List[Ini]:
+        pass
+
+    @abstractclassmethod
+    def openRWMod(cls,filename: str):
+        pass
+
+
+class Mod(IMod):
     '''Mod'''
     
     def __init__(self,dir: str):
@@ -79,7 +108,6 @@ class Mod(object):
     
     def getfiles(self,dir: Optional[str]=None) -> List[str]:
         '''获取相对于mod路径下某一文件夹下全部文件'''
-        
         if not dir is None and not isinstance(dir,str):
             raise TypeError
             
@@ -98,7 +126,6 @@ class Mod(object):
     
     def getini(self,inifile: str) -> Optional[Ini]:
         '''构建mod中的指定ini'''
-        
         check(inifile,str)
         file: str = self.getfile(inifile)
         
@@ -115,7 +142,7 @@ class Mod(object):
             return create_ini(text,os.path.basename(inifile))
             
     
-    def getinis(self,dir: Optional[str]=None) -> List[Ini]:
+    def getinis(self,dir: Optional[str] = None) -> List[Ini]:
         '''构建mod下某一文件夹下全部ini'''
         
         files: List[str] = self.getfiles(dir)
@@ -141,13 +168,12 @@ def mkmod(name: str,namespace: str='default') -> Mod:
     创建新mod
     抛出IOError异常
     '''
-    
     check(name,str)
     check(namespace,str)
     os.mkdir(name)
     os.mkdir(os.path.join(name,namespace))
     
-    with open (os.path.join(name,'mod-info.txt'),'w') as f:
+    with open (os.path.join(name,'mod-info.txt'),'w',encoding = 'UTF-8') as f:
         f.write(MOD_INFO_DEFAULT)
         
     return Mod(name)

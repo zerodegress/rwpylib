@@ -1,6 +1,6 @@
 from typing import List,Dict,Optional,Union,NoReturn
 import re
-from abc import ABC
+from abc import ABC, abstractmethod
 
 from rwpy.util import filterl,Builder,check
 from rwpy.errors import IniSyntaxError
@@ -43,38 +43,18 @@ class Element(object):
         '''特殊属性，标识元素的行号'''
         return self.__linenum
 
-
-
-class ElementContainer(ABC):
-    '''容纳E'''
     
-    def __init__(self,name: str):
+    def __eq__(self,other) -> bool:
 
-        self.__name: str = name
-        self.__elements: List[Element] = []
-        self.__attributes: Dict[str,Attribute] = {}
-       
-    
-    @property
-    def elements(self) -> List[Element]:
-        return self.__elements
-        
-    
-    @elements.setter
-    def elements(self,elements: List[Element]) -> NoReturn:
-        check(elements,list)
-        self.__elements = elements
+        if not isinstance(other,type(self)):
 
-        
-    @property
-    def name(self) -> str:
-        return self.__name
-        
-        
-    @name.setter
-    def name(self,name: str) -> NoReturn:
-        check(name,str)
-        self.__name = name
+            return False
+
+        if not str(self) == str(other):
+
+            return False
+
+        return True
         
 
 class Attribute(Element):
@@ -114,12 +94,92 @@ class Attribute(Element):
         self._Element__content = self.__key + ': ' + self.__value
 
 
-class Section(ElementContainer):
+    def __eq__(self,other) -> bool:
+
+        if not isinstance(other,type(self)):
+
+            return False
+        
+        if not self.key == other.key or not self.value == other.value:
+
+            return False
+
+        return True
+
+
+class ISection(ABC):
+    '''ISection接口'''
+    @abstractmethod
+    def __init__(self,name: str):
+        pass
+
+
+    @abstractmethod
+    def append(self,ele: Element):
+        pass
+
+
+    @abstractmethod
+    def insert_attribute(self,insert_after: Union[str,int],insert_ele: Element) -> NoReturn:
+        pass
+
+    
+    @abstractmethod
+    def remove_attribute(self,key: str) -> NoReturn:
+        pass
+        
+    
+    @abstractmethod
+    def __getitem__(self,item: str) -> Optional[Attribute]:
+        pass
+        
+        
+    @abstractmethod
+    def __str__(self) -> str:
+        pass
+        
+    
+    @abstractmethod
+    def get_attribute(self,key: str) -> Attribute:
+        pass
+        
+    
+    @abstractmethod
+    def getattrs(self) -> List[Attribute]:
+        pass
+
+
+class Section(ISection):
     '''段落，代码的组织单位'''
     def __init__(self,name: str,linenum: int = -1):
-        super().__init__(name)
+        self.__name: str = name
+        self.__elements: List[Element] = []
+        self.__attributes: Dict[str,Attribute] = {}
         self.linenum: int = linenum
         self.__attributes: Dict[str,Attribute] = {}
+    
+    
+    @property
+    def elements(self) -> List[Element]:
+        return self.__elements
+        
+    
+    @elements.setter
+    def elements(self,elements: List[Element]) -> NoReturn:
+        check(elements,list)
+        self.__elements = elements
+
+        
+    @property
+    def name(self) -> str:
+        return self.__name
+        
+        
+    @name.setter
+    def name(self,name: str) -> NoReturn:
+        check(name,str)
+        self.__name = name
+
     
     def append(self,ele: Element):
         '''向段落中追加元素'''
@@ -347,7 +407,7 @@ class SectionBuilder(Builder):
             self.__elements = []
             self.__name = 'section'
 
-        elif isinstance(template,ElementContainer):
+        elif isinstance(template,ISection):
 
             self.__elements = template.elements[:]
             self.__name = template.name
