@@ -1,8 +1,8 @@
 import os
 import json
 
-from rwpy.errors import VisitAbstractMemberError
 from typing import List,Tuple,Callable,Any,Type
+from abc import ABC, abstractmethod
 
 
 def filterl(func: Callable[[Any],bool],lst: list) -> list:
@@ -51,15 +51,12 @@ def CodeList(object):
 
 
 
-class Builder(object):
+class Builder(ABC):
     '''抽象类'''
-    def __init__(self,template=None):
-        pass
-            
-    
+    @abstractmethod
     def build(self):
         '''构建，抽象函数'''
-        raise VisitAbstractMemberError()
+        pass
         
 
 def load_codelist(filename: str = 'codelist.json') -> dict:

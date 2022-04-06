@@ -35,10 +35,3 @@ class RepeatedModInfoError(RWPYError):
     def __init__(self,message: str):
         self.__message = message
         RWPYError.__init__(self,message)
-        
-
-class VisitAbstractMemberError(RWPYError):
-    '''访问抽象成员错误'''
-    def __init__(self,message: str):
-        self.__message = message
-        RWPYError.__init__(self,message)
