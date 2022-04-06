@@ -262,9 +262,58 @@ class Section(ISection):
     def getattrs(self) -> List[Attribute]:
         '''获取段落中全部属性'''
         return filterl(lambda x: isinstance(x,Attribute),self.elements)
+
+
+class IIni(ABC):
+    @abstractmethod
+    def __init__(self,filename: str = 'untitled.ini'):
+        pass
+
+    
+    @abstractmethod
+    def __str__(self) -> str:
+        pass
+        
+    
+    @abstractmethod
+    def __getitem__(self,item) -> Optional[Attribute]:
+        pass
+        
+    
+    @abstractmethod
+    def __getattr__(self,attr: Optional[str] = None) -> Optional[Section]:
+        pass
+            
+    
+    @abstractmethod
+    def get_section(self,name: str) -> Section:
+        pass
+    
+    
+    @abstractmethod
+    def append(self,sec: Section) -> NoReturn:
+        pass
+        
+    
+    @abstractmethod
+    def remove(self,name: str) -> NoReturn:
+        pass
+            
+            
+    #def insert_section(self)
+                
+    
+    @abstractmethod
+    def write(self):
+        pass
+
+    
+    @abstractmethod
+    def merge(self,ini):
+        pass
     
 
-class Ini(object):
+class Ini(IIni):
     '''代码文件'''
     def __init__(self,filename: str = 'untitled.ini'):
         self.elements: List[Element] = []
