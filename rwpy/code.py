@@ -36,11 +36,13 @@ def read_multiline(multiline: str) -> str:
 class Element(object):
     '''元素，代码的基本单位'''
     def __init__(self,content: str,linenum: int = -1):
+
         self.__content: str = content
         self.__linenum: int = linenum
         
     
     def __str__(self) -> str:
+        
         return self.__content
     
     
@@ -53,6 +55,7 @@ class Element(object):
 class Attribute(Element):
     '''属性，代码的主要内容'''
     def __init__(self,key: str,value: str,linenum: int = -1):
+
         self.__key = key
         self.__value = value
         Element.__init__(self,key + ': ' + value,linenum)
@@ -66,6 +69,7 @@ class Attribute(Element):
     
     @key.setter
     def key(self,key: str): 
+
         check(key,str)
         self.__key = key
         self._Element__content = self.__key + ': ' + self.__value
@@ -79,6 +83,7 @@ class Attribute(Element):
     
     @value.setter
     def value(self,value: str):
+
         check(value,str)
         self.__value = value
         self._Element__content = self.__key + ': ' + self.__value
@@ -87,6 +92,7 @@ class Attribute(Element):
 class Section(object):
     '''段落，代码的组织单位'''
     def __init__(self,name: str,linenum: int=-1):
+
         self.__name: str = name
         self.__elements: List[Element] = []
         self.linenum: int = linenum
@@ -97,25 +103,37 @@ class Section(object):
         '''向段落中追加元素'''
         check(ele,Element)
         self.elements.append(ele)
-        index = len(self.elements) - 1
+
         if isinstance(ele,Attribute):
+
             self.__attributes[ele.key] = ele
     
     
     def insert_attribute(self,insert_after: Union[str,int],insert_ele: Element) -> NoReturn:
         '''在段落中指定位置插入元素，或向指定属性后插入元素'''
         check(insert_ele,Element)
+
         if isinstance(insert_after, int):
             self.__elements.insert(insert_after,insert_ele)
+
         elif isinstance(insert_after, str):
+
             for i in range(0,len(self.__elements)):
+
                 ele = self.__elements[i]
+
                 if isinstance(ele,Attribute):
+
                     if ele.key == insert_after:
+
                         self.__elements.insert(i+1,insert_ele)
+
                         if isinstance(insert_ele,Attribute):
+
                             self.__attributes[insert_ele.key] = insert_ele
+
         else:
+
             raise TypeError()
                     
                         
@@ -123,8 +141,11 @@ class Section(object):
         '''删除指定键的属性'''
         check(key,str)
         for i in range(0,len(self.__elements)):
+
             if isinstance(self.__elements[i],Attribute):
+
                 if self.__elements[i].key == key:
+
                     self.__elements.pop(i)
                     self.__attributes.pop(key)
         
@@ -133,9 +154,13 @@ class Section(object):
     def __getitem__(self,item: str) -> Optional[Attribute]:
         '''获取指定键的属性'''
         check(item,str)
+
         if item in self.__attributes:
+
             return self.__attributes[item]
+
         else:
+
             return None
         
         
@@ -182,14 +207,14 @@ class Section(object):
 class Ini(object):
     '''代码文件'''
     def __init__(self,filename: str = 'untitled.ini'):
-        self.elements = []
-        self.sections = []
-        self.__filename = filename
+        self.elements: List[Element] = []
+        self.sections: List[Section] = []
+        self.__filename: str = filename
         
     
     def __str__(self) -> str:
         '''对应的文本'''
-        text = ''
+        text: str = ''
         text += connect_strs(self.elements) + '\n'
         text += connect_strs(self.sections)
         return text
@@ -214,43 +239,59 @@ class Ini(object):
         check(item,str)
         attributes = filterl(lambda x: isinstance(x,Attribute),self.elements)
         finds: List[Attribute] = filterl(lambda x: x.key == item,attributes)
+
         if len(finds) == 0:
+
             return None
+
         else:
+
             return finds[-1]
         
     
     def __getattr__(self,attr: Optional[str] = None) -> Optional[Section]:
         '''获取一个指定名称的段落'''
         if self.sections is None:
+
             return self.sections
+
         for sec in self.sections:
+
             if attr == sec.name:
+
                 return sec
             
             
     def get_section(self,name: str) -> Section:
         '''获取一个指定名称的段落'''
         finds = filterl(lambda x: x.name == name,self.sections)
+
         if len(finds) == 0:
+
             sec = Section(name)
             self.sections.append(sec)
             return sec
+
         else:
+
             return finds[-1]
+
     getsection = get_section
     
     
     def append(self,sec: Section) -> NoReturn:
         '''追加段落'''
         check(sec,Section)
+
         self.sections.append(sec)
         
         
     def remove(self,name: str) -> NoReturn:
         '''删除指定名称的段落'''
         check(name,str)
+
         for i in range(0,len(self.sections)):
+
             if self.sections[i].name == name:
                 self.sections.pop(i)
             
@@ -271,16 +312,24 @@ class Ini(object):
         '''合并指定ini到本ini'''
         if not type(ini) == type(self):
             raise TypeError()
+
         for sec in ini.sections:
+
             skip = sec['@copyFrom_skipThisSection']
+
             if not skip is None:
+
                 if skip.value == 'true':
                     continue
+
             if not sec.name in map(lambda x: x.name,self.sections):
                 self.sections.append(Section(sec.name))
+
             this_sec: Optional[Section] = self.getsection(sec.name)
+
             if this_sec is None:
                 continue
+
             for attr in sec.getattrs():
                 if not attr.key in map(lambda x: x.key,this_sec.getattrs()) and not attr.key in not_copied_keys[1]:
                     this_sec.append(Attribute(attr.key,attr.value))
@@ -394,11 +443,11 @@ def create_ini(text: str,filename: str = 'untitled.ini') -> Ini:
     if text.isspace() or text == '':
         return Ini()
         
-    inib = IniBuilder().setfilename(filename)
-    ptr = inib
-    lines = text.split('\n')
-    linenum = 0
-    alinenum = 0
+    inib: IniBuilder = IniBuilder().setfilename(filename)
+    ptr: Builder = inib
+    lines: List[str] = text.split('\n')
+    linenum: int = 0
+    alinenum: int = 0
     
     while len(lines) > 0:
         line = lines.pop(0)
@@ -437,9 +486,11 @@ def create_ini(text: str,filename: str = 'untitled.ini') -> Ini:
             ptr.append_attr(key.strip(),value.strip(),clinenum)
             
         else:
+
             ptr.append_ele(line,linenum)
             
     if isinstance(ptr,SectionBuilder):
+
         ptrs: Section = ptr.build()
         ptrs.linenum = alinenum
         inib.append_sec(ptrs)
