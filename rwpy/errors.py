@@ -35,3 +35,10 @@ class RepeatedModInfoError(RWPYError):
     def __init__(self,message: str):
         self.__message = message
         RWPYError.__init__(self,message)
+
+
+class SectionNotExistedError(RWPYError):
+    '''Section不存在错误'''
+    def __init__(self,message: str):
+        self.__message = message
+        RWPYError.__init__(self,message)

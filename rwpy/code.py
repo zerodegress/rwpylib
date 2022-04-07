@@ -1,9 +1,9 @@
-from typing import List,Dict,Optional,Union,NoReturn
+from typing import Callable, List,Dict,Optional,Union,NoReturn
 import re
 from abc import ABC, abstractmethod
 
 from rwpy.util import filterl,IBuilder,check
-from rwpy.errors import IniSyntaxError
+from rwpy.errors import IniSyntaxError, SectionNotExistedError
 from rwpy.util import connect_strs
 
 
@@ -120,7 +120,7 @@ class ISection(ABC):
 
 
     @abstractmethod
-    def insert_attribute(self,insert_after: Union[str,int],insert_ele: Element) -> NoReturn:
+    def insert(self,ele: Element,before: Union[int,str]) -> NoReturn:
         pass
 
     
@@ -152,6 +152,7 @@ class ISection(ABC):
 class Section(ISection):
     '''段落，代码的组织单位'''
     def __init__(self,name: str,linenum: int = -1):
+
         self.__name: str = name
         self.__elements: List[Element] = []
         self.__attributes: Dict[str,Attribute] = {}
@@ -161,22 +162,26 @@ class Section(ISection):
     
     @property
     def elements(self) -> List[Element]:
+
         return self.__elements
         
     
     @elements.setter
     def elements(self,elements: List[Element]) -> NoReturn:
-        check(elements,list)
+
+        check(elements,List[Element])
         self.__elements = elements
 
         
     @property
     def name(self) -> str:
+
         return self.__name
         
         
     @name.setter
     def name(self,name: str) -> NoReturn:
+
         check(name,str)
         self.__name = name
 
@@ -191,28 +196,23 @@ class Section(ISection):
             self.__attributes[ele.key] = ele
     
     
-    def insert_attribute(self,insert_after: Union[str,int],insert_ele: Element) -> NoReturn:
+    def insert(self,ele: Element,before: Union[int,str]) -> NoReturn:
         '''在段落中指定位置插入元素，或向指定属性后插入元素'''
-        check(insert_ele,Element)
+        check(ele,Element)
 
-        if isinstance(insert_after, int):
-            self.__elements.insert(insert_after,insert_ele)
+        if isinstance(before,int):
 
-        elif isinstance(insert_after, str):
+            self.__elements.insert(before,ele)
+
+        elif isinstance(before,str):
 
             for i in range(0,len(self.__elements)):
 
-                ele = self.__elements[i]
+                if isinstance(self.__elements[i],Attribute):
 
-                if isinstance(ele,Attribute):
+                    if self.__elements[i].key == before:
 
-                    if ele.key == insert_after:
-
-                        self.__elements.insert(i+1,insert_ele)
-
-                        if isinstance(insert_ele,Attribute):
-
-                            self.__attributes[insert_ele.key] = insert_ele
+                        self.__elements.insert(ele)
 
         else:
 
@@ -320,14 +320,45 @@ class IIni(ABC):
     def __init__(self,filename: str = 'untitled.ini'):
         pass
 
+
+    @property
+    @abstractmethod
+    def filename(self) -> str:
+        pass
+
+
+    @filename.setter
+    @abstractmethod
+    def filename(self,name: str) -> NoReturn:
+        pass
+
+
+    @property
+    @abstractmethod
+    def elements(self) -> List[Element]:
+        pass
+
+
+    @elements.setter
+    @abstractmethod
+    def elements(self,ele: List[Element]) -> None:
+        pass
+
+
+    @property
+    @abstractmethod
+    def sections(self) -> List[Section]:
+        pass
+
+
+    @sections.setter
+    @abstractmethod
+    def sections(self,secs: List[Section]) -> NoReturn:
+        pass
+
     
     @abstractmethod
     def __str__(self) -> str:
-        pass
-        
-    
-    @abstractmethod
-    def __getitem__(self,item) -> Optional[Attribute]:
         pass
         
     
@@ -345,13 +376,15 @@ class IIni(ABC):
     def append(self,sec: Section) -> NoReturn:
         pass
         
+
+    @abstractmethod
+    def insert_section(self,sec: Section,before: str) -> NoReturn:
+        pass
+
     
     @abstractmethod
     def remove(self,name: str) -> NoReturn:
         pass
-            
-            
-    #def insert_section(self)
                 
     
     @abstractmethod
@@ -367,8 +400,8 @@ class IIni(ABC):
 class Ini(IIni):
     '''代码文件'''
     def __init__(self,filename: str = 'untitled.ini'):
-        self.elements: List[Element] = []
-        self.sections: List[Section] = []
+        self.__elements: List[Element] = []
+        self.__sections: List[Section] = []
         self.__filename: str = filename
         
     
@@ -384,29 +417,38 @@ class Ini(IIni):
     def filename(self) -> str:
         '''代码文件的文件路径'''
         return self.__filename
-        
-        
+
+
+    @filename.setter
+    def filename(self,name: str) -> NoReturn:
+        check(name,str)
+        self.__filename = name
+
+
     @property
-    def attributes(self) -> List[Attribute]:
-        return filterl(lambda x: isinstance(x,Attribute),self.elements)
-        
+    def elements(self) -> List[Element]:
+
+        return self.__elements
+
     
-    def __getitem__(self,item) -> Optional[Attribute]:
-        '''
-        获取一个指定键的属性
-        现已弃用
-        '''
-        check(item,str)
-        attributes = filterl(lambda x: isinstance(x,Attribute),self.elements)
-        finds: List[Attribute] = filterl(lambda x: x.key == item,attributes)
+    @elements.setter
+    def elements(self,eles: List[Element]) -> NoReturn:
 
-        if len(finds) == 0:
+        check(eles,List[Element])
+        self.__elements = eles
 
-            return None
 
-        else:
+    @property
+    def sections(self) -> List[Section]:
 
-            return finds[-1]
+        return self.__sections
+
+
+    @sections.setter
+    def sections(self,secs: List[Section]) -> NoReturn:
+
+        check(secs,List[Section])
+        self.__sections = secs
         
     
     def __getattr__(self,attr: Optional[str] = None) -> Optional[Section]:
@@ -439,24 +481,60 @@ class Ini(IIni):
     getsection = get_section
     
     
-    def append(self,sec: Section) -> NoReturn:
-        '''追加段落'''
-        check(sec,Section)
+    def append(self,obj: Union[Section,Element]) -> NoReturn:
+        '''追加段落或头部元素'''
+        if isinstance(obj,Section):
 
-        self.sections.append(sec)
+            self.__sections.append(obj)
+
+        elif isinstance(obj,Element):
+
+            self.__elements.append(obj)
+
+        else:
+
+            raise TypeError()
+
+    append_sec: Callable[[IIni,Union[Section,Element]],NoReturn] = append
+    append_ele: Callable[[IIni,Union[Section,Element]],NoReturn] = append
         
         
-    def remove(self,name: str) -> NoReturn:
+    def remove(self,name: str) -> bool:
         '''删除指定名称的段落'''
         check(name,str)
 
         for i in range(0,len(self.sections)):
 
             if self.sections[i].name == name:
+
                 self.sections.pop(i)
+                return True
+
+        return False
             
+    def removeat(self,pos: int) -> bool:
+        '''删除指定位置的头部元素'''
+        check(pos,int)
+
+        if pos >= len(self.__elements):
+
+            raise IndexError()
+
+        else:
+
+            self.__elements.pop(pos)
             
-    #def insert_section(self)
+    def insert_section(self,sec: Section,before: str) -> NoReturn:
+        '''在指定的段落之前插入段落'''
+        check(sec,Section)
+
+        for i in range(0,len(self.__sections)):
+
+            if self.__sections[i].name == before:
+
+                self.__sections.insert(i,sec)
+
+        raise SectionNotExistedError()
                 
     
     def write(self):
@@ -542,8 +620,10 @@ class Ini(IIni):
         def build(self) -> IIni:
             '''构建ini'''
             ini = Ini(self.__filename)
-            ini.elements = self.__elements[:]
-            ini.sections = self.__sections[:]
+            for ele in self.__elements:
+                ini.append(ele)
+            for sec in self.__sections:
+                ini.append(sec)
             return ini
 
 

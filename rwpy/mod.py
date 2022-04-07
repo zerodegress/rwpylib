@@ -1,11 +1,13 @@
 from abc import ABC, abstractclassmethod, abstractmethod
-import os
-from typing import List,Optional
+from typing import List, NoReturn,Optional
 from zipfile import ZipFile
+import os
+import shutil
 
-import rwpy.errors as errors
+
 from rwpy.code import Ini,Section,Element,Attribute
 from rwpy.util import filterl,check
+import rwpy.errors as errors
 
 
 MOD_INFO_DEFAULT: str = '''
@@ -32,6 +34,17 @@ class Unit(object):
 
 class IMod(ABC):
 
+    @property
+    @abstractmethod
+    def dir(self) -> str:
+        pass
+        
+        
+    @property
+    @abstractmethod
+    def modinfo(self) -> Optional[Ini]:
+        pass
+
     @abstractmethod
     def __init__(self,dir: str):
         pass
@@ -52,16 +65,12 @@ class IMod(ABC):
     def getinis(self,dir: Optional[str] = None) -> List[Ini]:
         pass
 
-    @abstractclassmethod
-    def openRWMod(cls,filename: str):
-        pass
-
 
 class Mod(IMod):
     '''Mod'''
     
     def __init__(self,dir: str):
-        '''抛出ModNotExistedError'''
+        '''抛出ModNotExistedError和RepeatedModInfoError异常'''
         
         if not os.path.exists(dir):
             raise errors.ModNotExistsError('指定Mod不存在->' + dir)
@@ -75,7 +84,7 @@ class Mod(IMod):
             
                 if self.__modinfo is None:
                 
-                    with open(os.path.join(root,'mod-info.txt'),'r') as f:
+                    with open(os.path.join(root,'mod-info.txt'),'r',encoding='UTF-8') as f:
                         self.__modinfo = Ini.create_ini(f.read())
                         
                 else:
@@ -163,7 +172,7 @@ class Mod(IMod):
         return filterl(lambda x: not x is None,inis)
 
 
-def mkmod(name: str,namespace: str='default') -> Mod:
+def mkmod(name: str,namespace: str = 'default') -> Mod:
     '''
     创建新mod
     抛出IOError异常
@@ -177,3 +186,16 @@ def mkmod(name: str,namespace: str='default') -> Mod:
         f.write(MOD_INFO_DEFAULT)
         
     return Mod(name)
+
+def rmmod(path: str) -> NoReturn:
+    '''
+    删除一个已经存在的mod
+    抛出ModNotExistsError异常
+    '''
+    if os.path.exists(path):
+        if path.split('.')[-1] in ('zip','rwmod','rar'):
+            os.remove(path)
+        elif os.path.isdir(path):
+            shutil.rmtree(path)
+        else:
+            raise errors.ModNotExistsError('指定要删除的mod不存在 ->' + path)

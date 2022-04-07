@@ -21,8 +21,6 @@ def check(obj: object,type: Type,message: str = '参数类型错误'):
         raise TypeError(message)
 
 
-
-
 def CodeList(object):
     '''代码表'''
     def __init__(self,codelist_src: dict):
