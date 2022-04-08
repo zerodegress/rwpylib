@@ -3,7 +3,7 @@ import os
 import shutil
 
 from rwpy.code import Ini,Section,Attribute,Element
-from rwpy.mod import IMod,Mod,mkmod
+from rwpy.mod import IMod,Mod,mkmod,rmmod
 
 class Test(unittest.TestCase):
 
@@ -20,6 +20,7 @@ class Test(unittest.TestCase):
         .build()
         sam.filename = 'sam2.ini'
         self.assertEqual(sam.filename,'sam2.ini')
+        self.assertEqual(sam.core['abc'].value,'456')
 
         for i in range(0,len(sam.elements)):
 
@@ -40,4 +41,4 @@ class Test(unittest.TestCase):
             shutil.rmtree('mymod')
 
         mymod: Mod = mkmod('mymod')
-        shutil.rmtree('mymod')
+        rmmod('mymod')

@@ -169,7 +169,9 @@ class Section(ISection):
     @elements.setter
     def elements(self,elements: List[Element]) -> NoReturn:
 
-        check(elements,List[Element])
+        check(elements,list)
+        if any(map(lambda x: not isinstance(x,Element),elements)):
+            raise TypeError()
         self.__elements = elements
 
         
@@ -434,7 +436,9 @@ class Ini(IIni):
     @elements.setter
     def elements(self,eles: List[Element]) -> NoReturn:
 
-        check(eles,List[Element])
+        check(eles,list)
+        if any(map(lambda x: not isinstance(x,Element),eles)):
+            raise TypeError()
         self.__elements = eles
 
 
@@ -447,7 +451,9 @@ class Ini(IIni):
     @sections.setter
     def sections(self,secs: List[Section]) -> NoReturn:
 
-        check(secs,List[Section])
+        check(secs,list)
+        if any(map(lambda x: not isinstance(x,Section),secs)):
+            raise TypeError()
         self.__sections = secs
         
     
