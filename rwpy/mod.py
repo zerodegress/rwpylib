@@ -111,7 +111,7 @@ class Mod(IMod):
         
             for file in files:
             
-                if os.path.relpath(self.__dir,os.path.join(root,file)) == path:
+                if os.path.relpath(os.path.join(root,file),self.dir) == path:
                     return file
                     
     
@@ -142,7 +142,7 @@ class Mod(IMod):
             text: str = ''
             
             try:
-                with open(file,'r') as fs:
+                with open(os.path.join(self.dir,file),'r',encoding = 'UTF-8') as fs:
                     text = fs.read()
                     
             except UnicodeDecodeError:
@@ -176,18 +176,27 @@ class Mod(IMod):
         ini: Optional[Ini] = None
         path = os.path.join(self.dir, relpath)
         with open(path,'w',encoding='UTF-8') as f:
-            ini = Ini.create_ini(f.read, filename = path)
+            ini = Ini.create_ini(content, filename = path)
+            ini.write()
         return ini
         
         
     def rmini(self,relpath: str) -> NoReturn:
         try:
             Ini.create_ini(os.path.join(self.dir, relpath))
-        except IniSyntaxError:
-            return
+            os.remove(os.path.join(self.dir, relpath))
+        except errors.IniSyntaxError:
+            pass
         except IOError:
-            return
-        os.remove(os.path.join(self.dir, relpath))
+            pass
+
+
+    def mvfile(self,src: str,dst: str) -> NoReturn:
+        shutil.move(os.path.join(self.dir,src),os.path.join(self.dir,dst))
+
+
+    def rmfile(self,relpath: str) -> NoReturn:
+        os.remove(os.path.join(self.dir,relpath))
         
 
 def mkmod(name: str,namespace: str = 'default') -> Mod:

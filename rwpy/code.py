@@ -662,6 +662,7 @@ class Ini(IIni):
 
             if line.lstrip().startswith('#'):
                 ptr.append_ele(line)
+                continue
             
             if not re.match(r'\s*\[.+\]',line.strip()) is None:
             

@@ -41,4 +41,10 @@ class Test(unittest.TestCase):
             shutil.rmtree('mymod')
 
         mymod: Mod = mkmod('mymod')
+        mymod.newini('abc.ini','#这是一个测试！')
+        self.assertEqual(isinstance(mymod.getini('abc.ini'),Ini),True,'ini获取失败！')
+        self.assertEqual(str(mymod.getini('abc.ini')).strip(),'#这是一个测试！',\
+        'ini文件不匹配，内容竟为{}，而要求内容为{}'.format(str(mymod.getini('abc.ini')).strip(),'#这是一个测试！'))
+        mymod.rmini('abc.ini')
+        self.assertEqual(mymod.getini('abc.ini'),None,'ini文件未删除')
         rmmod('mymod')
