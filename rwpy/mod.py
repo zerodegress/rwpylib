@@ -170,7 +170,25 @@ class Mod(IMod):
                 pass
                 
         return filterl(lambda x: not x is None,inis)
-
+        
+        
+    def newini(self,relpath: str,content: str = '') -> Ini:
+        ini: Optional[Ini] = None
+        path = os.path.join(self.dir, relpath)
+        with open(path,'w',encoding='UTF-8') as f:
+            ini = Ini.create_ini(f.read, filename = path)
+        return ini
+        
+        
+    def rmini(self,relpath: str) -> NoReturn:
+        try:
+            Ini.create_ini(os.path.join(self.dir, relpath))
+        except IniSyntaxError:
+            return
+        except IOError:
+            return
+        os.remove(os.path.join(self.dir, relpath))
+        
 
 def mkmod(name: str,namespace: str = 'default') -> Mod:
     '''

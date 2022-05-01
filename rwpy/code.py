@@ -397,6 +397,11 @@ class IIni(ABC):
     @abstractmethod
     def merge(self,ini):
         pass
+        
+    @classmethod
+    @abstractmethod
+    def create_ini(cls,text: str,filename: str):
+        pass
     
 
 class Ini(IIni):
@@ -632,8 +637,9 @@ class Ini(IIni):
                 ini.append(sec)
             return ini
 
-
-    def create_ini(text: str,filename: str = 'untitled.ini') -> IIni:
+    
+    @classmethod
+    def create_ini(cls: type,text: str,filename: str = 'untitled.ini') -> IIni:
         '''
         从字符串创建ini，第二版
         抛出IniSyntaxError
@@ -698,12 +704,3 @@ class Ini(IIni):
             
         ini: Ini = inib.build()
         return ini
-            
-
-
-
-        
-        
-
-    
-    
