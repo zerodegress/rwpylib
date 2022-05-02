@@ -20,9 +20,16 @@ def to_multiline(text: str) -> str:
     return '\"\"\"{0}\"\"\"'.format(text)
     
     
-def read_multiline(multiline: str) -> str:
+def parse_multiline(multiline: str) -> str:
     '''将多行文本转换为一般字符串'''
     return multiline.strip('\"\"\"')
+    
+    
+def parse_list(lst_str: str) -> List[str]:
+    return list(map(lambda x: x.strip(), lst_str.split(',')))
+    
+def to_list(lst: List[str]) -> str:
+    return ', '.join(lst)
 
 
 class Element(object):

@@ -2,10 +2,17 @@ import unittest
 import os
 import shutil
 
-from rwpy.code import Ini,Section,Attribute,Element
+from rwpy.code import Ini,Section,Attribute,Element,parse_list,to_list
 from rwpy.mod import IMod,Mod,mkmod,rmmod
 
 class Test(unittest.TestCase):
+    def test_parser(self):
+        self.assertEqual(to_list(['a','b','c']), 'a, b, c', to_list(['a','b','c']))
+        lst = parse_list('a, b, c')
+        self.assertEqual(lst[0], 'a', lst[0])
+        self.assertEqual(lst[1], 'b', lst[1])
+        self.assertEqual(lst[2], 'c', lst[2])
+
 
     def test_create_ini(self):
 
